@@ -1,0 +1,173 @@
+<!doctype html>
+<head>
+<title> AboutUs</title>
+    <link href="About.css" rel="stylesheet">
+<link rel="icon" href="pictures/CSDGlogo.jpg" type="image">
+</head>
+
+
+<body>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+<div class ="container" id="page-container">
+    <nav class="navbar" id="navbar">
+     <ul>
+      <li> <a href="#home">Home</a></li>
+      <li> <a href="#About">About</a></li>
+         <li> <a href="#Our Product">Our Product</a></li>
+      <li> <a href="#footer">Contact</a></li>
+    </ul>
+  </nav>
+<section id="home">
+    <div class="h">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+     <h1 id="main-header">CSDG Technologies</h1> 
+        
+       <p1><b>CSDG Technologies</b> is a technology company which currently developing an app for housekeeping services. In CSDG Technologies we are trying to the organised unorganised sector to improve the overall lifestyle of the country with the help of technology. </p1>
+    </div>
+        </section>
+<section id="About">
+    <div class="mission">
+  
+     <h2> Our Mission</h2>
+             <p> To create a better opportunity for both unorganised sector and consumer with the help of technology</p>
+    </div>
+    <div class="vision">
+    
+    <h2> Our Vision</h2>
+              <p> We look at India as a developed nation, just by bringing 50% of the unorganised sector to an organised sector</p>
+    </div>
+    <div class="core1">
+        <div class="core"> 
+      <h2> Our Core Values</h2>
+    <h3>4 main pillars:-</h3>
+    </div>
+     <div class ="co"><h4> Communication </h4>
+                        <p>We believe that problem should be shared  </p> 
+    <h4> Strategy </h4>
+                        <p> The strategy should be prepared to resolve the problem </p>  </div>
+     <div class ="dev"><h4> Development </h4>
+                        <p> We should develop some methods or Product according to the strategy to resolve the problem  </p>  
+                                         
+    <h4> Growth</h4>
+                        <p> We believe that after resolving the problem we grow.</p>  </div>
+                                      
+    </div>                   
+                
+</section>
+<section id ="Our Product">
+    <div class="app"><p><b>Launching soon </b></p></div>
+    </section>
+ 
+    <footer id="footer">
+    <div class="main-content">
+    <div class="left box">
+        <h3> About Us</h3>
+  
+        <div class="content">
+        <p>It is a technology company which currently developing an app for housekeeping services.</p>
+            <div class="social">
+            <a href="https://www.facebook.com/Csdg-Technologies-100304608401383" target="_blank"> <span class="fa fa-facebook-f"></span></a>
+                <a href="https://twitter.com/CsdgTechologies" target="_blank"> <span class="fa fa-twitter"></span></a>
+                <a href="https://www.instagram.com/csdgtechnologiesofficial/" target="_blank"> <span class="fa fa-instagram"></span></a>
+                <a href="https://www.linkedin.com/company/csdg-tech/?viewAsMember=true" target="_blank"> <span class="fa fa-linkedin"></span></a>
+            </div>
+            <p> 2020 CSDG Technologies Pvt Ltd</p>
+        </div>
+        
+        </div>
+        <div class="centre box">
+        <h3>Address </h3>
+        <div class="content">
+        <div class="place">
+            <span class="fa fa-map-marker"></span>
+            <span class="text"> CSDG Technologies
+               4th Floor, No 22, Salarpuria Towers-I,
+               Hosur Road, Koramangala Bangalore, Karnataka 560095, India<br>
+               State Code: 29</span>
+            </div>  
+              <div class="phone">
+            <span class="fa fa-phone"></span>
+            <span class="text">6262130005<br> 6262130006</span>
+            </div> 
+             <div class="email">
+            <span class="fa fa-envelope"></span>
+            <span class="text">
+Dhananjay.baweja@csdgtech.com<br>
+Chaitanya.baweja@csdgtech.com</span>
+            </div> 
+        </div>
+    </div>
+        <div class="right box">
+        <h3> Contact Us</h3>
+            <div class="content">
+            <form method="POST" class="post-form">
+                {{form.as_p}}
+                <button type="submit" class="save btn btn-default">SEND</button>  
+            </form>
+            </div>
+        </div>
+        </div>   
+
+    </footer>
+<script>
+    var textWrapper = document.querySelector('.ml2');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+  .add({
+    targets: '.ml2 .letter',
+    scale: [4,1],
+    opacity: [0,1],
+    translateZ: 0,
+    easing: "easeOutExpo",
+    duration: 950,
+    delay: (el, i) => 70*i
+  }).add({
+    targets: '.ml2',
+    opacity: 0,
+    duration: 500,
+    easing: "easeOutExpo",
+    delay: 1000
+  });
+    
+     var textWrapper = document.querySelector('.ml1');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+  .add({
+    targets: '.ml1 .letter',
+    scale: [4,1],
+    opacity: [0,1],
+    translateZ: 0,
+    easing: "easeOutExpo",
+    duration: 500,
+    delay: (el, i) => 70*i
+  }).add({
+    targets: '.ml1',
+    opacity: 0,
+    duration: 500,
+    easing: "easeOutExpo",
+    delay: 500
+  });
+    
+    anime.timeline({loop: true})
+  .add({
+    targets: '.app .word',
+    scale: [14,1],
+    opacity: [0,1],
+    easing: "easeOutCirc",
+    duration: 500,
+    delay: (el, i) => 200 * i
+  }).add({
+    targets: '.app',
+    opacity: 0,
+    duration: 500,
+    easing: "easeOutExpo",
+    delay: 500
+  });
+    </script>
+    </div>  
+</body>
+</html>
