@@ -209,28 +209,19 @@ a {
 }
 
 .brand-mark:hover {
-  transform: translateY(-2px) scale(1.04);
+  transform: translateY(-2px) scale(1.06);
 }
 
 .brand-mark svg {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: block;
-  border-radius: 9px;
-  transition: box-shadow var(--transition), filter var(--transition);
+  overflow: visible;
+  transition: filter var(--transition), transform var(--transition);
 }
 
 .brand-mark:hover svg {
-  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.45);
-}
-
-.brand-mark svg rect {
-  transition: fill-opacity var(--transition), stroke-opacity var(--transition);
-}
-
-.brand-mark:hover svg rect {
-  fill-opacity: 0.14;
-  stroke-opacity: 0.85;
+  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 20px rgba(0, 240, 255, 0.35));
 }
 
 .brand-mark svg circle,
@@ -238,14 +229,14 @@ a {
   transition: filter var(--transition), opacity var(--transition);
 }
 
-.brand-mark:hover svg circle[fill="#10b981"],
-.brand-mark:hover svg circle[fill="url(#orbit-grad)"] {
-  filter: drop-shadow(0 0 6px #10b981);
-}
-
 @media (min-width: 768px) {
   .brand-mark {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .brand-mark svg {
+    width: 56px;
+    height: 56px;
   }
 }
 
