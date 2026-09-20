@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Papershelf &mdash; Sreejit Kar</title>
+  <meta name="description" content="A curated collection of seminal and modern research papers in distributed systems, consensus protocols, storage engines, observability, kernel networking, and AI infrastructure.">
+  <meta name="author" content="Sreejit Kar">
+  
+  <meta property="og:title" content="Papershelf &mdash; Sreejit Kar">
+  <meta property="og:description" content="Seminal and modern research papers in distributed systems, consensus, storage, observability, and AI systems.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <div class="site-wrapper">
+    <!-- Sidebar / Nav Column -->
+    <aside class="sidebar">
+      <div class="sidebar-sticky">
+        <header class="sidebar-header">
+          <a href="index.html" class="brand-mark" aria-label="Sreejit Kar — Home">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#10b981"/>
+                  <stop offset="100%" stop-color="#00f0ff"/>
+                </linearGradient>
+                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <rect width="36" height="36" rx="9" fill="currentColor" fill-opacity="0.08" stroke="url(#orbit-grad)" stroke-width="1.2" stroke-opacity="0.45" class="mark-squircle"/>
+              <path d="M 18 7 A 11 11 0 0 1 29 18" stroke="url(#orbit-grad)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M 27 23 A 11 11 0 0 1 9 23" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2.5"/>
+              <path d="M 7 18 A 11 11 0 0 1 15 7.5" stroke="url(#orbit-grad)" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="18" cy="7" r="2.2" fill="#10b981" filter="url(#neon-glow)"/>
+              <circle cx="27.5" cy="23.5" r="1.8" fill="#00f0ff" filter="url(#neon-glow)"/>
+              <circle cx="8.5" cy="23.5" r="1.8" fill="currentColor" fill-opacity="0.6"/>
+              <circle cx="18" cy="18" r="3.2" fill="url(#orbit-grad)" filter="url(#neon-glow)"/>
+              <circle cx="18" cy="18" r="1.4" fill="#ffffff"/>
+            </svg>
+          </a>
+
+          <h1 class="author-name mobile-only">
+            <a href="index.html">Sreejit Kar</a>
+          </h1>
+
+          <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+            <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </header>
+
+        <nav class="nav-menu" aria-label="Main Navigation">
+          <a href="index.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>About</span>
+          </a>
+          <a href="projects.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Projects</span>
+          </a>
+          <a href="writing.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Writing</span>
+          </a>
+          <a href="bookshelf.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Bookshelf</span>
+          </a>
+          <a href="papershelf.html" class="nav-item active" aria-current="page">
+            <span class="nav-dot"></span>
+            <span>Papershelf</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Column -->
+    <main id="content" class="main-content">
+      <header class="hero-header">
+        <div class="hero-watermark" aria-hidden="true">PAPERSHELF</div>
+        <div class="hero-content">
+          <h1 class="hero-title">Papershelf</h1>
+          <div class="hero-subtitle">
+            <span class="hero-pulse" aria-hidden="true"></span>
+            <span>20 research papers &middot; Systems, Consensus, Telemetry & AI</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-inner">
+        <p class="papers-intro">
+          A curated reading index of foundational breakthroughs and modern engineering research across distributed consensus, 
+          storage engines, telemetry pipelines, operating system kernels, and LLM inference architectures.
+        </p>
+
+        <!-- Domain Filter Bar -->
+        <div class="papers-filter" role="tablist" aria-label="Paper Categories">
+          <button class="paper-filter-btn active" data-filter="all" type="button">
+            All <span class="filter-count">20</span>
+          </button>
+          <button class="paper-filter-btn" data-filter="consensus" type="button">
+            Consensus & Reliability <span class="filter-count">5</span>
+          </button>
+          <button class="paper-filter-btn" data-filter="storage" type="button">
+            Storage & Databases <span class="filter-count">4</span>
+          </button>
+          <button class="paper-filter-btn" data-filter="observability" type="button">
+            Observability & Tracing <span class="filter-count">3</span>
+          </button>
+          <button class="paper-filter-btn" data-filter="kernel" type="button">
+            Kernel & Networking <span class="filter-count">3</span>
+          </button>
+          <button class="paper-filter-btn" data-filter="ai-infra" type="button">
+            AI Infrastructure <span class="filter-count">5</span>
+          </button>
+        </div>
+
+        <!-- Papers List -->
+        <div class="papers-list" id="papers-list">
+
+          <!-- 1. Paxos Made Simple -->
+          <article class="paper-card" data-domain="consensus">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge consensus">Consensus</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">ACM SIGACT &middot; 2001</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf" target="_blank" rel="noopener noreferrer">
+                Paxos Made Simple
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Leslie Lamport (Compaq Systems Research Center)</p>
+            <p class="paper-summary">
+              Lamport's distilled deconstruction of the Synod protocol and state machine replication. Shows that the consensus algorithm is straightforward when derived purely from invariant deductions over quorum intersections.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#paxos</span>
+                <span class="paper-tag">#consensus</span>
+                <span class="paper-tag">#state-machine</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/568425.568433" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Raft -->
+          <article class="paper-card" data-domain="consensus">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge consensus">Consensus</span>
+                <span class="paper-badge landmark">&#9733; Best Paper</span>
+              </div>
+              <span class="paper-venue">USENIX ATC &middot; 2014</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf" target="_blank" rel="noopener noreferrer">
+                In Search of an Understandable Consensus Algorithm (Raft)
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Diego Ongaro, John Ousterhout (Stanford University)</p>
+            <p class="paper-summary">
+              Re-engineers distributed consensus explicitly for human understandability by decomposing the problem into discrete modules: randomized leader election, log replication, and safety invariants.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#raft</span>
+                <span class="paper-tag">#leader-election</span>
+                <span class="paper-tag">#log-replication</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  USENIX
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Spanner -->
+          <article class="paper-card" data-domain="consensus">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge consensus">Consensus</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">USENIX OSDI &middot; 2012</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf" target="_blank" rel="noopener noreferrer">
+                Spanner: Google's Globally-Distributed Database
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">James C. Corbett, Jeffrey Dean, Michael Epstein, Andrew Fikes, et al. (Google)</p>
+            <p class="paper-summary">
+              Marries multi-Paxos replication with the TrueTime API (GPS and atomic clocks bounding time uncertainty &epsilon;) to unlock lock-free, globally distributed read transactions with external consistency (linearizability).
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#spanner</span>
+                <span class="paper-tag">#truetime</span>
+                <span class="paper-tag">#linearizability</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  USENIX
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Time, Clocks, Ordering -->
+          <article class="paper-card" data-domain="consensus">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge consensus">Consensus</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">Communications of the ACM &middot; 1978</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://amturing.acm.org/p558-lamport.pdf" target="_blank" rel="noopener noreferrer">
+                Time, Clocks, and the Ordering of Events in a Distributed System
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Leslie Lamport (Massachusetts Computer Associates)</p>
+            <p class="paper-summary">
+              The seminal foundation of modern distributed systems theory. Introduces logical clocks, the "happens-before" partial ordering relationship (&rarr;), and total event ordering in asynchronous networks without physical clocks.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#logical-clocks</span>
+                <span class="paper-tag">#happens-before</span>
+                <span class="paper-tag">#partial-order</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://amturing.acm.org/p558-lamport.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/359545.359563" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. CRDTs -->
+          <article class="paper-card" data-domain="consensus">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge consensus">Consensus</span>
+              </div>
+              <span class="paper-venue">SSS &middot; 2011</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://hal.inria.fr/inria-00609399/document" target="_blank" rel="noopener noreferrer">
+                Conflict-Free Replicated Data Types (CRDTs)
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Marc Shapiro, Nuno Pregui&ccedil;a, Carlos Baquero, Marek Zawirski (INRIA & LIP6)</p>
+            <p class="paper-summary">
+              Formalizes convergent (CvRDT) and commutative (CmRDT) replicated data structures. Proves that mathematical lattice joins guarantee strong eventual consistency across partitions without coordination bottlenecks.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#crdt</span>
+                <span class="paper-tag">#eventual-consistency</span>
+                <span class="paper-tag">#lattice-joins</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://hal.inria.fr/inria-00609399/document" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://link.springer.com/chapter/10.1007/978-3-642-24550-3_29" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  Springer
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Dynamo -->
+          <article class="paper-card" data-domain="storage">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge storage">Storage & DB</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">ACM SOSP &middot; 2007</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf" target="_blank" rel="noopener noreferrer">
+                Dynamo: Amazon's Highly Available Key-Value Store
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Giuseppe DeCandia, Deniz Hastorun, Madan Jampani, et al. (Amazon.com)</p>
+            <p class="paper-summary">
+              Masterclass in engineering for 99.9th percentile SLA latency. Sacrifices strict consistency for high availability using consistent hashing with virtual nodes, vector clocks, sloppy quorums, hinted handoffs, and Merkle tree anti-entropy.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#dynamo</span>
+                <span class="paper-tag">#consistent-hashing</span>
+                <span class="paper-tag">#vector-clocks</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/1294261.1294281" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7. Bigtable -->
+          <article class="paper-card" data-domain="storage">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge storage">Storage & DB</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">USENIX OSDI &middot; 2006</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf" target="_blank" rel="noopener noreferrer">
+                Bigtable: A Distributed Storage System for Structured Data
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, et al. (Google)</p>
+            <p class="paper-summary">
+              Introduced the sparse, distributed, persistent multidimensional sorted map. Solidified the core LSM-tree architecture (MemTable, immutable SSTables, Bloom filters, and compaction) that underpins LevelDB, RocksDB, and Cassandra.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#bigtable</span>
+                <span class="paper-tag">#lsm-tree</span>
+                <span class="paper-tag">#sstable</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://www.usenix.org/conference/osdi-06/bigtable-distributed-storage-system-structured-data" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  USENIX
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 8. GFS -->
+          <article class="paper-card" data-domain="storage">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge storage">Storage & DB</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">ACM SOSP &middot; 2003</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf" target="_blank" rel="noopener noreferrer">
+                The Google File System (GFS)
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Sanjay Ghemawat, Howard Gobioff, Shun-Tak Leung (Google)</p>
+            <p class="paper-summary">
+              Pioneered modern distributed storage design by accepting commodity component failures as constant events. Optimized for large append-only data streams, single-master control plane metadata, and autonomous chunkserver replication.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#gfs</span>
+                <span class="paper-tag">#distributed-filesystems</span>
+                <span class="paper-tag">#chunkservers</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/945445.945450" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 9. Aurora -->
+          <article class="paper-card" data-domain="storage">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge storage">Storage & DB</span>
+              </div>
+              <span class="paper-venue">ACM SIGMOD &middot; 2017</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://web.stanford.edu/class/cs245/readings/aurora.pdf" target="_blank" rel="noopener noreferrer">
+                Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Alexandre Verbitski, Anurag Gupta, Debanjan Saha, et al. (Amazon Web Services)</p>
+            <p class="paper-summary">
+              Demonstrates the power of "The Log Is The Database"—pushing redo log processing down to a 6-way replicated storage fleet across 3 availability zones, eliminating database buffer pool flushing and checkpoint stalls.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#aurora</span>
+                <span class="paper-tag">#redo-log</span>
+                <span class="paper-tag">#storage-engine</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://web.stanford.edu/class/cs245/readings/aurora.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/3035918.3056101" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 10. Dapper -->
+          <article class="paper-card" data-domain="observability">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge observability">Observability</span>
+                <span class="paper-badge landmark">&#9733; Landmark</span>
+              </div>
+              <span class="paper-venue">Google Tech Report &middot; 2010</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/dapper-2010-1.pdf" target="_blank" rel="noopener noreferrer">
+                Dapper, a Large-Scale Distributed Systems Tracing Infrastructure
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Benjamin H. Sigelman, Luiz Andr&eacute; Barroso, Mike Burrows, et al. (Google)</p>
+            <p class="paper-summary">
+              The foundational blueprint for modern distributed tracing (OpenTelemetry, Zipkin, Jaeger). Outlined asynchronous out-of-band collection, distributed context propagation via RPC headers, and dynamic head-sampling to maintain &lt;1.5% CPU overhead.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#dapper</span>
+                <span class="paper-tag">#opentelemetry</span>
+                <span class="paper-tag">#distributed-tracing</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/dapper-2010-1.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://research.google/pubs/pub36356/" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  Google Research
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 11. Pivot Tracing -->
+          <article class="paper-card" data-domain="observability">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge observability">Observability</span>
+                <span class="paper-badge landmark">&#9733; Best Paper</span>
+              </div>
+              <span class="paper-venue">ACM SOSP &middot; 2015</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://people.cs.rutgers.edu/~rm854/papers/pivot-tracing-sosp2015.pdf" target="_blank" rel="noopener noreferrer">
+                Pivot Tracing: Dynamic Causal Monitoring for Distributed Systems
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Jonathan Mace, Ryan Roelke, Rodrigo Fonseca (Brown University)</p>
+            <p class="paper-summary">
+              Pioneered the combination of dynamic bytecode instrumentation with causal baggage propagation. Allows operators to install ad-hoc cross-tier distributed queries and correlate events across heterogeneous layers at runtime without redeployment.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#pivot-tracing</span>
+                <span class="paper-tag">#dynamic-instrumentation</span>
+                <span class="paper-tag">#baggage</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://people.cs.rutgers.edu/~rm854/papers/pivot-tracing-sosp2015.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/2815400.2815415" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 12. Canopy -->
+          <article class="paper-card" data-domain="observability">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge observability">Observability</span>
+              </div>
+              <span class="paper-venue">ACM SOSP &middot; 2017</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://research.facebook.com/publications/canopy-an-end-to-end-performance-tracing-and-analysis-system/" target="_blank" rel="noopener noreferrer">
+                Canopy: An End-to-End Performance Tracing And Analysis System
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Jonathan Kaldor, Jonathan Mace, Michal Bejda, et al. (Facebook / Meta)</p>
+            <p class="paper-summary">
+              Details Meta's large-scale end-to-end distributed performance tracing platform. Unifies disparate front-end, RPC, and backend execution models by decoupling low-cost record collection from downstream causal graph reconstruction and regression analysis.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#canopy</span>
+                <span class="paper-tag">#causal-graphs</span>
+                <span class="paper-tag">#meta-infra</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://research.facebook.com/publications/canopy-an-end-to-end-performance-tracing-and-analysis-system/" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  Research
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/3132747.3132770" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 13. XDP -->
+          <article class="paper-card" data-domain="kernel">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge kernel">Kernel &amp; Networking</span>
+              </div>
+              <span class="paper-venue">ACM CoNEXT &middot; 2018</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://raw.githubusercontent.com/xdp-project/xdp-paper/master/xdp-the-express-data-path.pdf" target="_blank" rel="noopener noreferrer">
+                The eXpress Data Path: Fast Programmable Packet Processing in the OS Kernel
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Toke H&oslash;iland-J&oslash;rgensen, Jesper D. Brouer, Daniel Borkmann, et al. (Red Hat)</p>
+            <p class="paper-summary">
+              Embeds safe eBPF execution directly into the network device driver RX path before memory allocation of <code>sk_buff</code> structures. Enables programmable line-rate routing, DDoS mitigation, and packet filtering at 24M packets/sec per CPU core.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#ebpf</span>
+                <span class="paper-tag">#xdp</span>
+                <span class="paper-tag">#line-rate-networking</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://raw.githubusercontent.com/xdp-project/xdp-paper/master/xdp-the-express-data-path.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/3281411.3281443" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 14. Maglev -->
+          <article class="paper-card" data-domain="kernel">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge kernel">Kernel &amp; Networking</span>
+              </div>
+              <span class="paper-venue">USENIX NSDI &middot; 2016</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf" target="_blank" rel="noopener noreferrer">
+                Maglev: A Fast and Reliable Software Network Load Balancer
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Daniel E. Eisenbud, Cheng Yi, Carlo Contavalli, et al. (Google)</p>
+            <p class="paper-summary">
+              Google's distributed software load balancer running on commodity Linux servers. Bypasses kernel networking overhead with user-space packet rings and introduces a specialized consistent hashing algorithm to preserve TCP connections under node pool changes.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#maglev</span>
+                <span class="paper-tag">#load-balancing</span>
+                <span class="paper-tag">#consistent-hashing</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/eisenbud" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  USENIX
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 15. BBR -->
+          <article class="paper-card" data-domain="kernel">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge kernel">Kernel &amp; Networking</span>
+              </div>
+              <span class="paper-venue">ACM Queue &middot; 2016</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://queue.acm.org/detail.cfm?id=3022184" target="_blank" rel="noopener noreferrer">
+                BBR: Congestion-Based Congestion Control
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Neal Cardwell, Yuchung Cheng, C. Stephen Gunn, Soheil H. Yeganeh, Van Jacobson (Google)</p>
+            <p class="paper-summary">
+              Replaces legacy loss-based TCP congestion algorithms (Reno, Cubic) with continuous state estimation of the bottleneck bandwidth (BtlBw) and round-trip propagation time (RTprop), eliminating queue-induced bufferbloat.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#tcp-bbr</span>
+                <span class="paper-tag">#congestion-control</span>
+                <span class="paper-tag">#bufferbloat</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://queue.acm.org/detail.cfm?id=3022184" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  Article
+                </a>
+                <a href="https://dl.acm.org/doi/10.1145/3012426.3022184" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  ACM DL
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 16. vLLM / PagedAttention -->
+          <article class="paper-card" data-domain="ai-infra">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge ai-infra">AI Infrastructure</span>
+                <span class="paper-badge landmark">&#9733; Best Paper</span>
+              </div>
+              <span class="paper-venue">ACM SOSP &middot; 2023</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://arxiv.org/pdf/2309.05587.pdf" target="_blank" rel="noopener noreferrer">
+                Efficient Memory Management for Large Language Model Serving with PagedAttention
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Woosuk Kwon, Zhuohan Li, Siyuan Shen, et al. (UC Berkeley & LMSYS)</p>
+            <p class="paper-summary">
+              Solves severe dynamic KV cache memory fragmentation in generative inference serving. Adapts classic operating system virtual memory paging to store attention keys and values in non-contiguous physical blocks, achieving 2&ndash;4&times; throughput improvements.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#vllm</span>
+                <span class="paper-tag">#paged-attention</span>
+                <span class="paper-tag">#kv-cache</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://arxiv.org/pdf/2309.05587.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://arxiv.org/abs/2309.05587" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  arXiv
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 17. FlashAttention -->
+          <article class="paper-card" data-domain="ai-infra">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge ai-infra">AI Infrastructure</span>
+              </div>
+              <span class="paper-venue">NeurIPS &middot; 2022</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://arxiv.org/pdf/2205.14135.pdf" target="_blank" rel="noopener noreferrer">
+                FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Tri Dao, Daniel Y. Fu, Stefano Ermon, Atri Rudra, Christopher R&eacute; (Stanford University)</p>
+            <p class="paper-summary">
+              Overcomes the memory bandwidth roofline bound in Transformer self-attention by leveraging GPU SRAM tiling and online softmax. Computes mathematically exact attention without persisting the intermediate O(N&sup2;) attention matrices to High Bandwidth Memory.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#flash-attention</span>
+                <span class="paper-tag">#io-awareness</span>
+                <span class="paper-tag">#gpu-sram</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://arxiv.org/pdf/2205.14135.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://arxiv.org/abs/2205.14135" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  arXiv
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 18. DistServe -->
+          <article class="paper-card" data-domain="ai-infra">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge ai-infra">AI Infrastructure</span>
+              </div>
+              <span class="paper-venue">USENIX OSDI &middot; 2024</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://www.usenix.org/system/files/osdi24-zhong.pdf" target="_blank" rel="noopener noreferrer">
+                DistServe: Disaggregating Prefill and Decoding for Goodput-Optimized LLM Serving
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Yinmin Zhong, Shengyu Liu, Junda Chen, Jianbo Hu, et al. (Peking University & UCSD)</p>
+            <p class="paper-summary">
+              Proves that co-locating compute-bound prefill and memory-bound decode within the same GPU pipeline introduces severe head-of-line blocking. Disaggregates prefill and decode across dedicated GPU clusters with decoupled TTFT and TBT SLAs.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#distserve</span>
+                <span class="paper-tag">#pd-disaggregation</span>
+                <span class="paper-tag">#serving-sla</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://www.usenix.org/system/files/osdi24-zhong.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://www.usenix.org/conference/osdi24/presentation/zhong" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  USENIX
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 19. Splitwise -->
+          <article class="paper-card" data-domain="ai-infra">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge ai-infra">AI Infrastructure</span>
+              </div>
+              <span class="paper-venue">ACM/IEEE ISCA &middot; 2024</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://arxiv.org/pdf/2311.18677.pdf" target="_blank" rel="noopener noreferrer">
+                Splitwise: Efficient Generative LLM Serving Using Phase Splitting
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Pratyush Patel, Esha Choukse, Chaojie Zhang, Aashaka Shah, et al. (Microsoft Research & UW)</p>
+            <p class="paper-summary">
+              Exploits the distinct hardware demands of LLM serving phases by mapping prompt computation to high-FLOPs machines and token generation to cost-effective memory-dense nodes, boosting throughput per dollar up to 2.35&times;.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#splitwise</span>
+                <span class="paper-tag">#phase-splitting</span>
+                <span class="paper-tag">#inference-economics</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://arxiv.org/pdf/2311.18677.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://arxiv.org/abs/2311.18677" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  arXiv
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 20. Megatron-LM -->
+          <article class="paper-card" data-domain="ai-infra">
+            <div class="paper-header-row">
+              <div class="paper-badges">
+                <span class="paper-badge ai-infra">AI Infrastructure</span>
+              </div>
+              <span class="paper-venue">arXiv &middot; 2019 / SC '21</span>
+            </div>
+            <h3 class="paper-title">
+              <a href="https://arxiv.org/pdf/1909.08053.pdf" target="_blank" rel="noopener noreferrer">
+                Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism
+                <svg class="paper-title-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </h3>
+            <p class="paper-authors">Mohammad Shoeybi, Mostofa Patwary, Raul Puri, Patrick LeGresley, et al. (NVIDIA)</p>
+            <p class="paper-summary">
+              Establishes the canonical intra-layer tensor model-parallelism and pipeline-parallel execution strategy for transformer networks. Minimizes communication synchronization primitives to achieve near-linear multi-GPU scaling across high-speed interconnects.
+            </p>
+            <div class="paper-footer">
+              <div class="paper-tags">
+                <span class="paper-tag">#megatron-lm</span>
+                <span class="paper-tag">#tensor-parallel</span>
+                <span class="paper-tag">#distributed-training</span>
+              </div>
+              <div class="paper-actions">
+                <a href="https://arxiv.org/pdf/1909.08053.pdf" target="_blank" rel="noopener noreferrer" class="paper-action-btn primary">
+                  <svg class="paper-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  PDF
+                </a>
+                <a href="https://arxiv.org/abs/1909.08053" target="_blank" rel="noopener noreferrer" class="paper-action-btn">
+                  arXiv
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div id="papers-empty-state" class="papers-empty-state">
+          No papers found in this category.
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>&copy; 2026 Sreejit Kar</div>
+        <div class="footer-social-links">
+          <a href="mailto:sreejitkar999@gmail.com" class="social-icon-link" title="Email" aria-label="Email">
+            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/sreejitkar" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="GitHub" aria-label="GitHub">
+            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="X (Twitter)" aria-label="X (Twitter)">
+            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/sreejit-kar" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="LinkedIn" aria-label="LinkedIn">
+            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.2a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66z"/>
+            </svg>
+          </a>
+          <a href="https://goodreads.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Goodreads" aria-label="Goodreads">
+            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11.43 14.53c-1.42 0-2.58-.33-3.48-.99-.9-.66-1.35-1.57-1.35-2.73 0-1.15.45-2.07 1.35-2.75.9-.68 2.06-1.02 3.48-1.02 1.43 0 2.59.34 3.48 1.02.89.68 1.34 1.6 1.34 2.75 0 1.16-.45 2.07-1.34 2.73-.89.66-2.05.99-3.48.99zm6.65-6.81v7.69c0 1.45-.37 2.68-1.11 3.69-.74 1.01-1.74 1.76-3 2.25-1.26.49-2.7.74-4.32.74-1.69 0-3.15-.27-4.38-.81-1.23-.54-2.13-1.34-2.7-2.4l1.62-1.2c.42.78 1.05 1.37 1.89 1.77.84.4 1.84.6 3 .6 1.17 0 2.22-.2 3.15-.6.93-.4 1.62-.99 2.07-1.77.45-.78.67-1.75.67-2.91v-.96c-.66.84-1.51 1.49-2.55 1.95-1.04.46-2.21.69-3.51.69-1.92 0-3.55-.54-4.89-1.62C2.44 13.5.77 12.03.77 10.19c0-1.84.67-3.31 2.01-4.41 1.34-1.1 2.97-1.65 4.89-1.65 1.3 0 2.47.23 3.51.69 1.04.46 1.89 1.11 2.55 1.95V4.32h2.35v3.4z"/>
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

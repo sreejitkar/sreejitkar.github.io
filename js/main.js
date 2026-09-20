@@ -97,10 +97,46 @@
     });
   }
 
+  // 4. Papershelf Domain Filter
+  function initPapershelfFilter() {
+    const filterBtns = document.querySelectorAll('.paper-filter-btn');
+    const paperCards = document.querySelectorAll('.paper-card');
+    const emptyState = document.getElementById('papers-empty-state');
+
+    if (!filterBtns.length || !paperCards.length) return;
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-filter');
+
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter cards
+        let visibleCount = 0;
+        paperCards.forEach(card => {
+          const cardDomain = card.getAttribute('data-domain');
+          if (category === 'all' || cardDomain === category) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (emptyState) {
+          emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      });
+    });
+  }
+
   // Run on DOM ready
   function init() {
     setActiveNav();
     initBookshelfFilter();
+    initPapershelfFilter();
   }
 
   if (document.readyState === 'loading') {
