@@ -203,11 +203,21 @@ a {
   align-items: center;
   color: var(--text);
   margin-bottom: 0;
+  text-decoration: none;
   transition: transform var(--transition);
 }
 
 .brand-mark:hover {
-  transform: scale(1.05);
+  transform: translateY(-1px) scale(1.03);
+}
+
+.brand-mark svg rect {
+  transition: fill-opacity var(--transition), stroke-opacity var(--transition);
+}
+
+.brand-mark:hover svg rect {
+  fill-opacity: 0.14;
+  stroke-opacity: 0.28;
 }
 
 @media (min-width: 768px) {
