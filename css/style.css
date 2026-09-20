@@ -762,6 +762,50 @@ a {
   line-height: 1.4;
 }
 
+/* Citations & References Section */
+.citations-section {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.citations-heading {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.citations-list {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding-left: 1.25rem;
+  margin-bottom: 0;
+}
+
+.citations-list li {
+  margin-bottom: 0.65rem;
+}
+
+.citations-list li:last-child {
+  margin-bottom: 0;
+}
+
+.citations-list a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.citations-list a:hover {
+  color: var(--link-hover);
+}
+
 /* ==========================================================================
    Homepage Editorial Sections (About, Interests, Selected Work, Now, Contact)
    ========================================================================== */
