@@ -2,3 +2,6 @@ _DSC3279.JPG
 _DSC2923-EDIT.jpg
 scratch/
 .DS_Store
+
+__pycache__/
+*.pyc
