@@ -4,13 +4,74 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI — Sreejit Kar</title>
+  <meta name="title" content="The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI — Sreejit Kar">
   <meta name="description" content="Why generative AI defies historical software economics, why chipmakers still capture 80% of profits, and how consumer habits and high-intent attention dictate the real winners.">
   <meta name="author" content="Sreejit Kar">
-  
+  <link rel="canonical" href="https://sreejitkar.github.io/writing/the-inverted-stack-economics-of-generative-ai.html">
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp / iMessage -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://sreejitkar.github.io/writing/the-inverted-stack-economics-of-generative-ai.html">
+  <meta property="og:site_name" content="Sreejit Kar">
   <meta property="og:title" content="The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI — Sreejit Kar">
   <meta property="og:description" content="Why generative AI defies historical software economics, why chipmakers still capture 80% of profits, and how consumer habits and high-intent attention dictate the real winners.">
-  <meta property="og:type" content="article">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://sreejitkar.github.io/images/the-inverted-stack-header.png">
+  <meta property="og:image:secure_url" content="https://sreejitkar.github.io/images/the-inverted-stack-header.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="2564">
+  <meta property="og:image:height" content="1632">
+  <meta property="og:image:alt" content="The Inverted Stack: Circular financing and capital flows in generative AI — by Sreejit Kar">
+  <meta property="article:author" content="Sreejit Kar">
+  <meta property="article:published_time" content="2026-09-20T00:00:00Z">
+  <meta property="article:section" content="Technology &amp; Systems Economics">
+
+  <!-- Twitter / X / Slack -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://sreejitkar.github.io/writing/the-inverted-stack-economics-of-generative-ai.html">
+  <meta name="twitter:site" content="@quid_pro_kyu">
+  <meta name="twitter:creator" content="@quid_pro_kyu">
+  <meta name="twitter:title" content="The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI — Sreejit Kar">
+  <meta name="twitter:description" content="Why generative AI defies historical software economics, why chipmakers still capture 80% of profits, and how consumer habits and high-intent attention dictate the real winners.">
+  <meta name="twitter:image" content="https://sreejitkar.github.io/images/the-inverted-stack-header.png">
+  <meta name="twitter:image:alt" content="The Inverted Stack: Circular financing and capital flows in generative AI — by Sreejit Kar">
+  <meta name="twitter:label1" content="Written by">
+  <meta name="twitter:data1" content="Sreejit Kar">
+  <meta name="twitter:label2" content="Reading time">
+  <meta name="twitter:data2" content="4 min read">
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI",
+    "description": "Why generative AI defies historical software economics, why chipmakers still capture 80% of profits, and how consumer habits and high-intent attention dictate the real winners.",
+    "image": [
+      "https://sreejitkar.github.io/images/the-inverted-stack-header.png"
+    ],
+    "datePublished": "2026-09-20T00:00:00Z",
+    "dateModified": "2026-09-20T00:00:00Z",
+    "author": {
+      "@type": "Person",
+      "name": "Sreejit Kar",
+      "url": "https://sreejitkar.github.io",
+      "sameAs": [
+        "https://twitter.com/quid_pro_kyu",
+        "https://github.com/sreejitkar",
+        "https://www.linkedin.com/in/sreejitkar/"
+      ]
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Sreejit Kar",
+      "url": "https://sreejitkar.github.io"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://sreejitkar.github.io/writing/the-inverted-stack-economics-of-generative-ai.html"
+    }
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,7 +166,15 @@
         <header class="post-header">
           <a href="../writing.html" class="post-back-link">&larr; Back to Writing</a>
           <h1 class="post-title">The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI</h1>
-          <div class="post-date">September 20, 2026 &middot; 4 min read</div>
+          <div class="post-date">By Sreejit Kar &middot; September 20, 2026 &middot; 4 min read</div>
+
+          <figure class="post-hero-figure">
+            <picture>
+              <source srcset="../images/the-inverted-stack-header.webp" type="image/webp">
+              <img src="../images/the-inverted-stack-header.png" alt="The generative AI circular financing ecosystem and capital flows" class="post-hero-image" width="2564" height="1632" loading="eager">
+            </picture>
+            <figcaption class="post-hero-caption">The circular financing and capital flows powering the generative AI ecosystem.</figcaption>
+          </figure>
         </header>
 
         <article class="prose">
@@ -188,7 +257,7 @@
           </figure>
 
           <p>
-            Why? Because AI breaks software physics. As I wrote in <a href="economics-of-ai-inference.html">The Economics of Inference</a>, running <strong>inference</strong> (generating answers from a trained model) isn't zero-marginal-cost code. Because autoregressive token generation is memory-bandwidth bound, the GPU spends 99% of its time waiting for weights to stream out of memory. Add the <strong>KV cache</strong> (the model's working scratchpad of past tokens), and every prompt costs real silicon time and real electricity. You aren't shipping frictionless bits; you're running a high-voltage digital bakery where every croissant costs 15 cents in butter.
+            Why? Because AI breaks software physics. Running <strong>inference</strong> (generating answers from a trained model) isn't zero-marginal-cost code. Because autoregressive token generation is memory-bandwidth bound, the GPU spends 99% of its time waiting for weights to stream out of memory. Add the <strong>KV cache</strong> (the model's working scratchpad of past tokens), and every prompt costs real silicon time and real electricity. You aren't shipping frictionless bits; you're running a high-voltage digital bakery where every croissant costs 15 cents in butter.
           </p>
 
           <h2>2. The $600B Capex FOMO &amp; Custom ASICs</h2>
@@ -441,9 +510,6 @@
               </li>
               <li>
                 <strong>eMarketer:</strong> <em>OpenAI Explores Premium CPM Conversational Ad Placements</em> (<a href="https://www.emarketer.com/content/openai-wants-premium-ad-dollars-before-has-premium-measurement" target="_blank" rel="noopener noreferrer">emarketer.com</a>).
-              </li>
-              <li>
-                <strong>Sreejit Kar:</strong> <em>The Economics of Inference: Memory Bandwidth and the KV Cache</em> (<a href="economics-of-ai-inference.html">Notes on Systems</a>).
               </li>
             </ol>
           </section>

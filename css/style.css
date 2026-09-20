@@ -112,7 +112,14 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: 4.75rem;
   -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 2rem;
+  }
 }
 
 body {
@@ -171,7 +178,7 @@ a {
 .site-wrapper {
   max-width: var(--site-max-width);
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 6rem 1.5rem;
+  padding: 0 1.5rem 6rem 1.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -541,6 +548,168 @@ a {
   }
   :root:not([data-theme="light"]) .moon-icon {
     display: none;
+  }
+}
+
+/* ==========================================================================
+   Mobile Minimalist Sticky Header Bar
+   Pins the header bar (Sreejit Kar, Theme Toggle, Nav Menu) at the top on phone
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.25rem;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid var(--border-subtle);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: background-color var(--transition), border-color var(--transition), box-shadow 0.2s ease;
+  }
+
+  [data-theme="dark"] .sidebar {
+    background: rgba(40, 42, 54, 0.85);
+    border-bottom-color: var(--border-subtle);
+  }
+
+  @supports (padding-top: env(safe-area-inset-top)) {
+    .sidebar {
+      padding-top: max(0.625rem, env(safe-area-inset-top));
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+
+  .sidebar.is-scrolled {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  [data-theme="dark"] .sidebar.is-scrolled {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 14px -2px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0.35rem;
+    width: 100%;
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.55rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .brand-mark svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .brand-mark:hover {
+    transform: none;
+  }
+
+  .author-name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0;
+    margin-right: auto;
+    white-space: nowrap;
+  }
+
+  .theme-toggle-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    margin-left: 0.5rem;
+    border-radius: 6px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .theme-toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    left: -6px;
+    right: -6px;
+  }
+
+  .theme-toggle-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.15rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.15rem 0 0.45rem 0;
+    margin-bottom: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .nav-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-item {
+    font-size: 0.8125rem;
+    font-weight: 450;
+    color: var(--text-muted);
+    padding: 0.15rem 0;
+    flex-shrink: 0;
+  }
+
+  .nav-item.active {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .nav-dot {
+    width: 4.5px;
+    height: 4.5px;
+    margin-right: 0.35rem;
+  }
+
+  .main-content {
+    padding-top: 1.25rem;
+  }
+}
+
+@media (max-width: 767px) and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sidebar {
+    background: rgba(40, 42, 54, 0.85);
+    border-bottom-color: var(--border-subtle);
+  }
+}
+
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  @media (max-width: 767px) {
+    .sidebar {
+      background: var(--bg);
+    }
   }
 }
 
@@ -1220,6 +1389,37 @@ a {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--text-dim);
+}
+
+.post-hero-figure {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  transition: border-color var(--transition), opacity var(--transition);
+}
+
+[data-theme="dark"] .post-hero-image {
+  border-color: var(--border);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.4);
+  opacity: 0.94;
+}
+
+.post-hero-caption {
+  font-family: var(--font-mono);
+  font-size: 0.775rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 0.65rem;
+  line-height: 1.45;
 }
 
 /* ==========================================================================

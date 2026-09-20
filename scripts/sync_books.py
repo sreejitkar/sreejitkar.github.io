@@ -31,18 +31,6 @@ def fetch_rss():
         res = subprocess.run(["curl", "-s", RSS_URL], capture_output=True, check=True)
         return res.stdout
 
-def clean_shelf(s):
-    if not s:
-        return 'read'
-    s = s.lower().strip()
-    if 'currently-reading' in s:
-        return 'currently-reading'
-    if 'did-not-finish' in s:
-        return 'did-not-finish'
-    if 'to-read' in s:
-        return 'to-read'
-    return 'read'
-
 def format_date(d_str):
     if not d_str:
         return ''
@@ -64,8 +52,6 @@ def parse_books(xml_data):
         author = ' '.join((item.find('author_name').text or 'Unknown').split())
         book_id = item.find('book_id').text or ''
         user_rating = int(item.find('user_rating').text or 0)
-        raw_shelf = item.find('user_shelves').text if item.find('user_shelves') is not None else ''
-        shelf = clean_shelf(raw_shelf)
         read_at = item.find('user_read_at').text if item.find('user_read_at') is not None and item.find('user_read_at').text else ''
         date_added = item.find('user_date_added').text if item.find('user_date_added') is not None and item.find('user_date_added').text else ''
         avg_rating = item.find('average_rating').text or ''
@@ -82,7 +68,6 @@ def parse_books(xml_data):
             'id': book_id,
             'title': title,
             'author': author,
-            'shelf': shelf,
             'rating': user_rating,
             'read_at': format_date(read_at),
             'date_added': format_date(date_added),
@@ -94,28 +79,11 @@ def parse_books(xml_data):
 
 def render_html(books):
     total = len(books)
-    reading_cnt = sum(1 for b in books if b['shelf'] == 'currently-reading')
-    read_cnt = sum(1 for b in books if b['shelf'] == 'read')
-    toread_cnt = sum(1 for b in books if b['shelf'] == 'to-read')
-    dnf_cnt = sum(1 for b in books if b['shelf'] == 'did-not-finish')
 
     cards_html = []
     for b in books:
         t_esc = html.escape(b['title'])
         a_esc = html.escape(b['author'])
-        shelf = b['shelf']
-        
-        # Badge
-        if shelf == 'currently-reading':
-            badge_html = '<span class="book-badge reading"><span class="badge-dot"></span>Reading</span>'
-        elif shelf == 'read':
-            badge_html = '<span class="book-badge read">&#10003; Read</span>'
-        elif shelf == 'to-read':
-            badge_html = '<span class="book-badge to-read">Want to Read</span>'
-        elif shelf == 'did-not-finish':
-            badge_html = '<span class="book-badge dnf">DNF</span>'
-        else:
-            badge_html = f'<span class="book-badge">{html.escape(shelf)}</span>'
         
         # Rating & meta
         rating_html = ""
@@ -129,15 +97,12 @@ def render_html(books):
         meta_date = f'<span class="book-date">{html.escape(date_str)}</span>' if date_str else ''
 
         card = f'''          <!-- Book: {t_esc} -->
-          <article class="book-card" data-shelf="{shelf}">
+          <article class="book-card">
             <div class="book-cover-wrap">
               <img src="{html.escape(b['image'])}" alt="{t_esc} cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
               <div class="book-cover-fallback" aria-hidden="true">📖</div>
             </div>
             <div class="book-info">
-              <div class="book-header-row">
-                {badge_html}
-              </div>
               <h3 class="book-title">
                 <a href="{html.escape(b['url'])}" target="_blank" rel="noopener noreferrer">{t_esc}</a>
               </h3>
@@ -206,9 +171,9 @@ def render_html(books):
             </svg>
           </a>
 
-          <h1 class="author-name mobile-only">
+          <div class="author-name">
             <a href="index.html">Sreejit Kar</a>
-          </h1>
+          </div>
 
           <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
             <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -221,17 +186,17 @@ def render_html(books):
         </header>
 
         <nav class="nav-menu" aria-label="Main Navigation">
-          <a href="index.html" class="nav-item">
+          <a href="index.html#about" class="nav-item">
             <span class="nav-dot"></span>
             <span>About</span>
           </a>
-          <a href="projects.html" class="nav-item">
+          <a href="index.html#work" class="nav-item">
             <span class="nav-dot"></span>
-            <span>Projects</span>
+            <span>Work</span>
           </a>
           <a href="writing.html" class="nav-item">
             <span class="nav-dot"></span>
-            <span>Writing</span>
+            <span>Notes</span>
           </a>
           <a href="bookshelf.html" class="nav-item active" aria-current="page">
             <span class="nav-dot"></span>
@@ -240,6 +205,14 @@ def render_html(books):
           <a href="papershelf.html" class="nav-item">
             <span class="nav-dot"></span>
             <span>Papershelf</span>
+          </a>
+          <a href="index.html#now" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Now</span>
+          </a>
+          <a href="index.html#contact" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Contact</span>
           </a>
         </nav>
       </div>
@@ -259,32 +232,9 @@ def render_html(books):
       </header>
 
       <div class="content-inner">
-        <!-- Filter Bar -->
-        <div class="books-filter" role="tablist" aria-label="Book Shelves">
-          <button class="filter-btn active" data-filter="all" type="button">
-            All <span class="filter-count">{total}</span>
-          </button>
-          <button class="filter-btn" data-filter="currently-reading" type="button">
-            Reading <span class="filter-count">{reading_cnt}</span>
-          </button>
-          <button class="filter-btn" data-filter="read" type="button">
-            Read <span class="filter-count">{read_cnt}</span>
-          </button>
-          <button class="filter-btn" data-filter="to-read" type="button">
-            Want to Read <span class="filter-count">{toread_cnt}</span>
-          </button>
-          <button class="filter-btn" data-filter="did-not-finish" type="button">
-            DNF <span class="filter-count">{dnf_cnt}</span>
-          </button>
-        </div>
-
         <!-- Books Grid -->
         <div class="books-grid" id="books-grid">
 {all_cards}
-        </div>
-
-        <div id="books-empty-state" class="book-empty-state">
-          No books found in this category.
         </div>
       </div>
 
