@@ -715,15 +715,15 @@ a {
   margin-bottom: 1.25rem;
 }
 
-/* About Section with Seamless Editorial Portrait */
+/* About Section with Editorial Portrait */
 .about-content {
   overflow: hidden; /* clearfix */
 }
 
 .about-portrait-wrap {
   float: left;
-  width: 200px;
-  margin: 0.15rem 2.25rem 1.5rem 0;
+  width: 195px;
+  margin: 0.25rem 2rem 1.35rem 0;
   user-select: none;
 }
 
@@ -731,26 +731,44 @@ a {
   display: block;
   width: 100%;
   height: auto;
-  pointer-events: none;
-  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.04));
-  transition: filter var(--transition);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), opacity var(--transition);
+}
+
+.about-portrait:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--border-hover);
 }
 
 [data-theme="dark"] .about-portrait {
-  filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.35));
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  opacity: 0.94;
+}
+
+[data-theme="dark"] .about-portrait:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
   .about-portrait-wrap {
     width: 160px;
-    margin: 0.1rem 1.6rem 1rem 0;
+    margin: 0.15rem 1.5rem 1rem 0;
   }
 }
 
 @media (max-width: 480px) {
   .about-portrait-wrap {
-    width: 125px;
-    margin: 0 1.15rem 0.65rem 0;
+    width: 130px;
+    margin: 0.1rem 1.15rem 0.65rem 0;
+  }
+  .about-portrait {
+    border-radius: 6px;
   }
 }
 
