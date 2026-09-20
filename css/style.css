@@ -26,6 +26,12 @@
   --tag-bg: #f4f4f5;
   --tag-text: #52525b;
 
+  /* Brand Logo Colors */
+  --logo-blade: #0d5c46;
+  --logo-slit: #ffffff;
+  --logo-top: rgba(0, 0, 0, 0.04);
+  --logo-right: rgba(0, 0, 0, 0.08);
+
   /* Typography - Geist & Geist Mono */
   --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -58,6 +64,12 @@
   --code-text: #f8f8f2;
   --tag-bg: #383a4c;
   --tag-text: #8be9fd;
+
+  /* Brand Logo Colors */
+  --logo-blade: #50fa7b;
+  --logo-slit: #282a36;
+  --logo-top: rgba(255, 255, 255, 0.08);
+  --logo-right: rgba(255, 255, 255, 0.04);
 }
 
 /* Fallback for system dark mode if user hasn't explicitly toggled */
@@ -81,6 +93,12 @@
     --code-text: #f8f8f2;
     --tag-bg: #383a4c;
     --tag-text: #8be9fd;
+
+    /* Brand Logo Colors */
+    --logo-blade: #50fa7b;
+    --logo-slit: #282a36;
+    --logo-top: rgba(255, 255, 255, 0.08);
+    --logo-right: rgba(255, 255, 255, 0.04);
   }
 }
 
@@ -220,12 +238,13 @@ a {
 }
 
 .brand-mark:hover svg {
-  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 20px rgba(0, 240, 255, 0.35));
+  filter: drop-shadow(0 0 10px var(--logo-blade));
 }
 
-.brand-mark svg circle,
+.brand-mark svg polygon,
+.brand-mark svg line,
 .brand-mark svg path {
-  transition: filter var(--transition), opacity var(--transition);
+  transition: fill var(--transition), stroke var(--transition), opacity var(--transition);
 }
 
 @media (min-width: 768px) {

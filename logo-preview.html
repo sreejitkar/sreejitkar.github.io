@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Concepts Preview — Sreejit Kar</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .preview-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      margin-bottom: 2.5rem;
+      transition: border-color var(--transition);
+    }
+    .concept-card:hover {
+      border-color: var(--border-hover);
+    }
+    .concept-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+    .concept-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .concept-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .concept-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .demo-box {
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      min-height: 140px;
+    }
+    .demo-box-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.05em;
+    }
+    .lockup-row {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1rem 1.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+    }
+    .lockup-divider {
+      width: 2px;
+      height: 38px;
+      background: var(--border);
+    }
+    .lockup-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .lockup-name {
+      font-size: 1.125rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+    .lockup-sub {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+    .sizes-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    /* Interactive hover on SVG marks */
+    .brand-svg {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+      cursor: pointer;
+    }
+    .brand-svg:hover {
+      transform: translateY(-2px) scale(1.05);
+    }
+    [data-theme="dark"] .brand-svg:hover {
+      filter: drop-shadow(0 0 10px rgba(80, 250, 123, 0.4));
+    }
+    :root:not([data-theme="dark"]) .brand-svg:hover {
+      filter: drop-shadow(0 0 10px rgba(13, 92, 70, 0.3));
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <div>
+        <h1 style="font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; margin: 0;">Logo Exploration</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.35rem;">Faithful vector implementations based on your screenshots, fully responsive to Light & Dracula themes.</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" style="padding: 0.5rem 1rem; border-radius: var(--radius); background: var(--bg-card); border: 1px solid var(--border); color: var(--text); font-size: 0.875rem; cursor: pointer;">
+        Toggle Theme
+      </button>
+    </div>
+
+    <!-- CONCEPT 1 -->
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-title">Concept 1: The Isometric Server Blade Cube</div>
+        <div class="concept-tag">Faithful to Screenshot 1</div>
+      </div>
+      <p class="concept-desc">
+        A true 30° isometric computing node. The left face represents a high-performance server blade in deep forest emerald (Light) / Dracula spring green (Dark) with a precision status slit. Top and right faces are clean wireframes.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-box">
+          <div class="demo-box-label">ICON (SCALED SIZES)</div>
+          <div class="sizes-row">
+            <!-- 28px Favicon size -->
+            <svg class="brand-svg" width="28" height="28" viewBox="0 0 48 48" fill="none">
+              <polygon points="12,16 24,23 24,37.5 12,30.5" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,8.5 36,16 24,23 12,16" fill="var(--logo-top, rgba(255,255,255,0.8))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,23 36,16 36,30.5 24,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <line x1="15.5" y1="21" x2="15.5" y2="26" stroke="var(--logo-slit, #ffffff)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <!-- 42px Header size -->
+            <svg class="brand-svg" width="42" height="42" viewBox="0 0 48 48" fill="none">
+              <polygon points="12,16 24,23 24,37.5 12,30.5" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,8.5 36,16 24,23 12,16" fill="var(--logo-top, rgba(255,255,255,0.8))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,23 36,16 36,30.5 24,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <line x1="15.5" y1="21" x2="15.5" y2="26" stroke="var(--logo-slit, #ffffff)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <!-- 60px Sidebar size -->
+            <svg class="brand-svg" width="60" height="60" viewBox="0 0 48 48" fill="none">
+              <polygon points="12,16 24,23 24,37.5 12,30.5" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,8.5 36,16 24,23 12,16" fill="var(--logo-top, rgba(255,255,255,0.8))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,23 36,16 36,30.5 24,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <line x1="15.5" y1="21" x2="15.5" y2="26" stroke="var(--logo-slit, #ffffff)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="demo-box">
+          <div class="demo-box-label">HORIZONTAL LOCKUP (SCREENSHOT 1 STYLE)</div>
+          <div class="lockup-row">
+            <svg class="brand-svg" width="40" height="40" viewBox="0 0 48 48" fill="none">
+              <polygon points="12,16 24,23 24,37.5 12,30.5" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,8.5 36,16 24,23 12,16" fill="var(--logo-top, rgba(255,255,255,0.8))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <polygon points="24,23 36,16 36,30.5 24,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+              <line x1="15.5" y1="21" x2="15.5" y2="26" stroke="var(--logo-slit, #ffffff)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="lockup-divider"></div>
+            <div class="lockup-text">
+              <div class="lockup-name">SREEJIT<br>KAR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEPT 2 -->
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-title">Concept 2: The Observability Telemetry Frame</div>
+        <div class="concept-tag">Faithful to Screenshot 2</div>
+      </div>
+      <p class="concept-desc">
+        Focus brackets (<code>┌ ┐ └ ┘</code>) capturing an isometric wireframe cube. Represents telemetry probes, distributed tracing spans, continuous profiling, and camera-like observability targeting.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-box">
+          <div class="demo-box-label">ICON (SCALED SIZES)</div>
+          <div class="sizes-row">
+            <svg class="brand-svg" width="30" height="30" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-left, rgba(120,120,120,0.15))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.3))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(120,120,120,0.25))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+            <svg class="brand-svg" width="46" height="46" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-left, rgba(120,120,120,0.15))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.3))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(120,120,120,0.25))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+            <svg class="brand-svg" width="64" height="64" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-left, rgba(120,120,120,0.15))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.3))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(120,120,120,0.25))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="demo-box">
+          <div class="demo-box-label">HORIZONTAL LOCKUP</div>
+          <div class="lockup-row">
+            <svg class="brand-svg" width="44" height="44" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-left, rgba(120,120,120,0.15))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.3))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(120,120,120,0.25))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+            <div class="lockup-divider"></div>
+            <div class="lockup-text">
+              <div class="lockup-name">SREEJIT<br>KAR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEPT 3 -->
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-title">Concept 3: The Observability + Systems Hybrid</div>
+        <div class="concept-tag" style="color: var(--accent); font-weight: 700;">★ Recommended Fusion</div>
+      </div>
+      <p class="concept-desc">
+        The ultimate synthesis of both screenshots: Telemetry viewfinder brackets enclosing an illuminated server blade cube. Directly encapsulates your tagline: <strong>Observability of Systems</strong>.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-box">
+          <div class="demo-box-label">ICON (SCALED SIZES)</div>
+          <div class="sizes-row">
+            <svg class="brand-svg" width="30" height="30" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.85))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <line x1="21" y1="25" x2="21" y2="29" stroke="var(--logo-slit, #ffffff)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <svg class="brand-svg" width="46" height="46" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.85))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <line x1="21" y1="25" x2="21" y2="29" stroke="var(--logo-slit, #ffffff)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <svg class="brand-svg" width="64" height="64" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.85))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <line x1="21" y1="25" x2="21" y2="29" stroke="var(--logo-slit, #ffffff)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="demo-box">
+          <div class="demo-box-label">HORIZONTAL LOCKUP</div>
+          <div class="lockup-row">
+            <svg class="brand-svg" width="46" height="46" viewBox="0 0 56 56" fill="none">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.85))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <line x1="21" y1="25" x2="21" y2="29" stroke="var(--logo-slit, #ffffff)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <div class="lockup-divider"></div>
+            <div class="lockup-text">
+              <div class="lockup-name">SREEJIT<br>KAR</div>
+              <div class="lockup-sub">Systems &amp; Observability</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="index.html" style="color: var(--link); font-size: 0.9375rem; text-decoration: none;">← Back to Portfolio</a>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

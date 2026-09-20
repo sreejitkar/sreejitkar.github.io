@@ -1,22 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
-  <defs>
-    <linearGradient id="fav-orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#00f0ff"/>
-    </linearGradient>
-    <filter id="fav-glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <path d="M 18 7 A 11 11 0 0 1 29 18" stroke="url(#fav-orbit-grad)" stroke-width="2.4" stroke-linecap="round"/>
-  <path d="M 7 18 A 11 11 0 0 1 15 7.5" stroke="url(#fav-orbit-grad)" stroke-width="2.4" stroke-linecap="round"/>
-  <circle cx="18" cy="7" r="2.6" fill="#10b981" filter="url(#fav-glow)"/>
-  <circle cx="27.5" cy="23.5" r="2.2" fill="#00f0ff" filter="url(#fav-glow)"/>
-  <circle cx="8.5" cy="23.5" r="1.8" fill="#10b981" fill-opacity="0.75"/>
-  <circle cx="18" cy="18" r="3.6" fill="url(#fav-orbit-grad)" filter="url(#fav-glow)"/>
-  <circle cx="18" cy="18" r="1.5" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" fill="none">
+  <style>
+    .fav-bracket { stroke: #18181b; stroke-opacity: 0.65; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .fav-wire { stroke: #18181b; stroke-width: 2.2; stroke-linejoin: round; }
+    .fav-blade { fill: #0d5c46; stroke: #18181b; stroke-width: 2.2; stroke-linejoin: round; }
+    .fav-slit { stroke: #ffffff; stroke-width: 2; stroke-linecap: round; }
+    .fav-top { fill: #ffffff; fill-opacity: 0.9; }
+    .fav-right { fill: #000000; fill-opacity: 0.06; }
+
+    @media (prefers-color-scheme: dark) {
+      .fav-bracket { stroke: #6272a4; stroke-opacity: 0.95; }
+      .fav-wire { stroke: #f8f8f2; }
+      .fav-blade { fill: #50fa7b; stroke: #f8f8f2; }
+      .fav-slit { stroke: #282a36; }
+      .fav-top { fill: #ffffff; fill-opacity: 0.12; }
+      .fav-right { fill: #ffffff; fill-opacity: 0.04; }
+    }
+  </style>
+
+  <!-- Viewfinder Telemetry Brackets (Observability) -->
+  <path class="fav-bracket" d="M 9 17 L 9 9 L 17 9"/>
+  <path class="fav-bracket" d="M 39 9 L 47 9 L 47 17"/>
+  <path class="fav-bracket" d="M 9 39 L 9 47 L 17 47"/>
+  <path class="fav-bracket" d="M 39 47 L 47 47 L 47 39"/>
+
+  <!-- Isometric Systems Cube -->
+  <!-- Left Face: Server Blade -->
+  <polygon class="fav-blade" points="18.5,21 28,26.5 28,37.5 18.5,32"/>
+  <!-- Top Face -->
+  <polygon class="fav-wire fav-top" points="28,15.5 37.5,21 28,26.5 18.5,21"/>
+  <!-- Right Face -->
+  <polygon class="fav-wire fav-right" points="28,26.5 37.5,21 37.5,32 28,37.5"/>
+  <!-- Server Blade Slit Indicator -->
+  <line class="fav-slit" x1="21.5" y1="25" x2="21.5" y2="29.5"/>
 </svg>
