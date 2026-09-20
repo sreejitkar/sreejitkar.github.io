@@ -10,11 +10,13 @@
   --bg: #ffffff;
   --bg-subtle: #f8fafc;
   --bg-card: #f8fafc;
+  --bg-code: #f4f4f5;
   --text: #18181b;
   --text-muted: #71717a;
   --text-dim: #a1a1aa;
   --border: #e4e4e7;
   --border-subtle: #f4f4f5;
+  --border-hover: #d4d4d8;
   --link: #2563eb;
   --link-hover: #1d4ed8;
   --accent: #2563eb;
@@ -37,44 +39,48 @@
 }
 
 [data-theme="dark"] {
-  /* Color Palette - Dark Mode */
-  --bg: #090a0f;
-  --bg-subtle: #12141c;
-  --bg-card: #12141c;
-  --text: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --text-dim: #71717a;
-  --border: #27272a;
-  --border-subtle: #1c1f28;
-  --link: #60a5fa;
-  --link-hover: #93c5fd;
-  --accent: #60a5fa;
-  --dot-active: #60a5fa;
-  --code-bg: #181b24;
-  --code-text: #e4e4e7;
-  --tag-bg: #181b24;
-  --tag-text: #a1a1aa;
+  /* Color Palette - Dracula Dark Mode */
+  --bg: #282a36;
+  --bg-subtle: #343746;
+  --bg-card: #343746;
+  --bg-code: #21222c;
+  --text: #f8f8f2;
+  --text-muted: #a5b0cb;
+  --text-dim: #6272a4;
+  --border: #44475a;
+  --border-subtle: #383a4c;
+  --border-hover: #6272a4;
+  --link: #8be9fd;
+  --link-hover: #b4f3ff;
+  --accent: #8be9fd;
+  --dot-active: #50fa7b;
+  --code-bg: #21222c;
+  --code-text: #f8f8f2;
+  --tag-bg: #383a4c;
+  --tag-text: #8be9fd;
 }
 
 /* Fallback for system dark mode if user hasn't explicitly toggled */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #090a0f;
-    --bg-subtle: #12141c;
-    --bg-card: #12141c;
-    --text: #f4f4f5;
-    --text-muted: #a1a1aa;
-    --text-dim: #71717a;
-    --border: #27272a;
-    --border-subtle: #1c1f28;
-    --link: #60a5fa;
-    --link-hover: #93c5fd;
-    --accent: #60a5fa;
-    --dot-active: #60a5fa;
-    --code-bg: #181b24;
-    --code-text: #e4e4e7;
-    --tag-bg: #181b24;
-    --tag-text: #a1a1aa;
+    --bg: #282a36;
+    --bg-subtle: #343746;
+    --bg-card: #343746;
+    --bg-code: #21222c;
+    --text: #f8f8f2;
+    --text-muted: #a5b0cb;
+    --text-dim: #6272a4;
+    --border: #44475a;
+    --border-subtle: #383a4c;
+    --border-hover: #6272a4;
+    --link: #8be9fd;
+    --link-hover: #b4f3ff;
+    --accent: #8be9fd;
+    --dot-active: #50fa7b;
+    --code-bg: #21222c;
+    --code-text: #f8f8f2;
+    --tag-bg: #383a4c;
+    --tag-text: #8be9fd;
   }
 }
 
@@ -1059,6 +1065,29 @@ a {
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
+[data-theme="dark"] .book-badge.reading {
+  color: #50fa7b;
+  border-color: rgba(80, 250, 123, 0.3);
+  background-color: rgba(80, 250, 123, 0.12);
+}
+
+[data-theme="dark"] .book-badge.read {
+  color: #8be9fd;
+  border-color: rgba(139, 233, 253, 0.3);
+  background-color: rgba(139, 233, 253, 0.1);
+}
+
+[data-theme="dark"] .book-badge.dnf {
+  color: #ff5555;
+  border-color: rgba(255, 85, 85, 0.3);
+  background-color: rgba(255, 85, 85, 0.12);
+}
+
+[data-theme="dark"] .book-stars,
+[data-theme="dark"] .star-glyph {
+  color: #f1fa8c;
+}
+
 .badge-dot {
   width: 5px;
   height: 5px;
@@ -1269,7 +1298,9 @@ a {
 }
 
 [data-theme="dark"] .paper-badge.consensus {
-  color: #a78bfa;
+  color: #bd93f9;
+  border-color: rgba(189, 147, 249, 0.3);
+  background-color: rgba(189, 147, 249, 0.12);
 }
 
 .paper-badge.storage {
@@ -1279,7 +1310,9 @@ a {
 }
 
 [data-theme="dark"] .paper-badge.storage {
-  color: #fbbf24;
+  color: #ffb86c;
+  border-color: rgba(255, 184, 108, 0.3);
+  background-color: rgba(255, 184, 108, 0.12);
 }
 
 .paper-badge.observability {
@@ -1289,7 +1322,9 @@ a {
 }
 
 [data-theme="dark"] .paper-badge.observability {
-  color: #22d3ee;
+  color: #8be9fd;
+  border-color: rgba(139, 233, 253, 0.3);
+  background-color: rgba(139, 233, 253, 0.12);
 }
 
 .paper-badge.kernel {
@@ -1299,7 +1334,9 @@ a {
 }
 
 [data-theme="dark"] .paper-badge.kernel {
-  color: #34d399;
+  color: #50fa7b;
+  border-color: rgba(80, 250, 123, 0.3);
+  background-color: rgba(80, 250, 123, 0.12);
 }
 
 .paper-badge.ai-infra {
@@ -1309,7 +1346,9 @@ a {
 }
 
 [data-theme="dark"] .paper-badge.ai-infra {
-  color: #f472b6;
+  color: #ff79c6;
+  border-color: rgba(255, 121, 198, 0.3);
+  background-color: rgba(255, 121, 198, 0.12);
 }
 
 .paper-badge.landmark {
@@ -1320,8 +1359,9 @@ a {
 }
 
 [data-theme="dark"] .paper-badge.landmark {
-  background-color: rgba(234, 179, 8, 0.12);
-  color: #facc15;
+  color: #f1fa8c;
+  border-color: rgba(241, 250, 140, 0.3);
+  background-color: rgba(241, 250, 140, 0.12);
 }
 
 .paper-venue {
@@ -1444,6 +1484,18 @@ a {
   background-color: rgba(16, 185, 129, 0.16);
   border-color: #10b981;
   color: #10b981;
+}
+
+[data-theme="dark"] .paper-action-btn.primary {
+  color: #50fa7b;
+  border-color: rgba(80, 250, 123, 0.35);
+  background-color: rgba(80, 250, 123, 0.1);
+}
+
+[data-theme="dark"] .paper-action-btn.primary:hover {
+  background-color: rgba(80, 250, 123, 0.2);
+  border-color: #50fa7b;
+  color: #50fa7b;
 }
 
 .paper-action-icon {
