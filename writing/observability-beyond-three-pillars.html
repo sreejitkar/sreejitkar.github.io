@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Observability Beyond the Three Pillars: Wide Events and Dynamic Sampling — Sreejit Kar</title>
-  <meta name="description" content="Why the metrics-logs-traces triad fractures under high cardinality, and how canonical wide events, tail-based sampling, and columnar storage redefine systems telemetry.">
+  <meta name="description" content="Why metrics, logs, and traces fail under high cardinality, and how canonical wide events with tail-based sampling solve telemetry fragmentation.">
   <meta name="author" content="Sreejit Kar">
   
   <meta property="og:title" content="Observability Beyond the Three Pillars: Wide Events and Dynamic Sampling — Sreejit Kar">
-  <meta property="og:description" content="Why the metrics-logs-traces triad fractures under high cardinality, and how canonical wide events, tail-based sampling, and columnar storage redefine systems telemetry.">
+  <meta property="og:description" content="Why metrics, logs, and traces fail under high cardinality, and how canonical wide events with tail-based sampling solve telemetry fragmentation.">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary">
 
@@ -79,379 +79,75 @@
 
     <!-- Main Content Column -->
     <main id="content" class="main-content">
+
       <div class="content-inner">
         <header class="post-header">
           <a href="../writing.html" class="post-back-link">&larr; Back to Writing</a>
           <h1 class="post-title">Observability Beyond the Three Pillars: Wide Events and Dynamic Sampling</h1>
-          <div class="post-date">October 14, 2024 &middot; 7 min read</div>
+          <div class="post-date">October 14, 2024 &middot; 3 min read</div>
         </header>
 
         <article class="prose">
           <p>
-            For nearly a decade, engineering organizations have structured their telemetry around a comforting theological
-            trinity: metrics, logs, and distributed traces. The industry erected specialized vendors, open-source
-            standards, and operational rituals around these so-called &ldquo;three pillars of observability.&rdquo;
-            Yet, when a complex distributed outage strikes at 3 A.M., the ritual invariably breaks down.
-          </p>
-          <p>
-            An engineer stares at an anomalous p99 latency spike on a Grafana dashboard. They open a log aggregator
-            to query the time window, only to drown in millions of unstructured string lines. They attempt to extract
-            a correlation ID, switch tabs into a tracing backend, and discover that the trace for the offending request
-            was discarded by a naive 1% head-based sampling rule. The engineer spends the next two hours manually
-            reconstructing causal state by stitching together disconnected clocks, partial error messages, and
-            educated guesses.
-          </p>
-          <p>
-            The failure here is not operational incompetence; it is an architectural category error. Metrics, logs, and
-            traces are not fundamental laws of computation. They are lossy, accidental artifacts born from historical
-            storage hardware constraints. By treating them as isolated silos, we have engineered systems that are both
-            financially ruinous to operate and structurally incapable of answering novel questions about production
-            behavior.
+            For the past decade, engineering teams treated the "Three Pillars of Observability"—metrics, logs, and distributed traces—as an unquestionable axiom. In practice, this dogma produced three disconnected data silos, each with its own query language, separate storage backend, and fragile correlation links. When production catches fire at 3 A.M., engineers spend precious minutes copying IDs across dashboards, trying to bridge the gap between an aggregated metric spike and an unindexed log line.
           </p>
 
           <blockquote>
-            "Observability is not the act of collecting metrics, logs, and traces. It is the mathematical property of a system that allows you to infer its internal state purely from its external outputs &mdash; especially states you never anticipated."
+            "Observability is not about collecting telemetry in three specific formats; it is the ability to ask arbitrary, unpredicted questions about internal state without deploying new code."
           </blockquote>
 
-          <h2>The Cardinality Wall: Why Time-Series Databases Fracture</h2>
+          <h2>The High-Cardinality Collapse</h2>
           <p>
-            The structural deficiency of traditional monitoring begins with the time-series database (TSDB). Systems like
-            Prometheus, M3DB, and InfluxDB were architected for infrastructure telemetry &mdash; tracking CPU utilization,
-            memory residency, network packet counters, and disk I/O queues. In this domain, the set of monitored entities
-            is bounded by machine counts.
-          </p>
-          <p>
-            A TSDB defines a distinct time series by its metric name combined with an exact set of label key-value pairs:
-          </p>
-          <pre><code>series_id = hash(metric_name, {k_1=v_1, k_2=v_2, ..., k_n=v_n})</code></pre>
-          <p>
-            Prometheus maintains an inverted index (postings lists) mapping every unique label pair to 32-bit internal
-            series IDs. The active series are kept in memory within head chunks before being compacted into immutable
-            two-hour blocks on disk. The mathematical catastrophe occurs when engineers attempt to apply TSDBs to
-            application-level debugging by introducing high-cardinality identifiers:
-          </p>
-          <pre><code>http_request_duration_seconds_bucket{
-  endpoint="/v1/checkout",
-  tenant_id="org_84920",
-  user_id="usr_993812",
-  deployment_id="sha_4f10c3"
-}</code></pre>
-          <p>
-            The total series space |<em>S</em>| is governed by the Cartesian product of the distinct value sets for each label
-            dimension:
-          </p>
-          <pre><code>|S| = |Endpoints| &times; |Tenants| &times; |Users| &times; |Deployments| &times; |Buckets|</code></pre>
-          <p>
-            With 10,000 tenants and 1,000,000 users, |<em>S</em>| explodes into hundreds of millions of ephemeral time series.
-            The inverted index term dictionary explodes in memory. Compactor routines (<code>compactor.go</code>) running
-            merge-sort passes thrash the OS page cache, trigger runaway heap allocations, and inevitably collapse under
-            the Linux Out-Of-Memory (OOM) killer.
-          </p>
-          <p>
-            To prevent these crashes, platform teams enforce draconian metric-linting rules: drop <code>user_id</code>,
-            strip <code>tenant_id</code>, and sanitize high-cardinality tags at the gateway. But in doing so, we commit
-            telemetry mutilation. The exact dimensions required to isolate a customer-specific fault, a corrupted
-            payload, or an account-level deadlock are stripped away before data ever touches disk.
+            Traditional Time Series Databases (TSDBs) are built to aggregate pre-defined counters. But the moment you tag a metric with high-cardinality dimensions—like <code>user_id</code>, <code>tenant_id</code>, or <code>cart_id</code>—the Cartesian product of distinct series explodes:
           </p>
 
-          <h2>The Unified Wide Event Paradigm</h2>
+          <pre><code>Series_Count = |Endpoints| &times; |Tenants| &times; |Users| &times; |Deployments| &times; |Status_Codes|</code></pre>
+
           <p>
-            To move beyond the cardinality wall, we must discard the idea of emitting fragmented telemetry mid-flight.
-            Instead of spraying twenty <code>logger.info()</code> statements and twenty incrementing counters across a
-            request handler, a service should construct a single, comprehensive, structured record: a
-            <strong>canonical wide event</strong>.
+            Inverted indexes balloon in memory, compactor routines thrash the OS page cache, and the TSDB collapses under the Linux Out-Of-Memory killer. To keep dashboards alive, teams are forced to strip out the very dimensions that make telemetry actionable.
           </p>
+
+          <h2>The Unified Solution: Canonical Wide Events</h2>
           <p>
-            A wide event represents the complete lifecycle of an execution unit (an HTTP request, a Kafka consumer batch,
-            a background job) emitted precisely once upon completion. It is a deeply dimensional JSON or Avro object
-            containing 50 to 300 contextual attributes accrued during execution:
+            The modern antidote is the <strong>canonical wide event</strong>. Instead of scattering dozens of point-in-time log lines and metric counters throughout a request's lifecycle, the application constructs a single, structured, high-dimensional record representing the entire execution:
           </p>
+
           <pre><code>{
-  "timestamp": "2024-10-14T11:42:08.194821Z",
+  "timestamp": "2024-10-14T10:14:02.128Z",
   "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736",
-  "span_id": "00f067aa0ba902b7",
-  "parent_span_id": "5fb397be34d23b0f",
-  "service": "billing-engine",
-  "environment": "production",
-  "region": "us-east-1",
-  "az": "us-east-1a",
-  "http": {
-    "method": "POST",
-    "route": "/v1/invoices/:invoice_id/charge",
-    "status_code": 504,
-    "duration_ms": 2841.12,
-    "client_ip": "198.51.100.42",
-    "user_agent": "Stripe-Webhook/v2"
-  },
-  "app": {
-    "tenant_id": "org_enterprise_9918",
-    "customer_tier": "tier_1",
-    "invoice_id": "inv_9981248",
-    "currency": "EUR",
-    "amount_cents": 45000000,
-    "feature_flags": ["use_v2_settlement", "instant_payout_hold"]
-  },
-  "db": {
-    "query_count": 14,
-    "total_duration_ms": 194.2,
-    "slowest_query_ms": 178.4,
-    "lock_wait_ms": 12.1
-  },
-  "downstream_rpc": {
-    "payment_gateway": {
-      "target": "acquirer-eu.internal:443",
-      "duration_ms": 2500.04,
-      "error": "deadline_exceeded",
-      "retries": 2
-    }
-  },
-  "runtime": {
-    "alloc_bytes": 1492080,
-    "gc_pause_ns": 412000,
-    "goroutines": 482
-  }
+  "endpoint": "POST /api/v1/checkout",
+  "tenant_id": "cust_enterprise_9012",
+  "user_id": "usr_88219",
+  "duration_ms": 342.1,
+  "db_query_count": 14,
+  "db_duration_ms": 289.4,
+  "cache_hit": false,
+  "feature_flags": ["new_checkout_flow"],
+  "status_code": 504
 }</code></pre>
+
           <p>
-            Notice what this accomplishes. We no longer need separate metrics, logs, and traces. The wide event subsumes
-            all three:
+            Stored in modern columnar engines like <strong>ClickHouse</strong> or <strong>DuckDB</strong>, wide events can be queried across arbitrary dimensions without upfront indexing. Calculating p99 latency sliced by tenant and deployment becomes a straightforward, sub-second columnar scan.
           </p>
+
+          <h2>Tail-Based Dynamic Sampling</h2>
+          <p>
+            High-throughput platforms cannot afford to retain 100% of telemetry. But naive <em>head-based sampling</em>—deciding to keep or drop a trace at ingress before knowing the outcome—inevitably drops the rare, critical p99.9 error traces.
+          </p>
+
+          <p>
+            With <strong>tail-based dynamic sampling</strong>, traces are buffered in collector memory until the entire span tree finishes:
+          </p>
+
           <ul>
-            <li>
-              <strong>Metrics become queries:</strong> Calculating p99 latency for a tenant is merely a projection:
-              <code>SELECT quantile(0.99)(duration_ms) FROM events WHERE tenant_id = 'org_enterprise_9918'</code>.
-            </li>
-            <li>
-              <strong>Traces become causal joins:</strong> Rebuilding the call tree is a simple filter:
-              <code>SELECT * FROM events WHERE trace_id = '4bf9...' ORDER BY timestamp ASC</code>.
-            </li>
-            <li>
-              <strong>Logs become fields:</strong> Error details, debug fingerprints, and internal state are native
-              attributes on the record, preserved alongside the customer ID and network socket timings.
-            </li>
+            <li>Retain 100% of traces that resulted in an HTTP 5xx error or an uncaught exception.</li>
+            <li>Retain 100% of traces exceeding latency thresholds (e.g. duration &gt; 500ms).</li>
+            <li>Aggressively downsample routine 200 OK responses to a 0.1% baseline sample.</li>
           </ul>
 
-          <h2>Context Propagation and Interceptor Mechanics</h2>
+          <h2>Closing Thoughts</h2>
           <p>
-            Building wide events requires context to flow uninterrupted through execution runtimes and network boundaries.
-            In-process, this relies on execution-scoped context trees. In Go, the standard library provides
-            <code>context.Context</code>; in Java, Project Loom introduces <code>ScopedValue</code> (replacing the leak-prone
-            <code>ThreadLocal</code>); in Node.js, <code>AsyncLocalStorage</code> hooks the V8 microtask queue.
-          </p>
-          <p>
-            Rather than mutating raw context pointers across internal boundaries, we inject an accumulator pattern into
-            the root request context:
-          </p>
-          <pre><code>package telemetry
-
-import (
-    "context"
-    "sync"
-    "time"
-)
-
-type EventAccumulator struct {
-    mu         sync.Mutex
-    attributes map[string]any
-    startTime  time.Time
-}
-
-type ctxKey struct{}
-
-func WithAccumulator(ctx context.Context) (context.Context, *EventAccumulator) {
-    acc := &amp;EventAccumulator{
-        attributes: make(map[string]any, 64),
-        startTime:  time.Now(),
-    }
-    return context.WithValue(ctx, ctxKey{}, acc), acc
-}
-
-func AddField(ctx context.Context, key string, val any) {
-    if acc, ok := ctx.Value(ctxKey{}).(*EventAccumulator); ok {
-        acc.mu.Lock()
-        acc.attributes[key] = val
-        acc.mu.Unlock()
-    }
-}</code></pre>
-          <p>
-            Across service boundaries, context propagation relies on the W3C Trace Context and W3C Baggage specifications.
-            The <code>traceparent</code> header conveys causal coordinates (version, trace ID, parent span ID, trace flags):
-          </p>
-          <pre><code>traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
-baggage: tenantId=org_enterprise_9918,tier=enterprise,datacenter=us-east-1</code></pre>
-          <p>
-            However, distributed baggage carries a hidden runtime tax. OpenTelemetry interceptor pipelines that naively
-            serialize and forward arbitrary baggage headers introduce memory allocation churn on the critical RPC path.
-            Furthermore, uncontrolled baggage growth can exceed HTTP reverse-proxy buffer limits (such as Envoy&rsquo;s
-            default header size limits or Nginx&rsquo;s 8KB <code>large_client_header_buffers</code>), triggering catastrophic
-            cascading <code>431 Request Header Fields Too Large</code> errors under load.
-          </p>
-          <p>
-            Production-grade systems must implement strict baggage whitelisting and byte-budget enforcement at ingress
-            proxies, rejecting or pruning unapproved tags before propagating headers downstream.
-          </p>
-
-          <h2>Dynamic Sampling: Escaping the Head-Based Trap</h2>
-          <p>
-            A production cluster handling 100,000 requests per second generates 8.64 billion wide events per day. Storing
-            every single event without sampling is economically indefensible. Yet traditional
-            <strong>head-based sampling</strong> is mathematically toxic to incident investigation.
-          </p>
-          <p>
-            In head-based sampling, the decision to retain or discard a trace is made at the edge proxy (such as Envoy
-            or an API Gateway) at the instant of arrival, typically by hashing the trace ID:
-          </p>
-          <pre><code>if (crc32(trace_id) % 100) &lt; sample_rate_percent {
-    retain_trace();
-}</code></pre>
-          <p>
-            The fundamental flaw of head-based sampling is <em>epistemic blindness</em>: at the moment of ingress, the
-            proxy cannot know whether the request will succeed in 12ms, time out after 5,000ms, or hit a PostgreSQL
-            serialization failure. If you sample at 1%, you drop 99% of your errors and 99% of your latency tail. You
-            are left blind precisely where visibility is most critical.
-          </p>
-
-          <h3>Tail-Based Sampling Pipelines</h3>
-          <p>
-            The remedy is <strong>tail-based dynamic sampling</strong>. Instead of making sampling decisions at ingress,
-            the decision is deferred until the transaction terminates and all participating spans have finished.
-          </p>
-          <p>
-            Spans are streamed to a dedicated cluster of OpenTelemetry Collectors running the
-            <code>tailsamplingprocessor</code>. The collector maintains an in-memory ring buffer holding incomplete traces
-            for a sliding evaluation window (e.g., 10 to 30 seconds). Once the trace completes or the window expires,
-            a multi-rule evaluation engine inspects the complete graph:
-          </p>
-          <pre><code>processors:
-  tail_sampling:
-    decision_wait: 10s
-    num_traces: 50000
-    expected_new_traces_per_sec: 2000
-    policies:
-      # 1. Deterministic error retention: Keep 100% of failures
-      - name: retain-errors
-        type: status_code
-        status_code: { status_codes: [ ERROR ] }
-
-      # 2. Tail latency retention: Keep all p99.5 outliers
-      - name: retain-slow-traces
-        type: latency
-        latency: { threshold_ms: 1500 }
-
-      # 3. Canary and enterprise tenant retention
-      - name: retain-high-value-tenants
-        type: string_attribute
-        string_attribute:
-          key: app.customer_tier
-          values: [ "tier_1", "vip" ]
-
-      # 4. Adaptive downsampling for mundane traffic
-      - name: sample-normal-traffic
-        type: probabilistic
-        probabilistic: { sampling_percentage: 0.1 }</code></pre>
-          <p>
-            Tail sampling transforms the economics of observability: 100% of anomalies, crashes, deadlocks, and slow paths
-            are captured, while boring, repetitive <code>200 OK</code> traffic is reduced by 99.9%.
-          </p>
-          <p>
-            The core distributed systems challenge in tail sampling is trace routing. Because spans belonging to a single
-            trace are generated by multiple disparate microservices, they must be routed to the identical collector node
-            evaluating the sampling policy. This requires a two-tier collector architecture: an ingress tier of stateless
-            agents hashing the <code>trace_id</code> (e.g., via consistent hashing with Murmur3) to forward spans to a
-            partition-keyed cluster of tail-sampling stateful workers.
-          </p>
-
-          <h2>Storage Primitives: Lucene vs. Modern Columnar Engines</h2>
-          <p>
-            Where should wide events live? For the past decade, log analytics was dominated by the Lucene inverted index
-            (Elasticsearch, OpenSearch). Lucene was designed for full-text search: tokenizing prose, maintaining term
-            frequencies, and computing BM25 relevance scores.
-          </p>
-          <p>
-            When used as a telemetry sink for wide events containing 150 structured attributes, Lucene suffers catastrophic
-            write amplification:
-          </p>
-          <ul>
-            <li>
-              <strong>Index bloat:</strong> Lucene generates inverted index postings, term dictionaries (<code>.tim</code>),
-              term indexes (<code>.tip</code>), and doc values (<code>.dvd</code>) for every single indexed attribute.
-              A 1 TB collection of raw events frequently expands to 2.5 to 4 TB of disk footprint.
-            </li>
-            <li>
-              <strong>LSM merge thrashing:</strong> Background segment merging burns substantial CPU cycles constantly
-              rewriting sorted term lists on disk, causing heavy GC pauses on the JVM heap.
-            </li>
-          </ul>
-          <p>
-            Modern observability infrastructure has decisively shifted toward <strong>vectorized columnar engines</strong>,
-            with ClickHouse, DuckDB, and specialized analytical formats (Parquet on object storage) leading the migration.
-          </p>
-
-          <h3>The ClickHouse Storage Model</h3>
-          <p>
-            In a columnar engine, wide events are stored column-by-column rather than row-by-row. If an analytical query
-            only aggregates <code>duration_ms</code> grouped by <code>tenant_id</code>, the engine scans strictly those
-            two physical files, bypassing the remaining 148 attributes entirely.
-          </p>
-          <pre><code>CREATE TABLE telemetry.wide_events
-(
-    timestamp          DateTime64(6, 'UTC') CODEC(DoubleDelta, ZSTD(1)),
-    trace_id           FixedString(32)      CODEC(ZSTD(3)),
-    span_id            FixedString(16)      CODEC(ZSTD(3)),
-    parent_span_id     FixedString(16)      CODEC(ZSTD(3)),
-    service            LowCardinality(String),
-    environment        LowCardinality(String),
-    tenant_id          LowCardinality(String),
-    customer_tier      LowCardinality(String),
-    route              LowCardinality(String),
-    http_status        UInt16               CODEC(T64, ZSTD(1)),
-    duration_ms        Float64              CODEC(Gorilla, ZSTD(1)),
-    db_query_count     UInt32               CODEC(T64, ZSTD(1)),
-    db_duration_ms     Float64              CODEC(Gorilla, ZSTD(1)),
-    error_message      String               CODEC(ZSTD(6)),
-    attributes         Map(String, String)  CODEC(ZSTD(3))
-)
-ENGINE = MergeTree()
-PARTITION BY toYYYYMM(timestamp)
-ORDER BY (environment, tenant_id, service, route, toUnixTimestamp(timestamp))
-SETTINGS index_granularity = 8192;</code></pre>
-          <p>
-            This schema demonstrates the mechanics that allow columnar engines to outclass Lucene by an order of magnitude:
-          </p>
-          <ul>
-            <li>
-              <strong>Specialized column codecs:</strong> Timestamps use <code>DoubleDelta</code>, compressing sequential
-              timestamps down to single bits per row. Durations utilize <code>Gorilla</code> floating-point compression.
-              Repeated categorical strings use <code>LowCardinality</code> dictionary encoding. The overall compression
-              ratio routinely exceeds 10:1 to 14:1 relative to uncompressed JSON.
-            </li>
-            <li>
-              <strong>Sparse primary indexes:</strong> Rather than indexing every row, ClickHouse creates a sparse index
-              entry once every 8,192 rows (an index granule). Binary search locates the granule bounds, after which the
-              engine uses SIMD vector instructions (AVX-512) to scan and filter millions of records per core per second.
-            </li>
-            <li>
-              <strong>Ad-hoc arbitrary slicing:</strong> Because column reads are isolated, operators can filter or group
-              by any arbitrary dimension &mdash; even high-cardinality keys like <code>user_id</code> or deep nested JSON
-              paths &mdash; without pre-planning index keys or triggering memory exhaustion.
-            </li>
-          </ul>
-
-          <h2>The Unified Telemetry Plane</h2>
-          <p>
-            The consolidation of telemetry is not merely a vendor optimization or cost-saving measure; it changes how
-            engineers develop mental models of their distributed systems in production.
-          </p>
-          <p>
-            When we eliminate the artificial boundary between metrics, logs, and traces, we eliminate the context-switching
-            tax that cripples incident response. The question is never &ldquo;which dashboard has the right metric?&rdquo;
-            or &ldquo;which search string matches the log file?&rdquo; The question is simply:
-            <em>What changed across the execution trajectories of our requests?</em>
-          </p>
-          <p>
-            By emitting rich, structured canonical wide events at unit-of-work boundaries, managing volume through
-            intelligent tail-based dynamic sampling, and persisting records into SIMD-accelerated columnar stores,
-            we reclaim the original promise of observability: the ability to understand any emergent failure state &mdash;
-            no matter how bizarre, unprecedented, or complex &mdash; without having had the foresight to predict it in advance.
+            The Three Pillars were a historical artifact of legacy storage constraints, not an ideal systems architecture. By shifting to structured wide events and tail-based sampling, we get higher investigative fidelity, lower infrastructure costs, and a single coherent model of production reality.
           </p>
         </article>
       </div>
@@ -484,13 +180,13 @@ SETTINGS index_granularity = 8192;</code></pre>
           <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
-        </div>
-      </footer>
-    </main>
-  </div>
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </main>
+</div>
 
-  <script src="../js/main.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>

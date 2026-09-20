@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>eBPF and the Disappearing Boundary of System Observability — Sreejit Kar</title>
-  <meta name="description" content="How in-kernel sandboxing, static verification, and programmable hooks dissolved the traditional wall between user space instrumentation and kernel reality.">
+  <title>eBPF and the Disappearing Boundary of Systems Observability — Sreejit Kar</title>
+  <meta name="description" content="How in-kernel sandboxing and static verification dissolved the barrier between application code and kernel ground truth.">
   <meta name="author" content="Sreejit Kar">
   
-  <meta property="og:title" content="eBPF and the Disappearing Boundary of System Observability — Sreejit Kar">
-  <meta property="og:description" content="How in-kernel sandboxing, static verification, and programmable hooks dissolved the traditional wall between user space instrumentation and kernel reality.">
+  <meta property="og:title" content="eBPF and the Disappearing Boundary of Systems Observability — Sreejit Kar">
+  <meta property="og:description" content="How in-kernel sandboxing and static verification dissolved the barrier between application code and kernel ground truth.">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary">
 
@@ -83,352 +83,56 @@
       <div class="content-inner">
         <header class="post-header">
           <a href="../writing.html" class="post-back-link">&larr; Back to Writing</a>
-          <h1 class="post-title">eBPF and the Disappearing Boundary of System Observability</h1>
-          <div class="post-date">June 22, 2025 &middot; 8 min read</div>
+          <h1 class="post-title">eBPF and the Disappearing Boundary of Systems Observability</h1>
+          <div class="post-date">June 22, 2025 &middot; 3 min read</div>
         </header>
 
         <article class="prose">
           <p>
-            For decades, systems engineering has operated under an epistemological iron curtain: the hardware-enforced boundary
-            separating Ring 3 (user space) from Ring 0 (kernel space). We treated this divide as an immutable axiom of safety.
-            User-space processes lived in virtual memory sandboxes, oblivious to physical page allocation, scheduler tick
-            preemption, or the interrupt storm brewing on the network interface card. When a production service degraded, our
-            attempts to observe it were poisoned by a cruel engineering variant of the observer effect: the act of measuring
-            a pathology distorted or precipitated the failure itself.
-          </p>
-          <p>
-            The arrival and maturation of extended Berkeley Packet Filter (eBPF) has dismantled this duality. What began in 1992
-            as a modest packet-filtering bytecode in BSD has evolved into a general-purpose, event-driven virtual machine running
-            directly inside the Linux kernel. By allowing verified, sandboxed, just-in-time compiled programs to execute at
-            arbitrary trace points, eBPF does not merely improve telemetry; it dissolves the conceptual boundary between application
-            runtime semantics and the underlying operating system.
+            For decades, production profiling was plagued by a cruel variant of the observer effect: the act of measuring a pathological system often crashed or distorted it. Inspecting an active incident meant picking between painful compromises. Attaching <code>strace</code> forced two context switches per system call, crushing throughput. JVM bytecode agents degraded JIT compiler inlining heuristics. Writing a kernel module meant risking an unhandled page fault that would panic the entire physical machine.
           </p>
 
-          <h2>The Historical Trauma of Production Profiling</h2>
           <p>
-            To appreciate the magnitude of this shift, one must recall the precarious mechanics of legacy instrumentation.
-            Before in-kernel sandboxing, inspecting a pathological production service forced an engineer into one of two
-            unsatisfactory compromises: invasive user-space mutation or perilous kernel modification.
-          </p>
-          <p>
-            In user space, application performance monitoring (APM) relied on binary re-writing, dynamic library hooking
-            (via <code>LD_PRELOAD</code>), or language runtime byte-code manipulation. In the Java Virtual Machine, for instance,
-            attaching a <code>-javaagent</code> triggered ASM-level class re-transformation, injecting metric probes into method
-            prologues and epilogues. Under high-throughput conditions, these injected calls broke JIT compiler inlining heuristics,
-            bloated the thread call stacks, induced severe garbage collection pressure, and frequently triggered stop-the-world
-            pauses that exacerbated the very tail latencies under investigation.
-          </p>
-          <p>
-            Worse still was the plight of debugging compiled systems languages (C, C++, Rust, Go). Tracing an anomalous blocking
-            syscall or a memory allocation leak meant resorting to <code>ptrace(2)</code>—the operational backbone of tools
-            like <code>strace</code>. Yet <code>ptrace</code> is catastrophic for throughput: every traced system call incurs two
-            complete context switches between the debugged process, the kernel, and the tracing process. For a database or proxy
-            handling 100,000 requests per second, attaching <code>strace</code> was synonymous with self-inflicted denial of service.
-          </p>
-          <p>
-            The alternative—peering into the kernel via Loadable Kernel Modules (LKMs)—offered high fidelity at the cost of
-            existential terror. A single misplaced null pointer dereference, an unhandled race condition in a spinlock, or an
-            unbounded loop inside an LKM resulted not in a handled exception, but in a catastrophic kernel panic that halted the
-            physical host. Sun Microsystems’ brilliant DTrace (introduced in Solaris 10 by Bryan Cantrill, Mike Shapiro, and Adam
-            Leventhal in 2004) proved that safe dynamic instrumentation was theoretically possible. Yet due to deep CDDL-vs-GPL
-            licensing schisms, Linux operators were left with fragmented stopgaps like SystemTap, which required deploying GCC,
-            make tools, and kernel debug symbols (<code>kernel-debuginfo</code> packages often spanning several gigabytes) directly
-            onto production fleets. Production observability remained fragile, opaque, and hazardous.
+            The maturation of <strong>extended Berkeley Packet Filter (eBPF)</strong> has completely dismantled this barrier. What began as a modest packet-filtering mechanism in BSD has grown into a high-performance, sandboxed virtual machine running directly inside the Linux kernel.
           </p>
 
           <blockquote>
-            "Observing a distributed node cannot carry the hazard of terminating it. If safety is not provable a priori,
-            telemetry will always be sidelined precisely when it is most urgently required."
+            "Observing a production system should never carry the hazard of terminating it. If safety cannot be mathematically proven beforehand, the tool does not belong on a production host."
           </blockquote>
 
-          <h2>The In-Kernel Virtual Machine and the Static Verifier</h2>
+          <h2>The Safety Engine: The In-Kernel Verifier</h2>
           <p>
-            eBPF circumvents this dilemma by embedding an 11-register, 64-bit RISC register machine directly within the kernel core.
-            Modern eBPF features ten general-purpose registers (<code>r0</code> through <code>r9</code>), a read-only stack frame
-            pointer (<code>r10</code>), and a 512-byte fixed stack. Instructions are exactly 64 bits wide, mapping almost
-            isomorphically to contemporary <code>x86_64</code> and <code>arm64</code> instruction sets, enabling direct,
-            sub-microsecond translation via in-kernel JIT (Just-In-Time) compilation.
-          </p>
-          <p>
-            However, raw performance inside Ring 0 is worthless without an ironclad guarantee of safety. The central pillar
-            of eBPF’s design is not its execution speed, but its static verifier (<code>kernel/bpf/verifier.c</code>).
-          </p>
-
-          <pre><code>// Conceptual flow of eBPF program verification and lifecycle
-[ eBPF C Code ] 
-       │  (Clang / LLVM -target bpf)
-       ▼
-[ BPF Bytecode (ELF) ]
-       │  sys_bpf(BPF_PROG_LOAD)
-       ▼
-┌─────────────────────────────────────────────────────────┐
-│ Kernel Space                                            │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │ Static Verifier                                   │  │
-│  │  1. Construct Directed Acyclic Graph (DAG)        │  │
-│  │  2. Prune paths; verify loop bounds (bounded loop)│  │
-│  │  3. Type state tracking (PTR_TO_STACK, PTR_TO_CTX)│  │
-│  │  4. Out-of-bounds array / pointer arithmetic check│  │
-│  │  5. Null dereference prevention                   │  │
-│  └───────────────────────────────────────────────────┘  │
-│                          │ Passes Safety Checks         │
-│                          ▼                              │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │ In-Kernel JIT Compiler (x86_64 / ARM64 machine)   │  │
-│  └───────────────────────────────────────────────────┘  │
-│                          │                              │
-│                          ▼                              │
-│  [ Native Hook: Tracepoint / Kprobe / XDP / LSM ]      │
-└─────────────────────────────────────────────────────────┘</code></pre>
-
-          <p>
-            Before any bytecode is permitted to execute, the verifier subjects it to exhaustive formal verification:
+            The genius of eBPF lies not simply in running code in Ring 0, but in the <strong>in-kernel static verifier</strong>. Before any eBPF bytecode is loaded and JIT-compiled into native machine instructions, the verifier traverses every possible execution branch as a Directed Acyclic Graph (DAG):
           </p>
 
           <ul>
-            <li>
-              <strong>Proof of Termination:</strong> The verifier traverses all possible code paths via a Directed Acyclic
-              Graph (DAG). Backwards branches were historically prohibited; modern kernels (5.3+) permit bounded loops, provided
-              the verifier can mathematically prove that loop termination invariants hold within an instruction limit
-              (historically 4,096 instructions, expanded to 1,000,000 in modern kernels). Programs that cannot be proven to
-              terminate are rejected at load time.
-            </li>
-            <li>
-              <strong>Memory and Pointer Safety:</strong> Registers carry fine-grained type annotations (e.g.,
-              <code>PTR_TO_CTX</code>, <code>PTR_TO_MAP_VALUE</code>, <code>SCALAR_VALUE</code>). Arbitrary pointer arithmetic
-              is forbidden on memory regions that could escape the program's context. A memory address read from the kernel
-              cannot be dereferenced without first validating its non-null status and bounding its access size against known offsets.
-            </li>
-            <li>
-              <strong>Controlled Kernel Access via Helpers:</strong> eBPF programs cannot invoke arbitrary kernel functions.
-              They interact with the kernel strictly through a whitelist of stable BPF helper functions
-              (e.g., <code>bpf_ktime_get_ns()</code>, <code>bpf_probe_read_kernel()</code>, <code>bpf_get_current_pid_tgid()</code>,
-              and <code>bpf_ringbuf_output()</code>).
-            </li>
+            <li>It verifies that loops are bounded and guaranteed to terminate, eliminating CPU lockups.</li>
+            <li>It proves pointer safety and strictly bounds all memory access to authorized helper buffers.</li>
+            <li>It forbids uninitialized memory reads, ensuring complete host memory isolation.</li>
           </ul>
 
-          <h2>Dynamic Hooks, Static Contracts, and User Probes</h2>
           <p>
-            An observability runtime is only as powerful as its attachment points. eBPF provides a spectrum of insertion
-            mechanisms, balancing programmatic flexibility against ABI stability.
+            If a program fails any of these invariants, the kernel rejects it at load time. Safety is guaranteed by construction.
           </p>
 
-          <h3>1. Dynamic Kernel Instrumentation: Kprobes and Kretprobes</h3>
+          <h2>Instrumentation Without Modification</h2>
           <p>
-            Kprobes enable non-disruptive inspection of virtually any internal kernel function. Mechanically, when a kprobe
-            is registered, the kernel replaces the target instruction’s first byte with a breakpoint trap (such as <code>int3</code>
-            on x86). On modern kernels configured with <code>-fpatchable-function-entry</code> or <code>mcount</code>, this is
-            streamlined via Ftrace: the function prologue’s multi-byte <code>nop</code> sled is dynamically patched to jump directly
-            into the BPF handler trampoline without triggering a heavyweight hardware exception.
-          </p>
-          <p>
-            <code>kretprobes</code> intercept return values by dynamically rewriting the function’s saved return address on the
-            kernel stack to point to a trampoline stub. While kprobes provide forensic insight into internal kernel structures,
-            they carry an operational trade-off: they hook private kernel symbols. When a minor kernel upgrade refactors an
-            internal function signature or inlines a routine, existing kprobes can silently fail to attach.
-          </p>
-
-          <h3>2. Stable Kernel Contracts: Tracepoints</h3>
-          <p>
-            Where stability is paramount, static tracepoints (e.g., <code>sched:sched_switch</code>, <code>net:net_dev_queue</code>,
-            <code>block:block_rq_issue</code>) provide durable, structured contracts guaranteed across kernel releases.
-            Implemented via Linux jump labels (static keys), a disabled tracepoint consumes negligible overhead: a single
-            five-byte <code>nop</code> instruction in the hot path. When an eBPF program attaches to the tracepoint, the kernel
-            atomically patches that <code>nop</code> into an unconditional jump to the tracepoint handler.
-          </p>
-
-          <pre><code>SEC("tracepoint/sched/sched_switch")
-int handle_sched_switch(struct trace_event_raw_sched_switch *ctx) {
-    u64 prev_pid = ctx->prev_pid;
-    u64 next_pid = ctx->next_pid;
-    u64 now = bpf_ktime_get_ns();
-
-    // Record deschedule timestamp into a BPF hash map
-    bpf_map_update_elem(&start_time_map, &prev_pid, &now, BPF_ANY);
-    return 0;
-}</code></pre>
-
-          <h3>3. User-Space Traversal: Uprobes and USDT</h3>
-          <p>
-            Crucially, eBPF does not stop at the kernel edge. <code>uprobes</code> allow the dynamic interception of arbitrary
-            symbols in user-space executables and shared libraries (such as OpenSSL’s <code>SSL_write</code> or Go runtime
-            routines). When enabled, the kernel copies the target virtual memory page of the target process, modifies the copy-on-write
-            mapping, and injects a trap. While powerful, the trap still incurs a user-to-kernel context transition; high-frequency
-            uprobes (such as tracing every <code>malloc</code> allocation in a memory-intensive worker) must therefore be deployed
-            with deliberate sampling strategies.
-          </p>
-          <p>
-            To mitigate this, User Statically Defined Tracing (USDT) probes embed explicit DTrace-style tracepoints into user binaries.
-            USDT points are registered in the ELF binary’s <code>.note.stapsdt</code> section, remaining zero-overhead <code>nop</code>
-            instructions until an eBPF program explicitly claims and activates them.
-          </p>
-
-          <h2>Line-Rate Packet Telemetry: XDP Before the Allocation Toll</h2>
-          <p>
-            In high-throughput networking, the primary performance bottleneck is rarely the CPU's arithmetic capacity; it is memory
-            allocation and cache coherency. In the standard Linux network path, an ingress Ethernet frame triggers an interrupt,
-            prompting the driver to allocate a <code>struct sk_buff</code> (the ubiquitous "skb").
-          </p>
-          <p>
-            An skb is a massive, multi-cache-line data structure spanning over 200 bytes of metadata: routing pointers, netfilter
-            state, timestamp flags, and protocol headers. For a 100GbE link saturated with minimum-sized 64-byte packets, allocating
-            and tearing down 148 million skbs per second will exhaust the kernel’s slab allocator and trigger catastrophic
-            L3 cache thrashing long before user-space packet inspection even begins.
-          </p>
-
-          <pre><code>// XDP: Bare-metal line-rate packet parsing
-SEC("xdp")
-int xdp_filter_ingress(struct xdp_md *ctx) {
-    void *data     = (void *)(long)ctx->data;
-    void *data_end = (void *)(long)ctx->data_end;
-
-    // Strict verifier bounds checking
-    struct ethhdr *eth = data;
-    if ((void *)(eth + 1) > data_end)
-        return XDP_PASS;
-
-    if (eth->h_proto != bpf_htons(ETH_P_IP))
-        return XDP_PASS;
-
-    struct iphdr *iph = (void *)(eth + 1);
-    if ((void *)(iph + 1) > data_end)
-        return XDP_PASS;
-
-    // Drop malicious UDP traffic in sub-nanoseconds directly on RX ring
-    if (iph->protocol == IPPROTO_UDP) {
-        return XDP_DROP;
-    }
-
-    return XDP_PASS;
-}</code></pre>
-
-          <p>
-            eXpress Data Path (XDP) revolutionizes this pipeline by mounting eBPF programs directly into the network device driver’s
-            receive ring buffer. The BPF program executes <em>before</em> any <code>sk_buff</code> allocation takes place.
-            Operating over the bare <code>xdp_md</code> context, the program accesses raw packet DMA buffers directly.
-            A decision to drop a packet (<code>XDP_DROP</code>) or reflect it back out the interface (<code>XDP_TX</code>) occurs in
-            fractions of a microsecond, unlocking line-rate wire inspection and filtering without paying the OS memory management toll.
-          </p>
-
-          <h2>Data Exfiltration Without Contention: The Ring Buffer Revolution</h2>
-          <p>
-            Executing safe code in the kernel solves only half of the observability problem; the second challenge is streaming
-            collected telemetry back into user-space collectors without creating cross-CPU lock contention or cache-line bouncing.
-          </p>
-          <p>
-            The earliest mechanism relied on BPF maps (hash maps, arrays, LRU caches). While maps are exceptional for in-kernel
-            aggregations—such as maintaining an in-kernel latency histogram where only the summarized buckets are polled—they are
-            ill-suited for unbounded, event-based telemetry streams.
-          </p>
-          <p>
-            To address event streaming, Linux originally introduced the perf event array (<code>BPF_MAP_TYPE_PERF_EVENT_ARRAY</code>).
-            Perf buffers assigned an independent circular buffer to each CPU core. While this eliminated inter-core locking, it
-            introduced severe memory fragmentation. If CPU 0 handled a sudden burst of network interrupts while CPU 7 remained idle,
-            CPU 0's buffer would quickly overflow—dropping critical traces—even while CPU 7’s allocated buffer remained completely empty.
-            Furthermore, reassembling events in user space required cross-core sorting based on timestamps, incurring additional
-            CPU cycles.
-          </p>
-          <p>
-            Linux 5.8 introduced the modern BPF Ring Buffer (<code>BPF_MAP_TYPE_RINGBUF</code>), fundamentally redesigning the
-            exfiltration substrate:
+            Once loaded, eBPF programs attach dynamically to arbitrary hook points throughout the kernel and user space:
           </p>
 
           <ul>
-            <li>
-              <strong>Multi-Producer Single-Consumer (MPSC) Architecture:</strong> A single, globally shared circular ring buffer
-              memory-mapped into user space. It seamlessly absorbs unbalanced workloads across cores without static per-CPU memory slicing.
-            </li>
-            <li>
-              <strong>Atomic Reserve-Commit Paradigm:</strong> Rather than copying an event onto the local BPF stack and then copying
-              it into the ring buffer (double-buffering), an eBPF program calls <code>bpf_ringbuf_reserve()</code> to allocate space
-              directly within the shared ring. It writes event fields in-place, and concludes with <code>bpf_ringbuf_submit()</code>.
-              This reduces stack consumption and ensures zero unnecessary <code>memcpy</code> operations.
-            </li>
-            <li>
-              <strong>Adaptive Notification Signals:</strong> The ring buffer uses adaptive epoll-friendly wakeups. When user space
-              falls behind, the ring buffer suppresses wake-up interrupts, allowing user space to consume incoming events in dense,
-              efficient batches before re-enabling notifications.
-            </li>
+            <li><strong>kprobes &amp; tracepoints:</strong> Trace scheduler thread switches, block I/O latency, and socket state transitions without restarting services or touching application source code.</li>
+            <li><strong>uprobes:</strong> Resolve user-space symbols and measure function durations inside compiled Go, Rust, or C++ binaries in flight.</li>
+            <li><strong>XDP (eXpress Data Path):</strong> Inspect and drop malicious network traffic directly at the network card driver layer, before the OS allocates an <code>sk_buff</code> socket buffer.</li>
           </ul>
 
-          <h2>Continuous Profiling: The Eradication of Blind Spots</h2>
           <p>
-            The synthesis of static tracepoints, low-overhead sampling timers, and efficient ring buffers has elevated continuous
-            production profiling from an exotic diagnostic into a foundational tier of modern infrastructure engineering.
+            By streaming aggregated metrics through lock-free ring buffers (<code>BPF_MAP_TYPE_RINGBUF</code>), telemetry leaves the kernel with virtually zero serialization overhead and near-zero CPU footprint.
           </p>
 
-          <h3>On-CPU Sampling and Stack Unwinding</h3>
+          <h2>Closing Thoughts</h2>
           <p>
-            Traditional CPU profiling relied on periodic signals (such as <code>SIGPROF</code>), which suffered from signal bias:
-            signals could only be delivered when threads transitioned through user-space execution boundaries, systematically
-            masking deep kernel bottlenecks.
-          </p>
-          <p>
-            With eBPF, a hardware performance counter or kernel timer interrupt (e.g., set to 99Hz or 497Hz to avoid phase-locking
-            with periodic 100Hz OS ticks) fires uniformly across all cores. The eBPF handler captures the current instruction
-            pointer and unwinds the call chain across both kernel and user boundaries using frame pointers or kernel ORC
-            (Oops Rewind Capability) tables. The stack traces are hashed and aggregated directly inside a BPF stack map.
-            User space does not process millions of raw interrupts; it periodically reads a compact, aggregated directed acyclic
-            graph of call trees, producing pristine, host-wide On-CPU Flame Graphs with sub-1% CPU overhead.
-          </p>
-
-          <h3>Off-CPU Tracing: Unmasking the Invisible Wait</h3>
-          <p>
-            Standard CPU utilization metrics suffer from a dangerous flaw: they only report when execution units are actively burning
-            cycles. If a service degrades because its worker threads are blocked on disk I/O, paging faults, lock contention, or
-            futex synchronization, On-CPU profiles show an eerily quiet system.
-          </p>
-
-          <pre><code>// Off-CPU profiling: capturing the invisible latency of descheduled threads
-SEC("tracepoint/sched/sched_switch")
-int on_sched_switch(struct trace_event_raw_sched_switch *ctx) {
-    u64 pid_prev = ctx->prev_pid;
-    u64 pid_next = ctx->next_pid;
-    u64 ts = bpf_ktime_get_ns();
-
-    // 1. Record the moment the outgoing thread is put to sleep
-    bpf_map_update_elem(&sleep_start, &pid_prev, &ts, BPF_ANY);
-
-    // 2. When the incoming thread wakes up, calculate how long it waited
-    u64 *start_ts = bpf_map_lookup_elem(&sleep_start, &pid_next);
-    if (start_ts) {
-        u64 delta = ts - *start_ts;
-        if (delta > MIN_BLOCK_NS) {
-            // Aggregate blocking duration keyed by the thread's call stack
-            u32 stack_id = bpf_get_stackid(ctx, &stack_traces, BPF_F_FAST_STACK_CMP);
-            bpf_map_update_elem(&off_cpu_durations, &stack_id, &delta, BPF_ANY);
-        }
-        bpf_map_delete_elem(&sleep_start, &pid_next);
-    }
-    return 0;
-}</code></pre>
-
-          <p>
-            By instrumenting the scheduler’s context-switch hook (<code>sched:sched_switch</code>), eBPF transforms our understanding
-            of latency. We can record the exact microsecond a thread relinquishes its CPU, capture the stack trace that led to the
-            blocking wait, and compute the duration until it is rescheduled. Off-CPU flame graphs illuminate the dark matter of
-            distributed infrastructure: mutex lock cascades, NVMe driver queue delays, and invisible scheduler throttling imposed
-            by container CFS bandwidth quotas.
-          </p>
-
-          <h2>Conclusion: Observability as an Ambient Property</h2>
-          <p>
-            The profound implication of eBPF is architectural rather than merely diagnostic. In the traditional paradigm,
-            observability was an auxiliary feature—an external harness bolted onto application runtimes, requiring invasive source
-            libraries, coordinated deployment cycles, and constant vigilance against accidental overhead.
-          </p>
-          <p>
-            eBPF inverts this relationship. By providing a secure, sandboxed, programmable execution environment inside the core
-            of the operating system, it transforms the Linux kernel itself into an ambient, omniscient observability fabric.
-            A modern eBPF-based agent does not ask an application for permission to inspect its state, nor does it require
-            recompilation or restart. It observes network calls at the socket layer, tracks memory allocation at the page fault
-            boundary, maps database lock contention across threads, and measures disk I/O latency at the block layer—all while
-            providing mathematically verified guarantees against system failure.
-          </p>
-          <p>
-            The wall between user space and kernel space has not been compromised; it has been made programmable. In doing so,
-            eBPF has established the foundation upon which the next decade of resilient, self-healing, and transparent infrastructure
-            will inevitably be built.
+            Observability is no longer an external library you compile into your binary, nor an intrusive daemon scraping metrics over local sockets. With eBPF, observability has become a native primitive of the operating system substrate itself. The wall between application semantics and kernel reality has quietly disappeared.
           </p>
         </article>
       </div>
@@ -460,14 +164,14 @@ int on_sched_switch(struct trace_event_raw_sched_switch *ctx) {
           </a>
           <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689-.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
-        </div>
-      </footer>
-    </main>
-  </div>
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </main>
+</div>
 
-  <script src="../js/main.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>
