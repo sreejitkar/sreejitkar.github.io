@@ -38,28 +38,124 @@
     }
   });
 
-  // 2. Active Nav State
-  function setActiveNav() {
+  // 2. Navigation State & Scroll-Spy
+  function initNavigation() {
     const currentPath = window.location.pathname;
+    const isHome = currentPath === '/' || 
+                   currentPath.endsWith('/index.html') || 
+                   currentPath.endsWith('/') || 
+                   (!currentPath.includes('.html') && !currentPath.includes('/writing/'));
+
     const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-      const href = item.getAttribute('href');
-      if (!href) return;
+    if (!navItems.length) return;
 
-      const isHome = (href === '/' || href === './' || href === 'index.html') && 
-                     (currentPath === '/' || currentPath.endsWith('index.html') || currentPath === '');
-      
-      const isMatch = isHome || (href !== '/' && href !== './' && href !== 'index.html' && currentPath.includes(href.replace('.html', '')));
+    if (!isHome) {
+      // Subpage matching
+      navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (!href) return;
 
-      if (isMatch) {
-        item.classList.add('active');
-        item.setAttribute('aria-current', 'page');
-      } else {
-        item.classList.remove('active');
-        item.removeAttribute('aria-current');
+        let isMatch = false;
+        if (currentPath.includes('/writing/') || currentPath.endsWith('writing.html')) {
+          isMatch = href.includes('writing.html');
+        } else if (currentPath.includes('bookshelf.html')) {
+          isMatch = href.includes('bookshelf.html');
+        } else if (currentPath.includes('papershelf.html')) {
+          isMatch = href.includes('papershelf.html');
+        } else if (currentPath.includes('projects.html')) {
+          isMatch = href.includes('work') || href.includes('projects.html');
+        }
+
+        if (isMatch) {
+          item.classList.add('active');
+          item.setAttribute('aria-current', 'page');
+        } else {
+          item.classList.remove('active');
+          item.removeAttribute('aria-current');
+        }
+      });
+      return;
+    }
+
+    // Homepage: Dynamic in-page scrollspy
+    const hashLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+    if (!hashLinks.length) return;
+
+    const sections = ['contact', 'now', 'work', 'about']
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+
+    function setActiveSection(id) {
+      hashLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === `#${id}`) {
+          link.classList.add('active');
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.classList.remove('active');
+          link.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    function onScroll() {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Reached bottom of page -> activate contact
+      if (scrollY + windowHeight >= docHeight - 40) {
+        setActiveSection('contact');
+        return;
       }
+
+      // Near top of page -> activate about
+      if (scrollY < 120) {
+        setActiveSection('about');
+        return;
+      }
+
+      // Detect section based on top offset
+      let activeId = 'about';
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= windowHeight * 0.35) {
+          activeId = section.id;
+          break;
+        }
+      }
+      setActiveSection(activeId);
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          onScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Click handler for instant active state update
+    hashLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const targetId = link.getAttribute('href').replace('#', '');
+        setActiveSection(targetId);
+      });
     });
+
+    // Check if initial URL has hash
+    if (window.location.hash) {
+      const targetId = window.location.hash.replace('#', '');
+      if (document.getElementById(targetId)) {
+        setActiveSection(targetId);
+        return;
+      }
+    }
+
+    onScroll();
   }
 
   // 3. Bookshelf Category Filter
@@ -134,7 +230,7 @@
 
   // Run on DOM ready
   function init() {
-    setActiveNav();
+    initNavigation();
     initBookshelfFilter();
     initPapershelfFilter();
   }

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sreejit Kar</title>
-  <meta name="description" content="Personal website of Sreejit Kar — software engineer working on distributed systems, backend infrastructure, and open-source tooling.">
+  <title>Sreejit Kar &mdash; Distributed Systems &middot; Infrastructure</title>
+  <meta name="description" content="I like complicated systems. I like making them simpler. Personal website of Sreejit Kar — software engineer working on distributed systems, infrastructure, and observability.">
   <meta name="author" content="Sreejit Kar">
   
   <!-- Open Graph / Meta -->
-  <meta property="og:title" content="Sreejit Kar">
-  <meta property="og:description" content="Software engineer working on distributed systems, backend infrastructure, and open-source tooling.">
+  <meta property="og:title" content="Sreejit Kar &mdash; Distributed Systems &middot; Infrastructure">
+  <meta property="og:description" content="I like complicated systems. I like making them simpler. Software engineer working on distributed systems, infrastructure, and observability.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@quid_pro_kyu">
@@ -73,9 +73,9 @@
             </svg>
           </a>
 
-          <h1 class="author-name mobile-only">
+          <div class="author-name">
             <a href="index.html">Sreejit Kar</a>
-          </h1>
+          </div>
 
           <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
             <!-- Sun Icon (shown in dark mode) -->
@@ -90,17 +90,17 @@
         </header>
 
         <nav class="nav-menu" aria-label="Main Navigation">
-          <a href="index.html" class="nav-item active">
+          <a href="#about" class="nav-item active">
             <span class="nav-dot"></span>
             <span>About</span>
           </a>
-          <a href="projects.html" class="nav-item">
+          <a href="#work" class="nav-item">
             <span class="nav-dot"></span>
-            <span>Projects</span>
+            <span>Work</span>
           </a>
           <a href="writing.html" class="nav-item">
             <span class="nav-dot"></span>
-            <span>Writing</span>
+            <span>Notes</span>
           </a>
           <a href="bookshelf.html" class="nav-item">
             <span class="nav-dot"></span>
@@ -110,54 +110,162 @@
             <span class="nav-dot"></span>
             <span>Papershelf</span>
           </a>
+          <a href="#now" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Now</span>
+          </a>
+          <a href="#contact" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Contact</span>
+          </a>
         </nav>
       </div>
     </aside>
 
     <!-- Main Content Column -->
     <main id="content" class="main-content">
+      <!-- 1. Redesigned Hero Section -->
       <header class="hero-header">
         <div class="hero-watermark" aria-hidden="true">SREEJIT KAR</div>
         <div class="hero-content">
-          <h1 class="hero-title">Sreejit Kar</h1>
-          <div class="hero-subtitle">
+          <h1 class="hero-statement">I like complicated systems.<br>I like making them simpler.</h1>
+          <div class="hero-descriptor">
             <span class="hero-pulse" aria-hidden="true"></span>
-            <span>Distributed Systems &middot; Backend Infrastructure</span>
+            <span>Software Engineer &middot; Distributed Systems &middot; Infrastructure &middot; Observability</span>
           </div>
         </div>
       </header>
 
-      <div class="content-inner prose">
-        <p>
-          I'm a software engineer based in Bengaluru, India. I'm currently working at
-          <a href="https://www.twilio.com" target="_blank" rel="noopener noreferrer">Twilio</a> /
-          <a href="https://sendgrid.com" target="_blank" rel="noopener noreferrer">SendGrid</a>,
-          building large-scale distributed systems, high-throughput backend services, and platform infrastructure.
-        </p>
+      <div class="content-inner">
+        <!-- 2. Personal About Essay -->
+        <section class="home-section" id="about">
+          <h2 class="section-heading">About</h2>
+          <div class="prose">
+            <p>
+              I’m a software engineer who enjoys understanding how things work under the hood. I’m particularly drawn to distributed systems, cloud infrastructure, observability, and system architecture—especially the messy problems that appear when software operates at scale.
+            </p>
 
-        <p>
-          I have contributed to open-source projects including
-          <a href="https://opentelemetry.io" target="_blank" rel="noopener noreferrer">OpenTelemetry</a>
-          (<a href="https://github.com/open-telemetry/opentelemetry-python" target="_blank" rel="noopener noreferrer">opentelemetry-python</a>),
-          observability instrumentation, and distributed systems tooling.
-        </p>
+            <p>
+              I enjoy thinking about how thousands of services, machines, metrics, logs, and events come together to form reliable systems. I like designing infrastructure that is scalable, fault-tolerant, observable, and boring in production—because in infrastructure, boring is usually a compliment.
+            </p>
 
-        <p>
-          My technical focus centers on distributed systems reliability, consensus protocols, telemetry pipelines,
-          and building backend architectures that stay fast and simple under heavy load. I believe great software is
-          defined as much by what is omitted as by what is built.
-        </p>
+            <p>
+              I’m also interested in the intersection between engineering and economics. I enjoy looking at a system and asking not just “Can we build this?” but “Do we need to build it this way?” There’s something satisfying about taking an expensive or overly complicated architecture, understanding where the complexity comes from, and finding a simpler approach.
+            </p>
 
-        <p>
-          Outside of software engineering, you will usually find me reading non-fiction, listening to podcasts,
-          diving into systems research papers, or enjoying a cup of coffee.
-        </p>
+            <p>
+              Outside technology, I read, sing, travel, ride my bike to unfamiliar places, and I’m learning piano. I tend to go down rabbit holes—sometimes technical, sometimes completely unrelated.
+            </p>
 
-        <p>
-          If you'd like to get in touch, feel free to drop me an email at
-          <a href="mailto:sreejitkar999@gmail.com">sreejitkar999@gmail.com</a> or say hello on
-          <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer">X (@quid_pro_kyu)</a>.
-        </p>
+            <p class="about-lead">
+              <strong>I build software, think about systems, and spend a lot of my time being curious about how things work.</strong>
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. Currently Interested In Section -->
+        <section class="home-section" id="interests">
+          <h2 class="section-heading">Currently interested in</h2>
+          <div class="interests-tags" role="list">
+            <span class="interest-tag" role="listitem">Distributed Systems</span>
+            <span class="interest-tag" role="listitem">Observability</span>
+            <span class="interest-tag" role="listitem">Kubernetes</span>
+            <span class="interest-tag" role="listitem">Cloud Infrastructure</span>
+            <span class="interest-tag" role="listitem">Event-Driven Architecture</span>
+            <span class="interest-tag" role="listitem">System Design</span>
+            <span class="interest-tag" role="listitem">Engineering Economics</span>
+            <span class="interest-tag" role="listitem">Agentic AI</span>
+          </div>
+          <p class="interests-note">
+            Lately I’ve been thinking about how agentic AI can operate infrastructure safely, how observability systems should evolve, and what happens when you push distributed systems to their limits.
+          </p>
+        </section>
+
+        <!-- 4. Selected Work Section (Editorial List Layout) -->
+        <section class="home-section" id="work">
+          <h2 class="section-heading">Selected Work</h2>
+          <div class="work-list">
+            <article class="work-item">
+              <div class="work-header">
+                <h3 class="work-title">Making observability cheaper at scale</h3>
+                <span class="work-meta">Metrics &middot; Datadog &middot; Grafana &middot; Kubernetes</span>
+              </div>
+              <p class="work-description">
+                Exploring how large-scale metrics pipelines can be made more efficient, observable, and cost-effective.
+              </p>
+            </article>
+
+            <article class="work-item">
+              <div class="work-header">
+                <h3 class="work-title">Modernising legacy monitoring</h3>
+                <span class="work-meta">Distributed Systems &middot; Kubernetes &middot; High Availability</span>
+              </div>
+              <p class="work-description">
+                Re-thinking legacy monitoring infrastructure as a distributed, containerised and highly available platform.
+              </p>
+            </article>
+
+            <article class="work-item">
+              <div class="work-header">
+                <h3 class="work-title">
+                  <a href="https://github.com/open-telemetry/opentelemetry-python" target="_blank" rel="noopener noreferrer">
+                    Observability Infrastructure &amp; OSS
+                    <svg class="work-ext-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </h3>
+                <span class="work-meta">Prometheus &middot; Grafana &middot; Alertmanager &middot; OpenTelemetry</span>
+              </div>
+              <p class="work-description">
+                Contributing to OpenTelemetry and building the distributed systems that help engineers understand what is happening across cloud runtimes.
+              </p>
+            </article>
+
+            <article class="work-item">
+              <div class="work-header">
+                <h3 class="work-title">
+                  <a href="writing.html">
+                    Notes on Systems
+                    <svg class="work-ext-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </h3>
+                <span class="work-meta">Architecture &middot; Reliability &middot; Infrastructure</span>
+              </div>
+              <p class="work-description">
+                A growing collection of essays and field notes I’ve learned while building, researching, and thinking about distributed systems.
+              </p>
+            </article>
+          </div>
+          <a href="projects.html" class="work-more-link">View all projects &amp; experiments &rarr;</a>
+        </section>
+
+        <!-- 5. Now Section -->
+        <section class="home-section" id="now">
+          <h2 class="section-heading">Now</h2>
+          <ul class="now-list">
+            <li class="now-item">Building distributed infrastructure at scale.</li>
+            <li class="now-item">Learning piano.</li>
+            <li class="now-item">Reading about systems and architecture.</li>
+            <li class="now-item">Exploring new places on two wheels.</li>
+            <li class="now-item">Thinking about useful applications of AI in infrastructure.</li>
+          </ul>
+          <p class="now-footnote">Updated September 2026 &middot; A quick snapshot of current focus.</p>
+        </section>
+
+        <!-- 6. Contact Section -->
+        <section class="home-section" id="contact">
+          <h2 class="section-heading">Contact</h2>
+          <div class="prose">
+            <p>
+              If you'd like to talk about distributed systems, observability, or something completely unrelated, drop me an email at
+              <a href="mailto:sreejitkar999@gmail.com">sreejitkar999@gmail.com</a> or say hello on
+              <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer">X (@quid_pro_kyu)</a>.
+            </p>
+          </div>
+        </section>
       </div>
 
       <!-- Footer -->
@@ -183,11 +291,6 @@
           <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="X (Twitter)" aria-label="X (Twitter)">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
           </a>
         </div>

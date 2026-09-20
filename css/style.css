@@ -196,13 +196,6 @@ a {
   margin-bottom: 2rem;
 }
 
-@media (min-width: 768px) {
-  .sidebar-header {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 4rem;
-  }
-}
 
 .brand-mark {
   display: inline-flex;
@@ -236,8 +229,14 @@ a {
 }
 
 @media (min-width: 768px) {
+  .sidebar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+  }
+
   .brand-mark {
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.85rem;
   }
 
   .brand-mark svg {
@@ -246,7 +245,7 @@ a {
   }
 }
 
-/* Name heading in sidebar (mobile only) */
+/* Name heading in sidebar */
 .author-name {
   font-family: var(--font-sans);
   font-size: 0.9375rem;
@@ -254,23 +253,24 @@ a {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text);
+  display: block;
 }
 
 .author-name a {
   color: inherit;
+  text-decoration: none;
+  transition: color var(--transition);
 }
 
-.author-name.mobile-only {
-  display: block;
-}
-
-.author-name.desktop-only {
-  display: none;
+.author-name a:hover {
+  color: var(--link);
 }
 
 @media (min-width: 768px) {
-  .author-name.mobile-only {
-    display: none;
+  .author-name {
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
   }
 }
 
@@ -339,6 +339,29 @@ a {
   color: var(--text-muted);
   letter-spacing: -0.01em;
   line-height: 1.4;
+  flex-wrap: wrap;
+}
+
+.hero-statement {
+  font-family: var(--font-sans);
+  font-size: clamp(1.85rem, 4.4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.18;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  max-width: 620px;
+}
+
+.hero-descriptor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+  line-height: 1.45;
   flex-wrap: wrap;
 }
 
@@ -656,6 +679,197 @@ a {
 .denominator {
   padding-top: 3px;
   font-size: 0.95em;
+}
+
+/* ==========================================================================
+   Homepage Editorial Sections (About, Interests, Selected Work, Now, Contact)
+   ========================================================================== */
+
+.home-section {
+  margin-bottom: 4.5rem;
+  scroll-margin-top: 5rem;
+}
+
+.home-section:last-of-type {
+  margin-bottom: 3.5rem;
+}
+
+.section-heading {
+  font-family: var(--font-sans);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+
+.about-lead {
+  margin-top: 1.5rem;
+  font-size: 1.0625rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+/* Currently Interested In */
+.interests-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+}
+
+.interest-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.interest-tag:hover {
+  border-color: var(--border-hover);
+  color: var(--link);
+}
+
+.interests-note {
+  font-family: var(--font-sans);
+  font-size: 0.90625rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  border-left: 2px solid var(--border);
+  padding-left: 0.95rem;
+  font-style: italic;
+  margin-top: 0.85rem;
+}
+
+/* Selected Work (Editorial List Layout) */
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.work-item {
+  padding-bottom: 1.6rem;
+  border-bottom: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.work-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.work-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.work-title {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.work-title a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color var(--transition);
+}
+
+.work-title a:hover {
+  color: var(--link);
+}
+
+.work-ext-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+  flex-shrink: 0;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.work-title a:hover .work-ext-icon {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
+.work-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.01em;
+}
+
+.work-description {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.work-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--link);
+  text-decoration: none;
+  margin-top: 0.75rem;
+  transition: color var(--transition);
+}
+
+.work-more-link:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Now Section */
+.now-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.15rem;
+}
+
+.now-item {
+  position: relative;
+  padding-left: 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.now-item::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.now-footnote {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.4;
 }
 
 /* ==========================================================================
@@ -1501,4 +1715,19 @@ a {
 .paper-action-icon {
   width: 12px;
   height: 12px;
+}
+
+/* ==========================================================================
+   Accessibility: Reduced Motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
