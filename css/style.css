@@ -713,6 +713,56 @@ a {
 }
 
 /* ==========================================================================
+   Editorial Charts & Visual Data Blocks
+   ========================================================================== */
+
+.chart-figure {
+  margin: 2.25rem 0;
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chart-header {
+  margin-bottom: 1.25rem;
+}
+
+.chart-title {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.015em;
+}
+
+.chart-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-caption {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 1rem;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
    Homepage Editorial Sections (About, Interests, Selected Work, Now, Contact)
    ========================================================================== */
 
