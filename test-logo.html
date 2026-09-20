@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SKAR Neon Logo Exploration</title>
+  <title>Graphic Brand Mark Exploration — Sreejit Kar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
@@ -14,11 +14,11 @@
       color: #f3f4f6;
       font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
       padding: 3rem 2rem;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
     }
     h1 {
-      font-size: 1.75rem;
+      font-size: 1.85rem;
       font-weight: 700;
       letter-spacing: -0.03em;
       margin-bottom: 0.5rem;
@@ -29,78 +29,82 @@
       margin-bottom: 2.5rem;
     }
     .section-title {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #10b981;
-      margin: 2rem 0 1rem 0;
+      margin: 2.5rem 0 1.25rem 0;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
     .card {
       background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 2rem 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 1.25rem;
-      transition: all 0.2s ease;
-      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
     .card:hover {
       border-color: #38bdf8;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px -6px rgba(16, 185, 129, 0.25);
     }
     .preview-box {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 72px;
+      height: 84px;
+      width: 100%;
+    }
+    .preview-box svg {
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+    .card:hover .preview-box svg {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.5));
     }
     .label-title {
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       font-weight: 600;
-      color: #f1f5f9;
+      color: #f8fafc;
       text-align: center;
     }
     .label-desc {
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       color: #94a3b8;
       text-align: center;
-      line-height: 1.4;
+      line-height: 1.45;
     }
-    .light-theme-section {
-      background: #f8fafc;
-      color: #0f172a;
-      border-radius: 16px;
-      padding: 2rem;
-      margin-top: 1rem;
-      border: 1px solid #e2e8f0;
+    .sizes-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      margin-top: 0.25rem;
     }
-    .light-theme-section .card {
-      background: #ffffff;
-      border-color: #e2e8f0;
-    }
-    .light-theme-section .card:hover {
-      border-color: #10b981;
-      box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.15);
-    }
-    .light-theme-section .label-title {
-      color: #0f172a;
-    }
-    .light-theme-section .label-desc {
+    .size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.6875rem;
       color: #64748b;
+      font-family: var(--font-mono, monospace);
     }
     .tag {
       display: inline-block;
@@ -110,58 +114,113 @@
       border-radius: 9999px;
       background: rgba(16, 185, 129, 0.15);
       color: #34d399;
-      margin-top: 0.25rem;
+    }
+    .light-theme-section {
+      background: #f8fafc;
+      color: #0f172a;
+      border-radius: 16px;
+      padding: 2.25rem;
+      margin-top: 2rem;
+      border: 1px solid #e2e8f0;
+    }
+    .light-theme-section .card {
+      background: #ffffff;
+      border-color: #e2e8f0;
+    }
+    .light-theme-section .card:hover {
+      border-color: #10b981;
+      box-shadow: 0 12px 28px -6px rgba(16, 185, 129, 0.18);
+    }
+    .light-theme-section .label-title {
+      color: #0f172a;
+    }
+    .light-theme-section .label-desc {
+      color: #64748b;
+    }
+    .light-theme-section .sizes-row {
+      background: #f1f5f9;
     }
   </style>
 </head>
 <body>
-  <h1>SKAR &mdash; Neon Brand Identity Concepts</h1>
-  <p class="subtitle">Hover over each card to preview interactive glow and micro-animations.</p>
+  <h1>Graphic Brand Marks (No Text)</h1>
+  <p class="subtitle">5 bespoke graphic symbols inspired by distributed consensus, telemetry signals, and kernel infrastructure with electric neon highlights.</p>
 
-  <div class="section-title"><span>✦</span> Dark Mode Context</div>
+  <div class="section-title"><span>✦</span> Dark Mode Previews</div>
   <div class="grid">
 
-    <!-- Concept 1: Neon Laser Beam -->
+    <!-- Mark 1: The Consensus Quorum / Orbit -->
     <div class="card">
       <div class="preview-box">
         <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="laser-1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="orbit-grad-d" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#10b981"/>
-              <stop offset="100%" stop-color="#06b6d4"/>
+              <stop offset="100%" stop-color="#00f0ff"/>
             </linearGradient>
-            <linearGradient id="border-1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#10b981" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.1"/>
-            </linearGradient>
-            <filter id="glow-1" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="1.4" result="blur"/>
+            <filter id="neon-core-glow-d" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1.8" result="blur"/>
               <feMerge>
                 <feMergeNode in="blur"/>
                 <feMergeNode in="SourceGraphic"/>
               </feMerge>
             </filter>
           </defs>
-          <rect width="36" height="36" rx="9" fill="#0f172a" stroke="url(#border-1)" stroke-width="1.2"/>
-          <text x="18" y="19.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="10.5" letter-spacing="-0.02em" fill="#f8fafc">SKAR</text>
-          <line x1="8" y1="24.5" x2="28" y2="24.5" stroke="url(#laser-1)" stroke-width="1.8" stroke-linecap="round" filter="url(#glow-1)"/>
+          <!-- Squircle Base -->
+          <rect width="36" height="36" rx="9" fill="#0b111a" stroke="#1e293b" stroke-width="1.2"/>
+          <!-- Orbit Ring 1 (Top-Left) -->
+          <path d="M 18 7 A 11 11 0 0 1 29 18" stroke="url(#orbit-grad-d)" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+          <!-- Orbit Ring 2 (Bottom) -->
+          <path d="M 27 23 A 11 11 0 0 1 9 23" stroke="#475569" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="2 3"/>
+          <!-- Orbit Ring 3 (Left-Up) -->
+          <path d="M 7 18 A 11 11 0 0 1 15 7.5" stroke="url(#orbit-grad-d)" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+          <!-- Triad Nodes (Consensus Quorum) -->
+          <circle cx="18" cy="7" r="2.2" fill="#10b981" filter="url(#neon-core-glow-d)"/>
+          <circle cx="27.5" cy="23.5" r="1.8" fill="#00f0ff" filter="url(#neon-core-glow-d)"/>
+          <circle cx="8.5" cy="23.5" r="1.8" fill="#f8fafc"/>
+          <!-- Nucleus Core (Glowing Coordinator) -->
+          <circle cx="18" cy="18" r="3.2" fill="url(#orbit-grad-d)" filter="url(#neon-core-glow-d)"/>
+          <circle cx="18" cy="18" r="1.5" fill="#ffffff"/>
         </svg>
       </div>
-      <div class="label-title">Concept 1: Cyber Laser</div>
-      <div class="label-desc">Electric emerald-to-cyan neon beam underlines SKAR inside a high-tech obsidian badge.</div>
+      <div class="label-title">1. Consensus Quorum</div>
+      <div class="label-desc">Triad of orbiting nodes coordinating around a luminous neon core. Symbolizes Paxos, Raft, and distributed agreement.</div>
       <span class="tag">Recommended</span>
+      <div class="sizes-row">
+        <div class="size-item">
+          <!-- Small 24px preview -->
+          <svg viewBox="0 0 36 36" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <use href="#orbit-symbol"/>
+            <rect width="36" height="36" rx="9" fill="#0b111a" stroke="#1e293b" stroke-width="1.2"/>
+            <path d="M 18 7 A 11 11 0 0 1 29 18" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+            <path d="M 7 18 A 11 11 0 0 1 15 7.5" stroke="#00f0ff" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="18" cy="7" r="2.2" fill="#10b981"/>
+            <circle cx="18" cy="18" r="3" fill="#10b981"/>
+          </svg>
+          <span>Sidebar 24px</span>
+        </div>
+        <div class="size-item">
+          <!-- Favicon 16px preview -->
+          <svg viewBox="0 0 36 36" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <circle cx="18" cy="18" r="5" fill="#10b981"/>
+            <circle cx="18" cy="6" r="3" fill="#00f0ff"/>
+          </svg>
+          <span>Tab 16px</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Concept 2: Neon Status Diode -->
+    <!-- Mark 2: The Quantum Prism / Isometric Monolith -->
     <div class="card">
       <div class="preview-box">
         <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="halo-2" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
-              <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="glow-2" x="-50%" y="-50%" width="200%" height="200%">
+            <linearGradient id="prism-neon-d" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#00f0ff"/>
+            </linearGradient>
+            <filter id="prism-glow-d" x="-40%" y="-40%" width="180%" height="180%">
               <feGaussianBlur stdDeviation="1.5" result="blur"/>
               <feMerge>
                 <feMergeNode in="blur"/>
@@ -169,54 +228,50 @@
               </feMerge>
             </filter>
           </defs>
-          <rect width="36" height="36" rx="9" fill="#0f172a" stroke="#1e293b" stroke-width="1.2"/>
-          <circle cx="28.5" cy="7.5" r="4.5" fill="url(#halo-2)"/>
-          <circle cx="28.5" cy="7.5" r="2" fill="#10b981" filter="url(#glow-2)"/>
-          <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#f8fafc">SKAR</text>
+          <rect width="36" height="36" rx="9" fill="#0b111a" stroke="#1e293b" stroke-width="1.2"/>
+          <!-- Top Face -->
+          <path d="M 18 7 L 28 12.5 L 18 18 L 8 12.5 Z" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+          <!-- Left Face (Dark Slate) -->
+          <path d="M 8 12.5 L 18 18 L 18 29 L 8 23.5 Z" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+          <!-- Right Face (Glowing Neon Energy Chamber) -->
+          <path d="M 18 18 L 28 12.5 L 28 23.5 L 18 29 Z" fill="url(#prism-neon-d)" filter="url(#prism-glow-d)" fill-opacity="0.85"/>
+          <!-- Center Vertical Core Axis -->
+          <line x1="18" y1="18" x2="18" y2="29" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="label-title">Concept 2: Server Diode</div>
-      <div class="label-desc">Luminous emerald status beacon in the corner, echoing the live infrastructure pulse.</div>
+      <div class="label-title">2. Isometric Monolith</div>
+      <div class="label-desc">Architectural 3D prism with an illuminated neon energy core radiating from within. Minimalist and structural.</div>
+      <div class="sizes-row">
+        <div class="size-item">
+          <svg viewBox="0 0 36 36" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <path d="M 18 7 L 28 12.5 L 18 18 L 8 12.5 Z" fill="#334155"/>
+            <path d="M 8 12.5 L 18 18 L 18 29 L 8 23.5 Z" fill="#1e293b"/>
+            <path d="M 18 18 L 28 12.5 L 28 23.5 L 18 29 Z" fill="#10b981"/>
+          </svg>
+          <span>Sidebar 24px</span>
+        </div>
+        <div class="size-item">
+          <svg viewBox="0 0 36 36" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <path d="M 18 18 L 28 12.5 L 28 23.5 L 18 29 Z" fill="#10b981"/>
+          </svg>
+          <span>Tab 16px</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Concept 3: Dual-Tone Neon Typographic -->
+    <!-- Mark 3: Telemetry Pulse / Signal Impulse -->
     <div class="card">
       <div class="preview-box">
         <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="neon-text-3" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#10b981"/>
-              <stop offset="100%" stop-color="#00f5ff"/>
+            <linearGradient id="pulse-grad-d" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="50%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#00f0ff"/>
             </linearGradient>
-            <filter id="glow-3" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="1.2" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          <rect width="36" height="36" rx="9" fill="#0f172a" stroke="#1e293b" stroke-width="1.2"/>
-          <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.02em">
-            <tspan fill="#f8fafc">SK</tspan><tspan fill="url(#neon-text-3)" filter="url(#glow-3)">AR</tspan>
-          </text>
-        </svg>
-      </div>
-      <div class="label-title">Concept 3: Dual-Tone Typo</div>
-      <div class="label-desc">SK in white + AR in glowing neon cyan-emerald. Highlights the monogram evolution.</div>
-    </div>
-
-    <!-- Concept 4: Glowing Neon Border Ring -->
-    <div class="card">
-      <div class="preview-box">
-        <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="neon-ring-4" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#10b981"/>
-              <stop offset="50%" stop-color="#06b6d4"/>
-              <stop offset="100%" stop-color="#a855f7"/>
-            </linearGradient>
-            <filter id="ring-glow-4" x="-20%" y="-20%" width="140%" height="140%">
+            <filter id="pulse-glow-d" x="-40%" y="-40%" width="180%" height="180%">
               <feGaussianBlur stdDeviation="1.6" result="blur"/>
               <feMerge>
                 <feMergeNode in="blur"/>
@@ -224,97 +279,178 @@
               </feMerge>
             </filter>
           </defs>
-          <rect width="36" height="36" rx="9" fill="#0a0e17" stroke="url(#neon-ring-4)" stroke-width="1.5" filter="url(#ring-glow-4)"/>
-          <rect width="36" height="36" rx="9" fill="#0a0e17" stroke="url(#neon-ring-4)" stroke-width="1.2"/>
-          <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#f8fafc">SKAR</text>
+          <rect width="36" height="36" rx="9" fill="#0b111a" stroke="#1e293b" stroke-width="1.2"/>
+          <!-- Grid Reticle lines -->
+          <line x1="6" y1="18" x2="30" y2="18" stroke="#1e293b" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="18" y1="6" x2="18" y2="30" stroke="#1e293b" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <!-- Telemetry Waveform -->
+          <path d="M 6 18 L 12 18 L 15 14 L 18 25 L 21 8 L 24 21 L 26 18 L 30 18" stroke="url(#pulse-grad-d)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#pulse-glow-d)"/>
+          <!-- Crest Beacon Bead -->
+          <circle cx="21" cy="8" r="2.2" fill="#00f0ff" filter="url(#pulse-glow-d)"/>
+          <circle cx="21" cy="8" r="1" fill="#ffffff"/>
         </svg>
       </div>
-      <div class="label-title">Concept 4: Neon Aura Ring</div>
-      <div class="label-desc">Multi-spectrum neon gradient halo around the perimeter of the squircle.</div>
+      <div class="label-title">3. Telemetry Impulse</div>
+      <div class="label-desc">Oscilloscope telemetry signal spiking through a reticle grid with an electric cyan-emerald apex. Symbolizes observability and kernel tracing.</div>
+      <div class="sizes-row">
+        <div class="size-item">
+          <svg viewBox="0 0 36 36" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <path d="M 6 18 L 12 18 L 15 14 L 18 25 L 21 8 L 24 21 L 26 18 L 30 18" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Sidebar 24px</span>
+        </div>
+        <div class="size-item">
+          <svg viewBox="0 0 36 36" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <circle cx="21" cy="8" r="3" fill="#10b981"/>
+          </svg>
+          <span>Tab 16px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mark 4: Interlocking Geometric Chevrons / Möbius Nexus -->
+    <div class="card">
+      <div class="preview-box">
+        <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="helix-neon-d" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#00f0ff"/>
+            </linearGradient>
+            <filter id="helix-glow-d" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="1.6" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="36" height="36" rx="9" fill="#0b111a" stroke="#1e293b" stroke-width="1.2"/>
+          <!-- Top Left Angle Plate -->
+          <path d="M 10 11 L 18 7 L 26 11 L 22 15 L 18 13 L 14 15 Z" fill="#334155"/>
+          <!-- Bottom Interlocking Neon Blade -->
+          <path d="M 10 25 L 18 29 L 26 25 L 22 21 L 18 23 L 14 21 Z" fill="url(#helix-neon-d)" filter="url(#helix-glow-d)"/>
+          <!-- Central Dynamic Slash -->
+          <line x1="12" y1="21" x2="24" y2="15" stroke="url(#helix-neon-d)" stroke-width="2.5" stroke-linecap="round" filter="url(#helix-glow-d)"/>
+        </svg>
+      </div>
+      <div class="label-title">4. Geometric Nexus</div>
+      <div class="label-desc">Interlocking architectural blades with a glowing diagonal quantum link. Elegant, balanced, and abstract.</div>
+      <div class="sizes-row">
+        <div class="size-item">
+          <svg viewBox="0 0 36 36" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <path d="M 10 11 L 18 7 L 26 11 Z" fill="#334155"/>
+            <path d="M 10 25 L 18 29 L 26 25 Z" fill="#10b981"/>
+          </svg>
+          <span>Sidebar 24px</span>
+        </div>
+        <div class="size-item">
+          <svg viewBox="0 0 36 36" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="9" fill="#0b111a"/>
+            <path d="M 10 25 L 18 29 L 26 25 Z" fill="#10b981"/>
+          </svg>
+          <span>Tab 16px</span>
+        </div>
+      </div>
     </div>
 
   </div>
 
   <div class="light-theme-section">
-    <div class="section-title" style="color: #059669; margin-top: 0;"><span>✦</span> Light Mode Compatibility</div>
+    <div class="section-title" style="color: #059669; margin-top: 0;"><span>✦</span> Light Mode Counterparts</div>
     <div class="grid">
-      <!-- Concept 1 in Light Mode -->
+
+      <!-- Mark 1 in Light Mode -->
       <div class="card">
         <div class="preview-box">
           <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="laser-light" x1="0%" y1="0%" x2="100%" y2="0%">
+              <linearGradient id="orbit-grad-l" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#059669"/>
                 <stop offset="100%" stop-color="#0284c7"/>
               </linearGradient>
             </defs>
-            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-            <text x="18" y="19.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="10.5" letter-spacing="-0.02em" fill="#0f172a">SKAR</text>
-            <line x1="8" y1="24.5" x2="28" y2="24.5" stroke="url(#laser-light)" stroke-width="1.8" stroke-linecap="round"/>
+            <rect width="36" height="36" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+            <path d="M 18 7 A 11 11 0 0 1 29 18" stroke="url(#orbit-grad-l)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M 27 23 A 11 11 0 0 1 9 23" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 3"/>
+            <path d="M 7 18 A 11 11 0 0 1 15 7.5" stroke="url(#orbit-grad-l)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="18" cy="7" r="2.2" fill="#059669"/>
+            <circle cx="27.5" cy="23.5" r="1.8" fill="#0284c7"/>
+            <circle cx="8.5" cy="23.5" r="1.8" fill="#334155"/>
+            <circle cx="18" cy="18" r="3.2" fill="url(#orbit-grad-l)"/>
+            <circle cx="18" cy="18" r="1.5" fill="#ffffff"/>
           </svg>
         </div>
-        <div class="label-title">Concept 1: Cyber Laser</div>
-        <div class="label-desc">High-contrast emerald &rarr; azure laser on clean slate.</div>
+        <div class="label-title">1. Consensus Quorum</div>
+        <div class="label-desc">Vivid emerald &amp; azure orbit nodes on crisp white slate.</div>
       </div>
 
-      <!-- Concept 2 in Light Mode -->
+      <!-- Mark 2 in Light Mode -->
       <div class="card">
         <div class="preview-box">
           <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <radialGradient id="halo-light" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#059669" stop-opacity="0.4"/>
-                <stop offset="100%" stop-color="#059669" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-            <circle cx="28.5" cy="7.5" r="4.5" fill="url(#halo-light)"/>
-            <circle cx="28.5" cy="7.5" r="2" fill="#059669"/>
-            <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#0f172a">SKAR</text>
-          </svg>
-        </div>
-        <div class="label-title">Concept 2: Server Diode</div>
-        <div class="label-desc">Vivid emerald active beacon on slate squircle.</div>
-      </div>
-
-      <!-- Concept 3 in Light Mode -->
-      <div class="card">
-        <div class="preview-box">
-          <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="neon-text-light" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="prism-grad-l" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#059669"/>
                 <stop offset="100%" stop-color="#0284c7"/>
               </linearGradient>
             </defs>
-            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-            <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.02em">
-              <tspan fill="#0f172a">SK</tspan><tspan fill="url(#neon-text-light)">AR</tspan>
-            </text>
+            <rect width="36" height="36" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+            <path d="M 18 7 L 28 12.5 L 18 18 L 8 12.5 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
+            <path d="M 8 12.5 L 18 18 L 18 29 L 8 23.5 Z" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1"/>
+            <path d="M 18 18 L 28 12.5 L 28 23.5 L 18 29 Z" fill="url(#prism-grad-l)"/>
+            <line x1="18" y1="18" x2="18" y2="29" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="label-title">Concept 3: Dual-Tone Typo</div>
-        <div class="label-desc">Obsidian SK + rich emerald-blue AR.</div>
+        <div class="label-title">2. Isometric Monolith</div>
+        <div class="label-desc">Sharp shaded geometric prism with rich emerald-blue wing.</div>
       </div>
 
-      <!-- Concept 4 in Light Mode -->
+      <!-- Mark 3 in Light Mode -->
       <div class="card">
         <div class="preview-box">
           <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="ring-light" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#059669"/>
-                <stop offset="50%" stop-color="#0284c7"/>
-                <stop offset="100%" stop-color="#7c3aed"/>
+              <linearGradient id="pulse-grad-l" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2563eb"/>
+                <stop offset="50%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#0284c7"/>
               </linearGradient>
             </defs>
-            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="url(#ring-light)" stroke-width="1.4"/>
-            <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#0f172a">SKAR</text>
+            <rect width="36" height="36" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+            <line x1="6" y1="18" x2="30" y2="18" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2"/>
+            <path d="M 6 18 L 12 18 L 15 14 L 18 25 L 21 8 L 24 21 L 26 18 L 30 18" stroke="url(#pulse-grad-l)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="21" cy="8" r="2.2" fill="#059669"/>
+            <circle cx="21" cy="8" r="1" fill="#ffffff"/>
           </svg>
         </div>
-        <div class="label-title">Concept 4: Neon Aura Ring</div>
-        <div class="label-desc">Crisp multi-tone border with deep jewel accents.</div>
+        <div class="label-title">3. Telemetry Impulse</div>
+        <div class="label-desc">High-contrast signal trace with glowing peak marker.</div>
       </div>
+
+      <!-- Mark 4 in Light Mode -->
+      <div class="card">
+        <div class="preview-box">
+          <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="helix-grad-l" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+            <path d="M 10 11 L 18 7 L 26 11 L 22 15 L 18 13 L 14 15 Z" fill="#94a3b8"/>
+            <path d="M 10 25 L 18 29 L 26 25 L 22 21 L 18 23 L 14 21 Z" fill="url(#helix-grad-l)"/>
+            <line x1="12" y1="21" x2="24" y2="15" stroke="url(#helix-grad-l)" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="label-title">4. Geometric Nexus</div>
+        <div class="label-desc">Minimalist origami blades with high-contrast jewel gradient.</div>
+      </div>
+
     </div>
   </div>
 </body>

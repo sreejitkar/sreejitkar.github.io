@@ -233,12 +233,14 @@ a {
   stroke-opacity: 0.85;
 }
 
-.brand-mark svg line {
-  transition: filter var(--transition), stroke-width var(--transition);
+.brand-mark svg circle,
+.brand-mark svg path {
+  transition: filter var(--transition), opacity var(--transition);
 }
 
-.brand-mark:hover svg line {
-  stroke-width: 2.2px;
+.brand-mark:hover svg circle[fill="#10b981"],
+.brand-mark:hover svg circle[fill="url(#orbit-grad)"] {
+  filter: drop-shadow(0 0 6px #10b981);
 }
 
 @media (min-width: 768px) {
