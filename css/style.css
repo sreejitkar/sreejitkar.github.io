@@ -592,6 +592,49 @@ a {
 }
 
 /* ==========================================================================
+   Math & Equation Typography
+   ========================================================================== */
+
+.math-block {
+  margin: 1.75rem 0;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow-x: auto;
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+.math-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  color: var(--text);
+  gap: 0.5rem;
+}
+
+.fraction {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0 0.35rem;
+}
+
+.numerator {
+  border-bottom: 1.5px solid currentColor;
+  padding-bottom: 3px;
+  font-size: 0.95em;
+}
+
+.denominator {
+  padding-top: 3px;
+  font-size: 0.95em;
+}
+
+/* ==========================================================================
    Projects Section
    ========================================================================== */
 

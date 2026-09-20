@@ -143,7 +143,15 @@
             </li>
             <li>
               <strong>Attentional Diffusion:</strong> Far more insidiously, inlining schemas compromises model reasoning. Multi-head self-attention computes a normalized softmax distribution over the key sequence:
-              $$\alpha_{i,j} = \frac{\exp\left(\frac{q_i \cdot k_j}{\sqrt{d_k}}\right)}{\sum_{m=1}^{N} \exp\left(\frac{q_i \cdot k_m}{\sqrt{d_k}}\right)}$$
+              <div class="math-block">
+                <span class="math-display">
+                  &alpha;<sub>i,j</sub> =
+                  <span class="fraction">
+                    <span class="numerator">exp((<em>q</em><sub>i</sub> &middot; <em>k</em><sub>j</sub>) / &radic;<em>d</em><sub>k</sub>)</span>
+                    <span class="denominator">&sum;<sub>m=1</sub><sup>N</sup> exp((<em>q</em><sub>i</sub> &middot; <em>k</em><sub>m</sub>) / &radic;<em>d</em><sub>k</sub>)</span>
+                  </span>
+                </span>
+              </div>
               When the prompt is flooded with thousands of syntactic boilerplate tokens—types, field descriptions, enums, nested object brackets—the attention mass is dispersed across irrelevant distractor tokens. This induces parameter hallucinations, tool confusion (calling <code>query_db_v2</code> instead of <code>run_sql</code>), and diminished recall for the user's actual constraints.
             </li>
           </ul>

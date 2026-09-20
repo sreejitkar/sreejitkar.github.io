@@ -106,7 +106,7 @@
 
           <h2>The Roofline Model: Why Decoding Starves the GPU</h2>
           <p>
-            To understand why serving large language models is economically punishing, one must examine the system through the lens of the <strong>Roofline Model</strong> (Williams, Waterman, and Patterson). The model bounds achievable operational performance ($P$) as a function of <em>arithmetic intensity</em> ($I$), defined as floating-point operations performed per byte transferred from dynamic memory:
+            To understand why serving large language models is economically punishing, one must examine the system through the lens of the <strong>Roofline Model</strong> (Williams, Waterman, and Patterson). The model bounds achievable operational performance (<em>P</em>) as a function of <em>arithmetic intensity</em> (<em>I</em>), defined as floating-point operations performed per byte transferred from dynamic memory:
           </p>
 
 <pre><code>Operational Intensity (I) = FLOPs / Memory Traffic (Bytes)
@@ -130,15 +130,15 @@ P_achieved = min( P_peak,  I * Bandwidth_mem )</code></pre>
 
           <ul>
             <li>
-              <strong>Prefill (Prompt Processing):</strong> In prefill, the engine processes all prompt tokens $S_{\text{in}}$ concurrently. The projection layers ($W_q, W_k, W_v, W_o$) and MLP feed-forward projections operate as large General Matrix-Matrix multiplications (GEMM). For an input batch of size $B$ and sequence length $S$, each weight loaded from HBM into on-chip SRAM is reused across $B \times S$ tokens. Arithmetic intensity scales directly with sequence length ($I \propto B \times S$). When $B \times S > 300$, arithmetic intensity comfortably surpasses $I^*$. The GPU runs in the compute-bound regime, achieving 50% to 65% Model FLOPs Utilization (MFU).
+              <strong>Prefill (Prompt Processing):</strong> In prefill, the engine processes all prompt tokens <em>S</em><sub>in</sub> concurrently. The projection layers (<em>W</em><sub>q</sub>, <em>W</em><sub>k</sub>, <em>W</em><sub>v</sub>, <em>W</em><sub>o</sub>) and MLP feed-forward projections operate as large General Matrix-Matrix multiplications (GEMM). For an input batch of size <em>B</em> and sequence length <em>S</em>, each weight loaded from HBM into on-chip SRAM is reused across <em>B</em> &times; <em>S</em> tokens. Arithmetic intensity scales directly with sequence length (<em>I</em> &prop; <em>B</em> &times; <em>S</em>). When <em>B</em> &times; <em>S</em> &gt; 300, arithmetic intensity comfortably surpasses <em>I</em>*. The GPU runs in the compute-bound regime, achieving 50% to 65% Model FLOPs Utilization (MFU).
             </li>
             <li>
-              <strong>Decode (Token Generation):</strong> Because autoregressive generation produces tokens sequentially—token $t$ conditioned on $t-1$—the active token sequence length per stream is strictly $S = 1$. The matrix multiplications collapse into General Matrix-Vector products (GEMV). To emit a single token, <em>every single parameter</em> of the model must be streamed from HBM into registers, multiplied by a single activation vector, and discarded.
+              <strong>Decode (Token Generation):</strong> Because autoregressive generation produces tokens sequentially—token <em>t</em> conditioned on <em>t-1</em>—the active token sequence length per stream is strictly <em>S</em> = 1. The matrix multiplications collapse into General Matrix-Vector products (GEMV). To emit a single token, <em>every single parameter</em> of the model must be streamed from HBM into registers, multiplied by a single activation vector, and discarded.
             </li>
           </ul>
 
           <p>
-            For an unbatched stream ($B=1$), the arithmetic intensity of decode is roughly:
+            For an unbatched stream (<em>B</em> = 1), the arithmetic intensity of decode is roughly:
           </p>
 
 <pre><code>I_decode = (2 * Parameters * 1) / (Parameters * Precision_Bytes)
@@ -146,7 +146,7 @@ P_achieved = min( P_peak,  I * Bandwidth_mem )</code></pre>
          = 1.0 FLOP / Byte</code></pre>
 
           <p>
-            At $I = 1.0 \text{ FLOP/Byte}$, the H100 achieves less than <strong>0.35%</strong> of its theoretical compute capacity. The SMs are starved. The minimum physical latency to emit a single token for a 70-billion parameter model in 16-bit precision (140 GB of weights) distributed across two H100 GPUs ($2 \times 3.35 \text{ TB/s} = 6.70 \text{ TB/s}$) is bounded entirely by the memory bus:
+            At <em>I</em> = 1.0 FLOP/Byte, the H100 achieves less than <strong>0.35%</strong> of its theoretical compute capacity. The SMs are starved. The minimum physical latency to emit a single token for a 70-billion parameter model in 16-bit precision (140 GB of weights) distributed across two H100 GPUs (2 &times; 3.35 TB/s = 6.70 TB/s) is bounded entirely by the memory bus:
           </p>
 
 <pre><code>Latency_step >= (140 * 10^9 Bytes) / (6.70 * 10^12 Bytes/sec)
@@ -158,7 +158,7 @@ P_achieved = min( P_peak,  I * Bandwidth_mem )</code></pre>
 
           <h2>The KV Cache Tax: The Space-Time Bargain</h2>
           <p>
-            To avoid recomputing attention across all preceding tokens at every autoregressive step—an $O(S^2)$ compute penalty per token—serving engines maintain a <strong>Key-Value (KV) Cache</strong>. By caching the projected key and value activation tensors at every transformer layer, the marginal compute per step drops to $O(S)$.
+            To avoid recomputing attention across all preceding tokens at every autoregressive step—an <em>O</em>(<em>S</em><sup>2</sup>) compute penalty per token—serving engines maintain a <strong>Key-Value (KV) Cache</strong>. By caching the projected key and value activation tensors at every transformer layer, the marginal compute per step drops to <em>O</em>(<em>S</em>).
           </p>
 
           <p>
@@ -176,7 +176,7 @@ Where:
   P_bytes = Precision in bytes (2 for BF16/FP16, 1 for FP8)</code></pre>
 
           <p>
-            Consider a modern frontier-class open model like <strong>Llama 3 70B</strong> ($L = 80$, $n_q = 64$, $n_{\text{kv}} = 8$ via Grouped-Query Attention, $d_{\text{head}} = 128$):
+            Consider a modern frontier-class open model like <strong>Llama 3 70B</strong> (<em>L</em> = 80, <em>n</em><sub>q</sub> = 64, <em>n</em><sub>kv</sub> = 8 via Grouped-Query Attention, <em>d</em><sub>head</sub> = 128):
           </p>
 
 <pre><code>Bytes per token per sequence (BF16):
@@ -188,13 +188,13 @@ Where:
           </p>
 
           <ul>
-            <li>At <strong>4,096 tokens</strong>: $320 \text{ KB} \times 4,096 = \mathbf{1.28\text{ GB}}$ per active request.</li>
-            <li>At <strong>32,768 tokens</strong>: $320 \text{ KB} \times 32,768 = \mathbf{10.24\text{ GB}}$ per active request.</li>
-            <li>At <strong>131,072 tokens</strong> (128k context): $320 \text{ KB} \times 131,072 = \mathbf{40.96\text{ GB}}$ per active request.</li>
+            <li>At <strong>4,096 tokens</strong>: 320 KB &times; 4,096 = <strong>1.28 GB</strong> per active request.</li>
+            <li>At <strong>32,768 tokens</strong>: 320 KB &times; 32,768 = <strong>10.24 GB</strong> per active request.</li>
+            <li>At <strong>131,072 tokens</strong> (128k context): 320 KB &times; 131,072 = <strong>40.96 GB</strong> per active request.</li>
           </ul>
 
           <p>
-            Now consider the economics of an 8x H100 SXM5 server node ($8 \times 80\text{GB} = 640\text{GB}$ total HBM). The FP16 weights of Llama 3 70B consume roughly 140 GB. Tensor parallel activations and runtime scratchpad memory reserve another ~20 GB, leaving approximately <strong>480 GB</strong> of unfragmented HBM for the KV cache pool.
+            Now consider the economics of an 8x H100 SXM5 server node (8 &times; 80 GB = 640 GB total HBM). The FP16 weights of Llama 3 70B consume roughly 140 GB. Tensor parallel activations and runtime scratchpad memory reserve another ~20 GB, leaving approximately <strong>480 GB</strong> of unfragmented HBM for the KV cache pool.
           </p>
 
           <p>
@@ -250,7 +250,7 @@ Where:
           </p>
 
           <p>
-            Is the network transfer cost tolerable? Let us run the numbers. For an 8k prompt on Llama 3 70B, the KV cache footprint is $8,192 \times 320 \text{ KB} \approx 2.56 \text{ GB}$. Across a dual-rail 400 Gbps RDMA fabric ($2 \times 50 \text{ GB/s} = 100 \text{ GB/s}$ real wire throughput):
+            Is the network transfer cost tolerable? Let us run the numbers. For an 8k prompt on Llama 3 70B, the KV cache footprint is 8,192 &times; 320 KB &asymp; 2.56 GB. Across a dual-rail 400 Gbps RDMA fabric (2 &times; 50 GB/s = 100 GB/s real wire throughput):
           </p>
 
 <pre><code>Transfer Time = 2.56 GB / 100 GB/sec = 25.6 milliseconds</code></pre>
@@ -266,7 +266,7 @@ Where:
 
           <h3>1. Virtual Memory for Tensors: PagedAttention</h3>
           <p>
-            Prior to the development of PagedAttention (Kwon et al., vLLM), serving engines allocated contiguous memory buffers for a sequence's KV cache based on its maximum possible sequence length ($S_{\max}$). Because real-world generation lengths are stochastic, this resulted in staggering memory waste: <strong>60% to 80%</strong> of GPU HBM was lost to internal and external fragmentation.
+            Prior to the development of PagedAttention (Kwon et al., vLLM), serving engines allocated contiguous memory buffers for a sequence's KV cache based on its maximum possible sequence length (<em>S</em><sub>max</sub>). Because real-world generation lengths are stochastic, this resulted in staggering memory waste: <strong>60% to 80%</strong> of GPU HBM was lost to internal and external fragmentation.
           </p>
 
           <p>
@@ -275,7 +275,7 @@ Where:
 
           <h3>2. Architectural Attention Distillation: MQA and GQA</h3>
           <p>
-            In classic Multi-Head Attention (MHA), every query head has a distinct key and value head ($n_{\text{kv}} = n_{\text{heads}}$). For a 64-head model, this requires storing 64 key vectors and 64 value vectors per token.
+            In classic Multi-Head Attention (MHA), every query head has a distinct key and value head (<em>n</em><sub>kv</sub> = <em>n</em><sub>heads</sub>). For a 64-head model, this requires storing 64 key vectors and 64 value vectors per token.
           </p>
 
           <p>
@@ -306,7 +306,7 @@ Where:
           </p>
 
           <p>
-            A lightweight "draft" model (e.g., a 1B or 8B parameter variant) rapidly generates $K$ candidate tokens at low latency. The large target model (e.g., 70B) then evaluates all $K$ candidates simultaneously in a single forward pass. Because evaluating $K$ tokens in parallel is a compute-intensive GEMM operation rather than a memory-bound GEMV, the target model verifies the candidate tokens using the same memory bus pass it would have spent generating a single token. If $M$ tokens are accepted ($M \le K$), latency per generated token drops by $2\times$ to $3\times$ without altering the model's output distribution.
+            A lightweight "draft" model (e.g., a 1B or 8B parameter variant) rapidly generates <em>K</em> candidate tokens at low latency. The large target model (e.g., 70B) then evaluates all <em>K</em> candidates simultaneously in a single forward pass. Because evaluating <em>K</em> tokens in parallel is a compute-intensive GEMM operation rather than a memory-bound GEMV, the target model verifies the candidate tokens using the same memory bus pass it would have spent generating a single token. If <em>M</em> tokens are accepted (<em>M</em> &le; <em>K</em>), latency per generated token drops by 2&times; to 3&times; without altering the model's output distribution.
           </p>
 
           <h2>The Economic Endgame: The Unit Economics of Autonomous Agents</h2>
@@ -315,7 +315,7 @@ Where:
           </p>
 
           <p>
-            In a simple chat query, the token exchange is $O(1)$: a single prompt of 1,000 tokens yields a completion of 400 tokens. At standard commercial API rates ($2.50 per million input tokens, $10.00 per million output tokens), each query costs ~$0.0065.
+            In a simple chat query, the token exchange is <em>O</em>(1): a single prompt of 1,000 tokens yields a completion of 400 tokens. At standard commercial API rates ($2.50 per million input tokens, $10.00 per million output tokens), each query costs ~$0.0065.
           </p>
 
           <p>
@@ -329,10 +329,10 @@ Step 25: History + Stack Traces + Second Attempt           ~ 65,000 tokens
 Step 50: History + Final Verification Run                  ~ 110,000 tokens</code></pre>
 
           <p>
-            Because the entire historical context must be re-evaluated at each step $k$, total prompt tokens ingested over an $N$-step trajectory scale quadratically:
+            Because the entire historical context must be re-evaluated at each step <em>k</em>, total prompt tokens ingested over an <em>N</em>-step trajectory scale quadratically:
           </p>
 
-<pre><code>Total Prompt Tokens = Sum_{k=1}^N S_k  ~  O(N^2)</code></pre>
+<pre><code>Total Prompt Tokens = &sum;_{k=1}^N S_k  ~  O(N&sup2;)</code></pre>
 
           <p>
             For a 50-step agent loop averaging 40,000 tokens of context per step, the agent consumes:
@@ -345,7 +345,7 @@ Step 50: History + Final Verification Run                  ~ 110,000 tokens</cod
           </p>
 
           <p>
-            With <strong>Radix prefix caching</strong>, however, step $k$ reuses the exact KV cache state of step $k-1$. The engine only pays prefill FLOPs for the <em>newly appended</em> tool output (perhaps 1,500 tokens). Total ingested tokens drop from 2,000,000 to less than 80,000—a <strong>96% reduction in operational cost</strong>.
+            With <strong>Radix prefix caching</strong>, however, step <em>k</em> reuses the exact KV cache state of step <em>k</em> &minus; 1. The engine only pays prefill FLOPs for the <em>newly appended</em> tool output (perhaps 1,500 tokens). Total ingested tokens drop from 2,000,000 to less than 80,000—a <strong>96% reduction in operational cost</strong>.
           </p>
 
           <p>

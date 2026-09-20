@@ -137,12 +137,12 @@
   deployment_id="sha_4f10c3"
 }</code></pre>
           <p>
-            The total series space $|S|$ is governed by the Cartesian product of the distinct value sets for each label
+            The total series space |<em>S</em>| is governed by the Cartesian product of the distinct value sets for each label
             dimension:
           </p>
           <pre><code>|S| = |Endpoints| &times; |Tenants| &times; |Users| &times; |Deployments| &times; |Buckets|</code></pre>
           <p>
-            With 10,000 tenants and 1,000,000 users, $|S|$ explodes into hundreds of millions of ephemeral time series.
+            With 10,000 tenants and 1,000,000 users, |<em>S</em>| explodes into hundreds of millions of ephemeral time series.
             The inverted index term dictionary explodes in memory. Compactor routines (<code>compactor.go</code>) running
             merge-sort passes thrash the OS page cache, trigger runaway heap allocations, and inevitably collapse under
             the Linux Out-Of-Memory (OOM) killer.
