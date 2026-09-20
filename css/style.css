@@ -222,7 +222,7 @@ a {
   display: block;
 }
 
-/* Name heading in sidebar (mobile vs desktop) */
+/* Name heading in sidebar (mobile only) */
 .author-name {
   font-family: var(--font-sans);
   font-size: 0.9375rem;
@@ -248,9 +248,110 @@ a {
   .author-name.mobile-only {
     display: none;
   }
-  .author-name.desktop-only {
-    display: block;
-    margin-bottom: 4rem;
+}
+
+/* ==========================================================================
+   Ultra-Modern Hero Section with Ambient Background Typography
+   ========================================================================== */
+
+.hero-header {
+  position: relative;
+  margin-bottom: 2.75rem;
+  padding-top: 0.5rem;
+  overflow: visible;
+}
+
+/* Atmospheric Ghost Watermark Typography in the Background */
+.hero-watermark {
+  position: absolute;
+  top: -1.85rem;
+  left: -0.25rem;
+  font-family: var(--font-sans);
+  font-size: clamp(3.25rem, 8.5vw, 6.25rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.04;
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 95%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 95%);
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 0;
+  transition: opacity var(--transition);
+}
+
+[data-theme="dark"] .hero-watermark {
+  opacity: 0.07;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  color: var(--text);
+  margin-bottom: 0.65rem;
+}
+
+.hero-title a {
+  color: inherit;
+}
+
+.hero-subtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  flex-wrap: wrap;
+}
+
+.hero-pulse {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.hero-pulse::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #10b981;
+  opacity: 0.75;
+  animation: hero-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.hero-pulse::after {
+  content: '';
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+@keyframes hero-ping {
+  75%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
   }
 }
 
