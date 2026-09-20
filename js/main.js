@@ -20,7 +20,7 @@
     localStorage.setItem('theme', theme);
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', theme === 'dark' ? '#282a36' : '#ffffff');
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
     }
     if (themeToggle) {
       themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);

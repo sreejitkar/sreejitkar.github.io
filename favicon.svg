@@ -11,7 +11,7 @@
       .fav-bracket { stroke: #6272a4; stroke-opacity: 0.95; }
       .fav-wire { stroke: #f8f8f2; }
       .fav-blade { fill: #50fa7b; stroke: #f8f8f2; }
-      .fav-slit { stroke: #282a36; }
+      .fav-slit { stroke: #000000; }
       .fav-top { fill: #ffffff; fill-opacity: 0.12; }
       .fav-right { fill: #ffffff; fill-opacity: 0.04; }
     }
