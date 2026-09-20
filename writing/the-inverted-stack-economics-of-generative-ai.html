@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI — Sreejit Kar</title>
+  <meta name="description" content="Why generative AI defies historical software economics, why hardware still captures 80% of profits, and how consumer habits and high-intent conversational attention will shape the next decade.">
+  <meta name="author" content="Sreejit Kar">
+  
+  <meta property="og:title" content="The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI — Sreejit Kar">
+  <meta property="og:description" content="Why generative AI defies historical software economics, why hardware still captures 80% of profits, and how consumer habits and high-intent conversational attention will shape the next decade.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <div class="site-wrapper">
+    <!-- Sidebar / Nav Column -->
+    <aside class="sidebar">
+      <div class="sidebar-sticky">
+        <header class="sidebar-header">
+          <a href="../index.html" class="brand-mark" aria-label="Sreejit Kar — Home">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 10 18 L 10 10 L 18 10" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 10 L 46 10 L 46 18" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 10 38 L 10 46 L 18 46" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 38 46 L 46 46 L 46 38" stroke="currentColor" stroke-opacity="0.65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="18.5,21 28,26.5 28,37.5 18.5,32" fill="var(--logo-blade, #0d5c46)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,15.5 37.5,21 28,26.5 18.5,21" fill="var(--logo-top, rgba(255,255,255,0.85))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="28,26.5 37.5,21 37.5,32 28,37.5" fill="var(--logo-right, rgba(255,255,255,0.4))" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <line x1="21.5" y1="25" x2="21.5" y2="29.5" stroke="var(--logo-slit, #ffffff)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </a>
+
+          <div class="author-name">
+            <a href="../index.html">Sreejit Kar</a>
+          </div>
+
+          <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+            <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </header>
+
+        <nav class="nav-menu" aria-label="Main Navigation">
+          <a href="../index.html#about" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>About</span>
+          </a>
+          <a href="../index.html#work" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Work</span>
+          </a>
+          <a href="../writing.html" class="nav-item active" aria-current="page">
+            <span class="nav-dot"></span>
+            <span>Notes</span>
+          </a>
+          <a href="../bookshelf.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Bookshelf</span>
+          </a>
+          <a href="../papershelf.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Papershelf</span>
+          </a>
+          <a href="../index.html#now" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Now</span>
+          </a>
+          <a href="../index.html#contact" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Contact</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Column -->
+    <main id="content" class="main-content">
+      <div class="content-inner">
+        <header class="post-header">
+          <a href="../writing.html" class="post-back-link">&larr; Back to Writing</a>
+          <h1 class="post-title">The Inverted Stack: Silicon Moats, Habit Loops, and the Economics of Generative AI</h1>
+          <div class="post-date">September 20, 2026 &middot; 7 min read</div>
+        </header>
+
+        <article class="prose">
+          <p>
+            In every major platform cycle of modern computing—from personal workstations and client-server architectures to the open web, smartphones, and cloud computing—an established economic doctrine held true: value accrues closest to the end user. Infrastructure buildouts run hot early on, foundational hardware gets commoditized, and application software captures 70% to 80% of aggregate ecosystem gross profits.
+          </p>
+
+          <p>
+            When generative AI burst into the public consciousness, the standard consensus among investors and builders was that history would neatly repeat itself. Within 24 to 36 months, the market assumed that model capabilities would commoditize, hyperscalers would engage in a pricing war to zero on compute, and an explosion of agile application layers would capture the economic surplus.
+          </p>
+
+          <p>
+            Recently, while examining the foundational market models inside the Stanford MS&amp;E 435 curriculum (<em>The Economics of Generative AI</em>, crafted by Apoorv Agarwal, whose structural analyses of tech supercycles I've long respected) alongside my own engineering focus on low-level inference systems, I began stress-testing these assumptions against hard market data.
+          </p>
+
+          <p>
+            What emerges is a profound realization: <strong>generative AI is fundamentally defying historical software gravity.</strong> The stack has not flipped. In fact, despite annualized industry revenues multiplying roughly 5x from ~$90B to ~$435B+, the economic structure remains stubbornly, radically inverted.
+          </p>
+
+          <blockquote>
+            "In cloud computing, semiconductors capture 6% of gross profits while applications claim 70%. In generative AI, semiconductors capture 79% of gross profits, while applications scramble for 7%. Software margins are hitting the hard limits of physical silicon."
+          </blockquote>
+
+          <h2>1. The Inverted Pyramid: The Physics of Hardware Dominance</h2>
+          <p>
+            To understand the distortion, compare the structural anatomy of the cloud stack (V-shaped) with the generative AI stack (A-shaped):
+          </p>
+
+          <ul>
+            <li>
+              <strong>Semiconductors (~$300B annualized):</strong> Overwhelmingly dominated by NVIDIA (~$250B datacenter run-rate), followed by Broadcom's custom ASIC division (~$34B for hyperscaler accelerators) and an estimated ~$25B in high-bandwidth memory (HBM) modules. NVIDIA alone commands ~80% of the entire hardware layer.
+            </li>
+            <li>
+              <strong>Infrastructure (~$75B annualized):</strong> The only genuinely competitive tier. Shared across Microsoft Azure, AWS, Google Cloud Platform, Oracle Cloud, and specialized inference clouds like CoreWeave and Lambda.
+            </li>
+            <li>
+              <strong>Applications (~$60B annualized):</strong> Highly concentrated. OpenAI and Anthropic account for ~$45B, representing roughly 75% of the layer. The remaining share is divided between AI coding workhorses (like Cursor) and vertical agent workflows (Glean, ElevenLabs, Perplexity, Harvey, Sierra).
+            </li>
+          </ul>
+
+          <p>
+            In traditional SaaS, an API request to a relational database or an edge cache costs fractions of a millicent, allowing software businesses to reliably achieve 80% to 85% gross margins. Generative AI fundamentally breaks this financial model because token generation is governed by the laws of physical hardware.
+          </p>
+
+          <p>
+            As I explored in <a href="economics-of-ai-inference.html">The Economics of Inference</a>, autoregressive decoding collapses arithmetic intensity down to roughly ~1.0 FLOP per byte fetched from memory. Every generated token requires streaming tens of gigabytes of model weights across High Bandwidth Memory (HBM) buses, alongside a persistent <abbr title="Key-Value">KV</abbr> cache memory footprint that scales with context length and batch size. Serving intelligence is not zero-marginal-cost software; it behaves like physical manufacturing.
+          </p>
+
+          <p>
+            Consequently, while semiconductor suppliers enjoy ~73% gross margins, infrastructure providers capture ~55% (which plunges to 25–30% when factoring in physical GPU depreciation), and application builders operate between 30% and 50% gross margins. Multiplied out, <strong>the semiconductor layer pockets ~$225B of the ecosystem's ~$285B in gross profits—a staggering 79%.</strong> Over two full years of hypergrowth, the application layer clawed back barely 4 percentage points of profit share. At this rate, the stack will not flip within this decade.
+          </p>
+
+          <h2>2. The Hyperscaler Capex Dilemma &amp; The ASIC Hedge</h2>
+          <p>
+            This margin extraction explains why hyperscaler capital expenditure has escalated to historic levels. Aggregate capex among the top hyperscalers crossed $440B in 2025 and is projected to surpass $600B in 2026, with roughly 75% (~$450B) allocated directly to AI compute infrastructure.
+          </p>
+
+          <p>
+            When quarterly earnings roll in, leadership teams across Amazon, Alphabet, and Meta maintain a unified front: the asymmetric risk of under-investing in compute capacity—and missing an epochal platform shift—far outweighs the risk of over-building. In Mark Zuckerberg's framing, if capacity temporarily outstrips demand, companies can simply decelerate purchases and grow into what they already deployed.
+          </p>
+
+          <p>
+            To alleviate margin stacking and escape single-vendor lock-in, hyperscalers are deploying custom silicon:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Google TPU:</strong> The most battle-tested alternative. Google's 7th-generation Ironwood TPU is now operating at merchant hardware scale, with external customers like Anthropic committing tens of billions of dollars. Crucially, competitive pressure from TPUs has reportedly forced merchant GPU pricing downward by up to 30%.
+            </li>
+            <li>
+              <strong>Amazon Trainium:</strong> AWS has deployed over 1.4 million Trainium2 chips, powering the majority of Amazon Bedrock's inference workloads and scaling custom silicon into a $10B+ annual run rate.
+            </li>
+            <li>
+              <strong>Microsoft Maia, Meta MTIA, and OpenAI ASICs:</strong> From Microsoft's Maia 200 deployment to OpenAI's 10GW co-development partnership with Broadcom and multi-gigawatt commitments with AMD, the entire industry is building custom silicon hedges.
+            </li>
+          </ul>
+
+          <p>
+            Yet, while custom ASICs can successfully lower total cost of ownership on fixed inference workloads, training frontier foundation models remains heavily tethered to NVIDIA's CUDA, NVLink, and unified network fabrics. The shovel seller remains firmly entrenched.
+          </p>
+
+          <h2>3. Consumer AI: A Two-Horse Race and The Four Seasons</h2>
+          <p>
+            If the infrastructure side of the equation is constrained by silicon physics, the consumer application side is defined by an equally brutal economic dynamic: <strong>extreme power-law concentration.</strong>
+          </p>
+
+          <p>
+            Total weekly active users (<abbr title="Weekly Active Users">WAU</abbr>) across consumer AI apps surged from ~100 million in early 2024 to well over 1.2 billion in 2026—a 20x explosion with no historical precedent. But this growth did not distribute evenly across a vibrant ecosystem of startups:
+          </p>
+
+          <ul>
+            <li>
+              <strong>ChatGPT:</strong> Commands ~70% of total global AI WAU (~900 million weekly active users). Remarkably, it built this installed base from a cold start, without an underlying mobile operating system or pre-existing distribution rails.
+            </li>
+            <li>
+              <strong>Google Gemini:</strong> Holds roughly 15% to 20% market share (~200–250M WAU), riding the massive distribution muscle of Android, Chrome, and Google's 4-billion active ecosystem.
+            </li>
+            <li>
+              <strong>The Long Tail:</strong> Every other consumer AI product—DeepSeek, Grok, Claude, Perplexity, and Character AI—collectively divides the remaining ~10%.
+            </li>
+          </ul>
+
+          <p>
+            This concentration exposes the difference between <em>stock</em> (installed base) and <em>flow</em> (ephemeral download surges). Looking back over the past year highlights what Apoorv Agarwal aptly captured as the "Four Seasons of AI Downloads":
+          </p>
+
+          <ul>
+            <li><strong>Winter: The DeepSeek Shockwave.</strong> An open-weights breakthrough triggers tens of millions of downloads overnight, prompting narratives of incumbent obsolescence before settling back to modest daily activity.</li>
+            <li><strong>Spring: The Grok Distribution Wave.</strong> X integration drives massive viral attention and top App Store rankings, yet fails to convert into daily habitual usage at consumer scale.</li>
+            <li><strong>Summer: Gemini's Viral Image Moment.</strong> Breakthrough multimodal generation sparks over 20 million weekly downloads, driving a seasonal model spike that eventually normalizes.</li>
+            <li><strong>Every Season: ChatGPT's Compounding Engine.</strong> While challengers cycle through quarterly hype spikes, ChatGPT's adoption line steadily compounds week after week without download volatility. Attention is cheap to rent; daily habits are extraordinarily hard to build.</li>
+          </ul>
+
+          <h2>4. The Retention Smile Curve and Cognitive Utilities</h2>
+          <p>
+            Download volumes answer who showed up. Engagement and retention reveal who stayed. This is where consumer AI transitions from a curiosities race into an enduring institutional utility.
+          </p>
+
+          <p>
+            In standard consumer application analytics, daily-to-monthly engagement (DAU:MAU) and weekly-to-monthly engagement (WAU:MAU) are believed to be structurally capped by product category. But ChatGPT broke this pattern:
+          </p>
+
+          <div class="math-block">
+            <span class="math-display">
+              \text{ChatGPT DAU:MAU} \approx 45\% \quad \text{vs.} \quad \text{Gemini DAU:MAU} \approx 22\%
+            </span>
+          </div>
+
+          <p>
+            ChatGPT's WAU:MAU climbed from ~50% in mid-2023 to over 82% today—a 30-percentage-point gain that places it in the company of essential digital infrastructure like Gmail (78%), Spotify (79%), and Instagram (92%).
+          </p>
+
+          <p>
+            Even more illuminating is the retention curve. Across software history, retention curves follow one of two trajectories: they decline continuously or they flatten into an asymptote. Almost no product demonstrates a genuine <strong>smile curve</strong>—where retention dips initially and then curves upward as users reactivate over time.
+          </p>
+
+          <p>
+            In modern software datasets, true smile curves are virtually non-existent outside of foundational internet utilities like Chrome and Gmail. ChatGPT displays a textbook smile curve, with Week 4 retention standing at ~66% (compared to Character AI at 48%, Gemini at 44%, Claude at 41%, and Perplexity at 24%).
+          </p>
+
+          <p>
+            Why does ChatGPT smile at a 900-million-user scale? Because continuous architectural leaps—canvas interfaces, low-latency audio, deep search grounding, persistent memory, and agentic reasoning—reactivate lapsed users by solving new classes of daily problems.
+          </p>
+
+          <p>
+            Unlike TikTok or Instagram, ChatGPT does not rely on a dopamine-fueled variable-reward feed or social validation loops. Unlike Slack, it does not rely on an external inbox filling up with messages. Users open it with purposeful intent to work, write, debug, and synthesize. It has become a cognitive utility.
+          </p>
+
+          <h2>5. The Attention Frontier: Why Ads Will Outscale Subscriptions</h2>
+          <p>
+            This brings us to the ultimate economic equation: monetization. In consumer internet markets, revenue decomposes into price and volume:
+          </p>
+
+          <div class="math-block">
+            <span class="math-display">
+              \text{Revenue} = \text{Total Time} \times \text{Ad Load} \times \text{CPM}
+            </span>
+          </div>
+
+          <p>
+            Today, approximately 95% of ChatGPT's active user base operates on the free tier. While a $20/month subscription generates impressive multi-billion-dollar runs from power users, consumer internet history demonstrates that <strong>advertising consistently outscales subscriptions at global volume:</strong>
+          </p>
+
+          <ul>
+            <li>Alphabet's advertising business (~$295B+) is roughly 5x Netflix's entire subscription turnover.</li>
+            <li>Meta's advertising engine is ~4x Netflix, monetizing billions of users who would never pay a recurring SaaS subscription.</li>
+            <li>Amazon's ad platform, built entirely on purchase intent, generates more revenue than Netflix.</li>
+          </ul>
+
+          <p>
+            Time spent is the raw inventory of digital monetization. Over the last two years, aggregate time spent in generative AI apps increased tenfold, with ChatGPT capturing <strong>68% of total consumer AI attention</strong>. Daily time per active mobile user has climbed to ~16 minutes.
+          </p>
+
+          <p>
+            Crucially, AI conversational time carries fundamentally different economics than passive feed scrolling:
+          </p>
+
+          <ul>
+            <li><strong>Google sells Intent:</strong> A user inputs a keyword ("best enterprise CRM"); Google matches ads against commercial intent ($15–$200+ CPMs, yielding ~$84 global ARPU).</li>
+            <li><strong>Meta sells Attention:</strong> A user browses a social feed; Meta uses predictive interest graphs to inject hyper-targeted native ads (~$57 global ARPU).</li>
+            <li><strong>AI Assistants sell Structured, Contextual Intent:</strong> In a multi-turn conversation, a user articulates exact constraints, budgets, preferences, and personal context ("Find a lightweight laptop under $1,200 for engineering school with long battery life").</li>
+          </ul>
+
+          <p>
+            This contextual density makes commercial signals unusually clear, explaining why early premium ad pilots in conversational interfaces command CPMs exceeding $60. If an AI utility generates even $30 in annual ad revenue per free user (less than half of Google Search), a 900M-user footprint yields an incremental <strong>$25B+ in high-margin revenue</strong>.
+          </p>
+
+          <p>
+            Here lies a crucial strategic asymmetry: Google can afford to keep Gemini ad-free because its core search engine generates $295B to subsidize consumer AI inference costs. Pure-play AI labs possess no such safety net; they must monetize attention directly without compromising the user trust that made the product an intellectual companion in the first place.
+          </p>
+
+          <h2>Closing Perspectives: The Decadal Transition</h2>
+          <p>
+            Reflecting on the frameworks explored in Stanford's MS&amp;E 435 and matching them with the realities of low-level systems engineering offers a sobering, clarifying lens for anyone building in AI today:
+          </p>
+
+          <ol>
+            <li>
+              <strong>Hardware gravity will not vanish overnight.</strong> The physical constraints of inference memory bandwidth, thermal thresholds, and packaging ensure that the semiconductor layer will continue extracting outsized economic rents for years to come.
+            </li>
+            <li>
+              <strong>Distribution without habit is an illusion.</strong> App store rankings and viral download surges mean nothing without weekly retention. The products that win are those that cross the utility threshold and build durable cognitive habits.
+            </li>
+            <li>
+              <strong>The ultimate application moats will bridge systems and attention.</strong> The enduring franchises of this cycle will not be thin wrappers over third-party APIs. They will be integrated operations that co-design custom hardware and inference runtimes to compress marginal COGS, while transforming high-intent conversational attention into scalable, non-intrusive monetization.
+            </li>
+          </ol>
+
+          <p>
+            The generative AI stack will eventually invert, just as the cloud and mobile stacks did before it. But it will not be an overnight software victory. It will be an arduous, decadal migration—fought token by token, cycle by cycle, and habit by habit.
+          </p>
+        </article>
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>&copy; 2026 Sreejit Kar</div>
+        <div class="footer-social-links">
+          <a href="mailto:sreejitkar999@gmail.com" class="social-icon-link" title="Email" aria-label="Email">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/sreejitkar" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="GitHub" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sreejitkar/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="LinkedIn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="X (Twitter)" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
