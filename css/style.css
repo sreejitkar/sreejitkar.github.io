@@ -715,6 +715,45 @@ a {
   margin-bottom: 1.25rem;
 }
 
+/* About Section with Seamless Editorial Portrait */
+.about-content {
+  overflow: hidden; /* clearfix */
+}
+
+.about-portrait-wrap {
+  float: left;
+  width: 200px;
+  margin: 0.15rem 2.25rem 1.5rem 0;
+  user-select: none;
+}
+
+.about-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.04));
+  transition: filter var(--transition);
+}
+
+[data-theme="dark"] .about-portrait {
+  filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.35));
+}
+
+@media (max-width: 768px) {
+  .about-portrait-wrap {
+    width: 160px;
+    margin: 0.1rem 1.6rem 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-portrait-wrap {
+    width: 125px;
+    margin: 0 1.15rem 0.65rem 0;
+  }
+}
+
 .about-lead {
   margin-top: 1.5rem;
   font-size: 1.0625rem;
