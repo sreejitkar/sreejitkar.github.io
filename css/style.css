@@ -245,15 +245,16 @@ a {
   }
 }
 
-/* Name heading in sidebar */
+/* Sidebar Masthead / Author Name */
 .author-name {
   font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: none;
   color: var(--text);
   display: block;
+  line-height: 1.25;
 }
 
 .author-name a {
@@ -268,9 +269,10 @@ a {
 
 @media (min-width: 768px) {
   .author-name {
-    margin-bottom: 1.5rem;
-    font-size: 0.875rem;
-    letter-spacing: 0.06em;
+    margin-bottom: 1.6rem;
+    font-size: 1.1875rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -340,6 +342,16 @@ a {
   letter-spacing: -0.01em;
   line-height: 1.4;
   flex-wrap: wrap;
+}
+
+.hero-author-kicker {
+  font-family: var(--font-sans);
+  font-size: clamp(1.1875rem, 2.4vw, 1.4375rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 0.85rem;
+  line-height: 1.25;
 }
 
 .hero-statement {
