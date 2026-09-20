@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Architecture of Agent Skills: Context Windows as Ephemeral Filesystems — Sreejit Kar</title>
+  <meta name="description" content="Why monolithic function-calling schemas fail at scale, and how treating context windows as hierarchical paging caches over sandboxed filesystems unlocks autonomous reasoning.">
+  <meta name="author" content="Sreejit Kar">
+  
+  <meta property="og:title" content="The Architecture of Agent Skills: Context Windows as Ephemeral Filesystems — Sreejit Kar">
+  <meta property="og:description" content="Why monolithic function-calling schemas fail at scale, and how treating context windows as hierarchical paging caches over sandboxed filesystems unlocks autonomous reasoning.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <div class="site-wrapper">
+    <!-- Sidebar / Nav Column -->
+    <aside class="sidebar">
+      <div class="sidebar-sticky">
+        <header class="sidebar-header">
+          <a href="../index.html" class="brand-mark" aria-label="Sreejit Kar — Home">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="36" height="36" rx="9" fill="currentColor" fill-opacity="0.08"/>
+              <text x="18" y="23" text-anchor="middle" font-family="var(--font-sans)" font-weight="800" font-size="14.5" letter-spacing="-0.04em" fill="currentColor">SK</text>
+            </svg>
+          </a>
+
+          <h1 class="author-name mobile-only">
+            <a href="../index.html">Sreejit Kar</a>
+          </h1>
+
+          <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+            <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </header>
+
+        <nav class="nav-menu" aria-label="Main Navigation">
+          <a href="../index.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>About</span>
+          </a>
+          <a href="../projects.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Projects</span>
+          </a>
+          <a href="../writing.html" class="nav-item active">
+            <span class="nav-dot"></span>
+            <span>Writing</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Column -->
+    <main id="content" class="main-content">
+      <div class="content-inner">
+        <header class="post-header">
+          <a href="../writing.html" class="post-back-link">&larr; Back to Writing</a>
+          <h1 class="post-title">The Architecture of Agent Skills: Context Windows as Ephemeral Filesystems</h1>
+          <div class="post-date">February 18, 2025 &middot; 6 min read</div>
+        </header>
+
+        <article class="prose">
+          <p>
+            When function calling arrived in production LLM APIs in mid-2023, it felt like an unambiguous triumph of systems engineering. By constraining model decoding across a strict JSON Schema grammar, providers turned non-deterministic token streams into deterministic remote procedure calls. We gave the model an array of tool signatures, the model emitted <code>{"name": "fetch_user", "arguments": {"id": 42}}</code>, and orchestrators dutifully dispatched the request over HTTP.
+          </p>
+
+          <p>
+            For trivial applications—a weather widget, a calculator, a database lookup—this abstraction holds. But as soon as you attempt to build an autonomous systems engineer—an agent capable of triaging a failing Kubernetes cluster, navigating a multi-gigabyte monorepo, refactoring an observability pipeline, and verifying its own changes—the monolithic function-calling paradigm collapses under its own design assumptions.
+          </p>
+
+          <p>
+            The failure is architectural: <strong>we have treated the context window as an API gateway when it is actually an ephemeral CPU cache.</strong>
+          </p>
+
+          <blockquote>
+            "Programs must be written for people to read, and only incidentally for machines to execute." &mdash; Harold Abelson, Structure and Interpretation of Computer Programs
+          </blockquote>
+
+          <p>
+            To scale agents beyond toy workflows, we must abandon static schema inlining and return to first principles of operating system design. Capabilities should not be baked into the prompt envelope as rigid JSON schemas. They must be structured as dynamic, discoverable <em>skills</em> residing in an ephemeral filesystem—paged into working memory on demand, composed via standard POSIX primitives, and executed within hardened sandboxes.
+          </p>
+
+          <h2>The Context-Window Token Tax and Attention Diffusion</h2>
+
+          <p>
+            Consider what happens when an enterprise agent is equipped with sixty discrete tools across Git, AWS, Jira, Datadog, and PostgreSQL. In the standard tool-use pattern, the JSON Schema definitions for all sixty operations are serialized into the system prompt on every single inference turn:
+          </p>
+
+          <pre><code>{
+  "tools": [
+    {
+      "name": "cloudwatch_get_metric_data",
+      "description": "Retrieves batched metric data points from AWS CloudWatch...",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "MetricDataQueries": { "type": "array", ... },
+          "StartTime": { "type": "string", "format": "date-time" },
+          "EndTime": { "type": "string", "format": "date-time" },
+          "ScanBy": { "type": "string", "enum": ["TimestampDescending", "TimestampAscending"] }
+        },
+        "required": ["MetricDataQueries", "StartTime", "EndTime"]
+      }
+    },
+    ... 59 other exhaustive schemas ...
+  ]
+}</code></pre>
+
+          <p>
+            This schema dump immediately extracts a crushing double penalty:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Economic and Latency Overhead:</strong> Sixty schemas easily devour between 10,000 and 25,000 prompt tokens. In a complex, 40-step trajectory, you are transferring, caching, and attending over hundreds of thousands of tokens of static capability descriptions that may never be invoked. Even with aggressive KV-cache prefix optimization, time-to-first-token (TTFT) and throughput degrade noticeably.
+            </li>
+            <li>
+              <strong>Attentional Diffusion:</strong> Far more insidiously, inlining schemas compromises model reasoning. Multi-head self-attention computes a normalized softmax distribution over the key sequence:
+              $$\alpha_{i,j} = \frac{\exp\left(\frac{q_i \cdot k_j}{\sqrt{d_k}}\right)}{\sum_{m=1}^{N} \exp\left(\frac{q_i \cdot k_m}{\sqrt{d_k}}\right)}$$
+              When the prompt is flooded with thousands of syntactic boilerplate tokens—types, field descriptions, enums, nested object brackets—the attention mass is dispersed across irrelevant distractor tokens. This induces parameter hallucinations, tool confusion (calling <code>query_db_v2</code> instead of <code>run_sql</code>), and diminished recall for the user's actual constraints.
+            </li>
+          </ul>
+
+          <h2>Progressive Disclosure: The Context as L1 Cache</h2>
+
+          <p>
+            Computer systems solve capacity and latency trade-offs through memory hierarchies: registers feed into L1/L2/L3 caches, which page against RAM, which in turn maps backing stores on NVMe drives. A CPU core does not load the entirety of secondary storage into its register files before executing an instruction; it maintains page tables and pulls cache lines upon demand.
+          </p>
+
+          <p>
+            Human engineers work identically. When dropped into a million-line code repository, no engineer reads all 4,000 header files before starting. Instead, they scan the root directory, read the top-level <code>README.md</code>, identify the relevant subsystem, and inspect specific implementations only when a task demands it.
+          </p>
+
+          <p>
+            An <em>Agent Skill</em> mirrors this exact mechanism through <strong>progressive disclosure</strong>. Rather than injecting exhaustive parameter trees into the root context, skills are encapsulated as directory trees within a local filesystem:
+          </p>
+
+          <pre><code>.agents/
+├── catalog.json              # Tier 0: Shallow index (~200 tokens)
+└── skills/
+    ├── k8s-triage/
+    │   ├── SKILL.md          # Tier 1: Semantic specification & CLI guide
+    │   └── scripts/
+    │       └── dump_pod_logs.sh  # Tier 2: Encapsulated implementation
+    └── postgres-explain/
+        ├── SKILL.md
+        └── explain_query.py</code></pre>
+
+          <p>
+            Execution proceeds across three explicit architectural tiers:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Tier 0 (Shallow Catalog):</strong> The agent's permanent system context contains only a compact summary table of available skill names and one-line summaries. The cost is negligible: 50 skills consume fewer than 400 tokens.
+            </li>
+            <li>
+              <strong>Tier 1 (Demand Paging):</strong> When the agent recognizes that a cluster incident requires pod diagnostics, it reads <code>.agents/skills/k8s-triage/SKILL.md</code> via standard file inspection. The detailed operational manual—flags, environment variables, edge cases—is loaded into the context window precisely when the model is ready to act.
+            </li>
+            <li>
+              <strong>Tier 2 (Execution &amp; Eviction):</strong> The skill invokes an underlying executable. Once the diagnostic phase concludes, subsequent context compression or sliding-window summarization evicts the detailed skill specification, restoring attentional bandwidth for the next phase of the plan.
+            </li>
+          </ul>
+
+          <h2>Sandboxed Execution vs. The RPC Trap</h2>
+
+          <p>
+            The function-calling paradigm inherited the worst impulses of enterprise Service-Oriented Architecture: treating every operation as a discrete, rigid RPC endpoint. But rigid RPC endpoints are fundamentally anti-compositional.
+          </p>
+
+          <p>
+            Consider a typical systems task: an agent needs to locate an error pattern in a service log, extract unique correlation IDs, and query an internal service for customer metadata. Under the discrete RPC model, the agent must invoke three separate tools across multiple round-trips:
+          </p>
+
+          <pre><code>Turn 1: call get_service_logs(service="auth", limit=1000)
+        -> returns 4MB of raw JSON containing 1,000 entries into context.
+Turn 2: model attempts to parse 4MB JSON in-context, hits context limit or drops tokens.
+Turn 3: call lookup_user_by_id(user_ids=[...]) for 40 users individually.</code></pre>
+
+          <p>
+            Every byte of intermediate telemetry is forced to travel across the inference boundary, burning tokens and polluting working memory.
+          </p>
+
+          <p>
+            Contrast this with granting the agent access to a sandboxed POSIX execution shell (such as a Linux container with <code>unshare</code> isolation, cgroups v2, and a read-only root with an ephemeral overlay). The agent solves the problem using classic Unix philosophy:
+          </p>
+
+          <pre><code>journalctl -u auth.service --since "30 min ago" \
+  | grep "ERROR: auth_failed" \
+  | awk -F'correlation_id=' '{print $2}' \
+  | awk '{print $1}' \
+  | sort -u \
+  | head -n 10 \
+  | xargs -I{} ./scripts/lookup_metadata.sh {}</code></pre>
+
+          <p>
+            The architectural difference is profound: <strong>data aggregation and transformation occur off-context in operating system memory.</strong> Four megabytes of raw unstructured text are filtered down to eight concise lines of output before touching the model's tokenizer.
+          </p>
+
+          <p>
+            Furthermore, shell execution provides natural self-correction loops. When a JSON schema call fails because an argument is malformed, the orchestrator returns an opaque schema validation error. When a shell command fails, standard streams provide high-bandwidth, descriptive diagnostics: non-zero exit codes, compiler tracebacks, and <code>stderr</code> hints. Because frontier LLMs are trained on billions of lines of shell interactions and debugging sessions, they resolve a syntax error or a missing flag in a bash pipeline with vastly higher fidelity than a proprietary REST error schema.
+          </p>
+
+          <h2>Determinism, Idempotency, and Verification Gates</h2>
+
+          <p>
+            The inherent risk of autonomous agent execution is state pollution: partial execution, race conditions, or unrecoverable mutations triggered by hallucinated parameters. If an agent executes three destructive steps and fails on the fourth, the system is left in an undefined, corrupted state.
+          </p>
+
+          <p>
+            Robust agent skill design demands two strict systems invariants:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Idempotency by Construction:</strong> Any skill that mutates persistent state must implement idempotency keys or declarative convergence (similar to Terraform or Kubernetes reconcilers). Re-running <code>apply_patch</code> or <code>deploy_revision</code> with identical inputs must yield identical state without side-effect amplification.
+            </li>
+            <li>
+              <strong>The Verification Gate:</strong> Execution must be bifurcated into distinct <em>propose</em>, <em>sandbox verify</em>, and <em>commit</em> phases. State modifications should target copy-on-write scratch environments (such as Git staging branches or Docker overlay filesystems). The orchestrator runs automated test suites, linters, or type-checkers against the scratch environment before any commit transaction is promoted to production.
+            </li>
+          </ul>
+
+          <pre><code>+-------------------------------------------------------------+
+|                     Agentic Control Loop                    |
++-------------------------------------------------------------+
+                              |
+                     1. Discover (Tier 0)
+                              |
+                              v
+                     2. Page In (Tier 1)
+                              |
+                              v
+                  +-----------------------+
+                  |  Off-Context Sandbox  |
+                  |  (Ephemeral POSIX)    |
+                  |                       |
+                  |  Execute -> Test      |
+                  +-----------------------+
+                              |
+                      3. Verify & Filter
+                              |
+                              v
+               4. Commit Delta to Persistent State</code></pre>
+
+          <h2>Designing Software for Synthetic Consumers</h2>
+
+          <p>
+            For half a century, software interfaces have been designed for two distinct audiences: human operators (who value graphic ergonomics, intuitive naming, and visual affordances) and machine-to-machine integrations (which value rigid, strongly typed binary contracts like gRPC or ASN.1).
+          </p>
+
+          <p>
+            Autonomous reasoning agents represent a radically different third consumer: an entity with fluid general reasoning, high semantic parsing capacity, but bounded working memory and zero tolerance for token bloat.
+          </p>
+
+          <p>
+            When designing APIs for this new class of synthetic consumers, the architectural rules invert:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Maximize Semantic Density per Token:</strong> Avoid verbose, deeply nested JSON payloads where keys outweigh values. Compact, self-describing formats (such as clean TSV, Markdown tables, or terse YAML) frequently outperform sprawling JSON schemas in both token efficiency and parser reliability.
+            </li>
+            <li>
+              <strong>First-Class <code>--help</code> Interfaces:</strong> Command-line tools that print concise usage examples and clear error messages when invoked with invalid arguments provide immediate on-ramp guidance without requiring static prompt pre-loading.
+            </li>
+            <li>
+              <strong>Return to Plan 9's Filesystem Ethos:</strong> Exposing system state as a hierarchy of virtual files and directories allows agents to leverage their most refined reasoning muscles: navigating trees, reading slices of files, and piping streams.
+            </li>
+          </ul>
+
+          <h2>Conclusion: The Operating System of Thought</h2>
+
+          <p>
+            The transition from static function-calling JSON schemas to filesystem-backed agent skills is not merely an ergonomics improvement; it is an architectural necessity. Monolithic tool dumps treat large language models as fragile pattern matchers that must be spoon-fed every parameter constraint upfront.
+          </p>
+
+          <p>
+            By treating the context window as a dynamic, volatile CPU cache over a sandboxed filesystem, we align agent architectures with the proven principles of computing history: hierarchical caching, progressive discovery, composable POSIX interfaces, and sandboxed verification. The future of autonomous systems will not be built on brittle API wrappers, but on the enduring foundation of operating systems primitives.
+          </p>
+        </article>
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>&copy; 2026 Sreejit Kar</div>
+        <div class="footer-social-links">
+          <a href="mailto:sreejitkar999@gmail.com" class="social-icon-link" title="Email" aria-label="Email">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/sreejitkar" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="GitHub" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sreejitkar/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="LinkedIn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="X (Twitter)" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

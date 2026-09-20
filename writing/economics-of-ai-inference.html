@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Economics of Inference: Memory Bandwidth, Disaggregation, and the KV Cache Tax — Sreejit Kar</title>
+  <meta name="description" content="A first-principles systems analysis of AI inference economics: Roofline models, memory-bandwidth saturation in autoregressive decoding, the KV cache tax, and prefill/decode disaggregation.">
+  <meta name="author" content="Sreejit Kar">
+  
+  <meta property="og:title" content="The Economics of Inference: Memory Bandwidth, Disaggregation, and the KV Cache Tax — Sreejit Kar">
+  <meta property="og:description" content="Why memory bandwidth, the KV cache tax, and prefill/decode disaggregation dictate the financial reality of generative software and autonomous agent loops.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <div class="site-wrapper">
+    <!-- Sidebar / Nav Column -->
+    <aside class="sidebar">
+      <div class="sidebar-sticky">
+        <header class="sidebar-header">
+          <a href="../index.html" class="brand-mark" aria-label="Sreejit Kar — Home">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="36" height="36" rx="9" fill="currentColor" fill-opacity="0.08"/>
+              <text x="18" y="23" text-anchor="middle" font-family="var(--font-sans)" font-weight="800" font-size="14.5" letter-spacing="-0.04em" fill="currentColor">SK</text>
+            </svg>
+          </a>
+
+          <h1 class="author-name mobile-only">
+            <a href="../index.html">Sreejit Kar</a>
+          </h1>
+
+          <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+            <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </header>
+
+        <nav class="nav-menu" aria-label="Main Navigation">
+          <a href="../index.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>About</span>
+          </a>
+          <a href="../projects.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Projects</span>
+          </a>
+          <a href="../writing.html" class="nav-item active">
+            <span class="nav-dot"></span>
+            <span>Writing</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Column -->
+    <main id="content" class="main-content">
+
+      <div class="content-inner">
+        <header class="post-header">
+          <a href="../writing.html" class="post-back-link">&larr; Back to Writing</a>
+          <h1 class="post-title">The Economics of Inference: Memory Bandwidth, Disaggregation, and the KV Cache Tax</h1>
+          <div class="post-date">November 9, 2025 &middot; 8 min read</div>
+        </header>
+
+        <article class="prose">
+          <p>
+            The technology industry spent three years captivated by the spectacle of training runs: 100-megawatt clusters, tens of thousands of GPUs stitched together with optical transceivers, and nine-figure checks written to converge trillions of parameters over months of sustained compute. Yet in the ledger of technology economics, training is an amortized capital expenditure. You write the check once, capitalize the asset, and amortize it across the expected commercial lifetime of the model checkpoint.
+          </p>
+
+          <p>
+            Inference, by contrast, is a perpetual operational expenditure. It is an unyielding, per-query toll levied by the laws of semiconductor physics. Every prompt processed and every completion token generated consumes physical kilowatt-hours, occupies high-bandwidth memory (HBM), and competes for interconnect cycles.
+          </p>
+
+          <p>
+            Traditional enterprise SaaS enjoyed gross margins of 75% to 85% because serving bytes over NGINX or executing an indexed read on a PostgreSQL replica cost a fraction of a millicent. In generative workloads, that margin structure implodes. When an autonomous agent executes a 50-step loop—ingesting tool descriptions, parsing documentation, and emitting reasoning traces—software ceases to behave like frictionless code and begins to behave like industrial manufacturing. The economics of modern software are no longer dictated by software architecture alone, but by memory bus throughput, cache residency, and hardware scheduling.
+          </p>
+
+          <blockquote>
+            "Training creates capability; inference dictates viability. A model you cannot afford to serve at scale is indistinguishable from a model that does not work."
+          </blockquote>
+
+          <h2>The Roofline Model: Why Decoding Starves the GPU</h2>
+          <p>
+            To understand why serving large language models is economically punishing, one must examine the system through the lens of the <strong>Roofline Model</strong> (Williams, Waterman, and Patterson). The model bounds achievable operational performance ($P$) as a function of <em>arithmetic intensity</em> ($I$), defined as floating-point operations performed per byte transferred from dynamic memory:
+          </p>
+
+<pre><code>Operational Intensity (I) = FLOPs / Memory Traffic (Bytes)
+
+P_achieved = min( P_peak,  I * Bandwidth_mem )</code></pre>
+
+          <p>
+            Consider an NVIDIA H100 SXM5 accelerator. It provides approximately <strong>989.5 TFLOPS</strong> of dense FP16/BF16 Tensor Core compute and <strong>3.35 TB/s</strong> of HBM3 memory bandwidth. Dividing peak compute by memory bandwidth yields the hardware's critical inflection threshold:
+          </p>
+
+<pre><code>I* = 989.5 * 10^12 FLOPs/sec / 3.35 * 10^12 Bytes/sec
+   ~ 295.4 FLOPs / Byte</code></pre>
+
+          <p>
+            If a kernel executes fewer than ~295 floating-point operations for every byte it fetches from HBM, execution is strictly <strong>memory-bandwidth bound</strong>. The multi-thousand arithmetic logic units inside the Streaming Multiprocessors (SMs) spend the majority of their clock cycles stalled, waiting for memory controllers to deliver operands across the silicon interposer.
+          </p>
+
+          <p>
+            Transformer inference bifurcates violently across this threshold into two entirely distinct workloads:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Prefill (Prompt Processing):</strong> In prefill, the engine processes all prompt tokens $S_{\text{in}}$ concurrently. The projection layers ($W_q, W_k, W_v, W_o$) and MLP feed-forward projections operate as large General Matrix-Matrix multiplications (GEMM). For an input batch of size $B$ and sequence length $S$, each weight loaded from HBM into on-chip SRAM is reused across $B \times S$ tokens. Arithmetic intensity scales directly with sequence length ($I \propto B \times S$). When $B \times S > 300$, arithmetic intensity comfortably surpasses $I^*$. The GPU runs in the compute-bound regime, achieving 50% to 65% Model FLOPs Utilization (MFU).
+            </li>
+            <li>
+              <strong>Decode (Token Generation):</strong> Because autoregressive generation produces tokens sequentially—token $t$ conditioned on $t-1$—the active token sequence length per stream is strictly $S = 1$. The matrix multiplications collapse into General Matrix-Vector products (GEMV). To emit a single token, <em>every single parameter</em> of the model must be streamed from HBM into registers, multiplied by a single activation vector, and discarded.
+            </li>
+          </ul>
+
+          <p>
+            For an unbatched stream ($B=1$), the arithmetic intensity of decode is roughly:
+          </p>
+
+<pre><code>I_decode = (2 * Parameters * 1) / (Parameters * Precision_Bytes)
+         = 2 / 2  (for FP16)
+         = 1.0 FLOP / Byte</code></pre>
+
+          <p>
+            At $I = 1.0 \text{ FLOP/Byte}$, the H100 achieves less than <strong>0.35%</strong> of its theoretical compute capacity. The SMs are starved. The minimum physical latency to emit a single token for a 70-billion parameter model in 16-bit precision (140 GB of weights) distributed across two H100 GPUs ($2 \times 3.35 \text{ TB/s} = 6.70 \text{ TB/s}$) is bounded entirely by the memory bus:
+          </p>
+
+<pre><code>Latency_step >= (140 * 10^9 Bytes) / (6.70 * 10^12 Bytes/sec)
+             ~ 20.9 milliseconds per token (~47.8 tokens/sec)</code></pre>
+
+          <p>
+            It does not matter whether the node has 1,000 TFLOPS or 10,000 TFLOPS of compute available. Until the memory bus can stream the 140 gigabytes of weights across the interposer, the next token cannot be sampled.
+          </p>
+
+          <h2>The KV Cache Tax: The Space-Time Bargain</h2>
+          <p>
+            To avoid recomputing attention across all preceding tokens at every autoregressive step—an $O(S^2)$ compute penalty per token—serving engines maintain a <strong>Key-Value (KV) Cache</strong>. By caching the projected key and value activation tensors at every transformer layer, the marginal compute per step drops to $O(S)$.
+          </p>
+
+          <p>
+            This algorithmic bargain trades compute for memory footprint. The memory consumed by the KV cache scales linearly with sequence length, batch size, and layer count according to the exact relation:
+          </p>
+
+<pre><code>Memory_KV = 2 * L * n_kv * d_head * S * B * P_bytes
+
+Where:
+  L       = Number of Transformer layers
+  n_kv    = Number of Key/Value attention heads
+  d_head  = Hidden dimension per head (d_model / n_heads)
+  S       = Total sequence length (prompt + completion)
+  B       = Concurrent batch size
+  P_bytes = Precision in bytes (2 for BF16/FP16, 1 for FP8)</code></pre>
+
+          <p>
+            Consider a modern frontier-class open model like <strong>Llama 3 70B</strong> ($L = 80$, $n_q = 64$, $n_{\text{kv}} = 8$ via Grouped-Query Attention, $d_{\text{head}} = 128$):
+          </p>
+
+<pre><code>Bytes per token per sequence (BF16):
+  = 2 * 80 * 8 * 128 * 2 bytes
+  = 327,680 bytes ~ 320 KB / token</code></pre>
+
+          <p>
+            While 320 kilobytes per token appears benign in isolation, observe how the memory ledger compounds across production context windows:
+          </p>
+
+          <ul>
+            <li>At <strong>4,096 tokens</strong>: $320 \text{ KB} \times 4,096 = \mathbf{1.28\text{ GB}}$ per active request.</li>
+            <li>At <strong>32,768 tokens</strong>: $320 \text{ KB} \times 32,768 = \mathbf{10.24\text{ GB}}$ per active request.</li>
+            <li>At <strong>131,072 tokens</strong> (128k context): $320 \text{ KB} \times 131,072 = \mathbf{40.96\text{ GB}}$ per active request.</li>
+          </ul>
+
+          <p>
+            Now consider the economics of an 8x H100 SXM5 server node ($8 \times 80\text{GB} = 640\text{GB}$ total HBM). The FP16 weights of Llama 3 70B consume roughly 140 GB. Tensor parallel activations and runtime scratchpad memory reserve another ~20 GB, leaving approximately <strong>480 GB</strong> of unfragmented HBM for the KV cache pool.
+          </p>
+
+          <p>
+            If users execute requests within a 32k context window, that entire $300,000 server node can host at most:
+          </p>
+
+<pre><code>Max Concurrency = 480 GB / 10.24 GB ~ 46 concurrent requests</code></pre>
+
+          <p>
+            At request 47, the cluster is out of memory. The engine must either reject the request, queue it behind high head-of-line latency, or preempt active requests by swapping their KV pages to host system RAM over PCIe Gen5. But PCIe Gen5 x16 provides only ~64 GB/s bi-directional bandwidth—nearly <strong>50 times slower</strong> than on-board HBM3. Memory swapping destroys token streaming rates, plunging inter-token latency from 25 ms into hundreds of milliseconds.
+          </p>
+
+          <h2>The Monolith Crumbles: Prefill/Decode Disaggregation</h2>
+          <p>
+            Historically, LLM serving engines—such as baseline vLLM or TensorRT-LLM—adopted a <em>monolithic</em> topology. Every GPU worker within a tensor-parallel replica handled both prefill and decode tasks. To interleave both workloads, modern schedulers employ iteration-level continuous batching with chunked prefill (e.g., Sarathi-Serve).
+          </p>
+
+          <p>
+            Under real-world multi-tenant traffic, this colocation creates severe operational interference:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Decode Jitter and SLA Degradation:</strong> When a client submits an 8,000-token prompt, the prefill GEMM kernel consumes the entire SM array for 150–300 milliseconds. Any active decoding streams packed into that same iteration cycle are blocked from emitting their next token. To the end user or client agent, output streaming freezes, inducing unacceptable Time-Between-Tokens (TBT) tail latencies.
+            </li>
+            <li>
+              <strong>Hardware Misallocation:</strong> Prefill wants raw compute density—massive FLOP throughput to burn through matrices. Decode wants memory bandwidth and vast memory capacity to hold hundreds of KV cache streams. Forcing both phases onto the same uniform silicon compromises both.
+            </li>
+          </ul>
+
+          <p>
+            This friction has driven the rise of <strong>Prefill/Decode (P/D) Disaggregation</strong> (implemented in architectures like Splitwise, DistServe, and Mooncake).
+          </p>
+
+<pre><code>[ Ingress Request Router ]
+           |
+   +-------+-------+
+   | (Prompt Phase)
+   v
+[ Prefill Worker Pool ]  ---> Compute-optimized nodes (H100 / B200)
+   |                          High MFU (55-70%), saturated Tensor Cores
+   |  (KV Cache Transfer via
+   |   400 Gbps RDMA / RoCEv2)
+   v
+[ Decode Worker Pool ]   ---> Bandwidth- & capacity-optimized nodes
+                              Saturated memory bus, zero prefill interference
+   | (Autoregressive Stream)
+   v
+[ Client SSE Stream ]</code></pre>
+
+          <p>
+            In a disaggregated architecture, prefill workers process the initial prompt at near-peak MFU, compute the initial KV tensors, and then transfer the KV state over a dedicated high-speed network fabric (such as 400G RoCEv2 or InfiniBand) directly into the HBM of a decode worker via Remote Direct Memory Access (RDMA).
+          </p>
+
+          <p>
+            Is the network transfer cost tolerable? Let us run the numbers. For an 8k prompt on Llama 3 70B, the KV cache footprint is $8,192 \times 320 \text{ KB} \approx 2.56 \text{ GB}$. Across a dual-rail 400 Gbps RDMA fabric ($2 \times 50 \text{ GB/s} = 100 \text{ GB/s}$ real wire throughput):
+          </p>
+
+<pre><code>Transfer Time = 2.56 GB / 100 GB/sec = 25.6 milliseconds</code></pre>
+
+          <p>
+            Because this transfer occurs concurrently with the sampling of the first token, the network latency is virtually invisible to the user's Time-To-First-Token (TTFT). Meanwhile, the decode pool operates with clockwork determinism, maintaining 20–25 ms per-token generation without experiencing prefill latency shocks.
+          </p>
+
+          <h2>The Arsenal of Mitigation: Algorithmic and Systems Relief</h2>
+          <p>
+            The software industry cannot wait for hardware manufacturers to double HBM capacity every eighteen months. A battery of systems and algorithmic techniques has emerged to alleviate the memory bottleneck:
+          </p>
+
+          <h3>1. Virtual Memory for Tensors: PagedAttention</h3>
+          <p>
+            Prior to the development of PagedAttention (Kwon et al., vLLM), serving engines allocated contiguous memory buffers for a sequence's KV cache based on its maximum possible sequence length ($S_{\max}$). Because real-world generation lengths are stochastic, this resulted in staggering memory waste: <strong>60% to 80%</strong> of GPU HBM was lost to internal and external fragmentation.
+          </p>
+
+          <p>
+            PagedAttention mirrors the virtual memory architecture of modern operating systems. The KV cache is partitioned into fixed-size physical blocks (typically 16 or 32 tokens). A logical page table maps continuous token positions to non-contiguous physical memory pages allocated on demand. Fragmentation falls to sub-4%, immediately tripling effective serving concurrency on identical silicon.
+          </p>
+
+          <h3>2. Architectural Attention Distillation: MQA and GQA</h3>
+          <p>
+            In classic Multi-Head Attention (MHA), every query head has a distinct key and value head ($n_{\text{kv}} = n_{\text{heads}}$). For a 64-head model, this requires storing 64 key vectors and 64 value vectors per token.
+          </p>
+
+          <p>
+            <strong>Grouped-Query Attention (GQA)</strong> partitions query heads into groups that share a single key-value head. In Llama 3 70B, 64 query heads are grouped across 8 KV heads—an <strong>8x reduction</strong> in KV cache size and memory traffic compared to standard MHA, with negligible degradation in model perplexity.
+          </p>
+
+          <h3>3. KV Cache Quantization (FP8 and INT4)</h3>
+          <p>
+            While model weights are often compressed using post-training quantization, quantizing activations dynamically is harder due to outlier channels. However, moving the KV cache from BF16 (16 bits) to FP8 (E4M3 or E5M2 formats, 8 bits) halves the cache footprint immediately, doubling batch capacity with imperceptible perplexity loss.
+          </p>
+
+          <p>
+            Advanced techniques such as KIVI decompose key and value matrices along different dimensions: quantizing keys per-channel and values per-token down to <strong>INT4</strong> (4 bits). This delivers a <strong>75% reduction</strong> in KV memory overhead, dropping the Llama 3 70B cache footprint to just 80 KB per token.
+          </p>
+
+          <h3>4. Radix Tree Prefix Caching</h3>
+          <p>
+            In agentic architectures, RAG pipelines, and multi-turn conversational systems, prompts share extensive redundant prefixes: system instructions, OpenAPI tool definitions, few-shot examples, and ingested reference documents.
+          </p>
+
+          <p>
+            Engines like SGLang and vLLM organize the KV cache pool as a <strong>Radix Tree</strong> (trie) keyed on token sequences. When an incoming prompt matches an existing node in the tree, the engine skips the prefill GEMM operations entirely, referencing the existing physical KV pages via copy-on-write pointers. A prefix cache hit drops Time-to-First-Token from seconds to single-digit milliseconds and drives the marginal compute cost of the prompt to zero.
+          </p>
+
+          <h3>5. Speculative Decoding: Trading Compute to Bypass Bandwidth</h3>
+          <p>
+            Speculative decoding (Leviathan et al.) exploits the core premise of the Roofline Model: since the decode phase has excess compute capacity but is throttled by memory bandwidth, we can spend surplus FLOPs to reduce memory passes.
+          </p>
+
+          <p>
+            A lightweight "draft" model (e.g., a 1B or 8B parameter variant) rapidly generates $K$ candidate tokens at low latency. The large target model (e.g., 70B) then evaluates all $K$ candidates simultaneously in a single forward pass. Because evaluating $K$ tokens in parallel is a compute-intensive GEMM operation rather than a memory-bound GEMV, the target model verifies the candidate tokens using the same memory bus pass it would have spent generating a single token. If $M$ tokens are accepted ($M \le K$), latency per generated token drops by $2\times$ to $3\times$ without altering the model's output distribution.
+          </p>
+
+          <h2>The Economic Endgame: The Unit Economics of Autonomous Agents</h2>
+          <p>
+            The shift from conversational chatbots to autonomous agents fundamentally breaks naive inference cost models.
+          </p>
+
+          <p>
+            In a simple chat query, the token exchange is $O(1)$: a single prompt of 1,000 tokens yields a completion of 400 tokens. At standard commercial API rates ($2.50 per million input tokens, $10.00 per million output tokens), each query costs ~$0.0065.
+          </p>
+
+          <p>
+            In an autonomous software engineering agent (e.g., executing a ReAct loop to locate a bug, modify code, run test suites, and inspect failures), the workload is an iterative state machine spanning dozens of cycles. Crucially, the prompt context compounds monotonically:
+          </p>
+
+<pre><code>Step 1:  System Prompt + Problem Statement                ~ 3,000 tokens
+Step 2:  History + File Tree + Grep Output                 ~ 8,000 tokens
+Step 10: History + File Diffs + Test Run 1 Failures        ~ 28,000 tokens
+Step 25: History + Stack Traces + Second Attempt           ~ 65,000 tokens
+Step 50: History + Final Verification Run                  ~ 110,000 tokens</code></pre>
+
+          <p>
+            Because the entire historical context must be re-evaluated at each step $k$, total prompt tokens ingested over an $N$-step trajectory scale quadratically:
+          </p>
+
+<pre><code>Total Prompt Tokens = Sum_{k=1}^N S_k  ~  O(N^2)</code></pre>
+
+          <p>
+            For a 50-step agent loop averaging 40,000 tokens of context per step, the agent consumes:
+          </p>
+
+<pre><code>50 steps * 40,000 tokens/step = 2,000,000 prompt tokens</code></pre>
+
+          <p>
+            Without prefix caching, that single agent invocation costs <strong>$5.00 in input tokens alone</strong>. If the task fails 50% of the time and requires a retry, the blended cost per successful software task escalates to $10.00–$15.00. For an enterprise SaaS provider charging $30 to $50 per user per month, just three or four complex agent tasks per seat will consume the entire subscription revenue, plunging gross margins into negative territory.
+          </p>
+
+          <p>
+            With <strong>Radix prefix caching</strong>, however, step $k$ reuses the exact KV cache state of step $k-1$. The engine only pays prefill FLOPs for the <em>newly appended</em> tool output (perhaps 1,500 tokens). Total ingested tokens drop from 2,000,000 to less than 80,000—a <strong>96% reduction in operational cost</strong>.
+          </p>
+
+          <p>
+            Coupled with P/D disaggregation, which prevents long-context agent prompts from degrading interactive user queries, and FP8/INT4 KV quantization, which allows servers to maintain concurrency under 100k+ contexts, the unit economics of autonomous software flip from impossible to profitable.
+          </p>
+
+          <h2>The Physics Behind the Balance Sheet</h2>
+          <p>
+            It is tempting to view artificial intelligence purely through the lens of statistics: loss landscapes, attention heads, and parameter counts. But at production scale, software is bound by physical constraints.
+          </p>
+
+          <p>
+            The balance sheets of the next generation of software companies will not be won solely by the elegance of their prompts or the fine-tuning of their weights. They will be determined by whether their systems engineers understand the Roofline Model, how aggressively their serving stack tames the KV cache tax, and how efficiently their clusters disaggregate prefill compute from memory-bandwidth decoding.
+          </p>
+
+          <p>
+            In the final accounting, intelligence is cheap to conceive, but expensive to stream. The systems architecture of inference is the ultimate arbiter of who survives the transition from AI demonstration to economic utility.
+          </p>
+        </article>
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>&copy; 2026 Sreejit Kar</div>
+        <div class="footer-social-links">
+          <a href="mailto:sreejitkar999@gmail.com" class="social-icon-link" title="Email" aria-label="Email">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/sreejitkar" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="GitHub" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sreejitkar/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="LinkedIn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="X (Twitter)" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
