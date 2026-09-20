@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SKAR Neon Logo Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090d13;
+      color: #f3f4f6;
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    p.subtitle {
+      color: #9ca3af;
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #10b981;
+      margin: 2rem 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.2);
+    }
+    .preview-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 72px;
+    }
+    .label-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      text-align: center;
+    }
+    .label-desc {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .light-theme-section {
+      background: #f8fafc;
+      color: #0f172a;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+    .light-theme-section .card {
+      background: #ffffff;
+      border-color: #e2e8f0;
+    }
+    .light-theme-section .card:hover {
+      border-color: #10b981;
+      box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.15);
+    }
+    .light-theme-section .label-title {
+      color: #0f172a;
+    }
+    .light-theme-section .label-desc {
+      color: #64748b;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>SKAR &mdash; Neon Brand Identity Concepts</h1>
+  <p class="subtitle">Hover over each card to preview interactive glow and micro-animations.</p>
+
+  <div class="section-title"><span>✦</span> Dark Mode Context</div>
+  <div class="grid">
+
+    <!-- Concept 1: Neon Laser Beam -->
+    <div class="card">
+      <div class="preview-box">
+        <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="laser-1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+            <linearGradient id="border-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.1"/>
+            </linearGradient>
+            <filter id="glow-1" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="1.4" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="36" height="36" rx="9" fill="#0f172a" stroke="url(#border-1)" stroke-width="1.2"/>
+          <text x="18" y="19.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="10.5" letter-spacing="-0.02em" fill="#f8fafc">SKAR</text>
+          <line x1="8" y1="24.5" x2="28" y2="24.5" stroke="url(#laser-1)" stroke-width="1.8" stroke-linecap="round" filter="url(#glow-1)"/>
+        </svg>
+      </div>
+      <div class="label-title">Concept 1: Cyber Laser</div>
+      <div class="label-desc">Electric emerald-to-cyan neon beam underlines SKAR inside a high-tech obsidian badge.</div>
+      <span class="tag">Recommended</span>
+    </div>
+
+    <!-- Concept 2: Neon Status Diode -->
+    <div class="card">
+      <div class="preview-box">
+        <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="halo-2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow-2" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="36" height="36" rx="9" fill="#0f172a" stroke="#1e293b" stroke-width="1.2"/>
+          <circle cx="28.5" cy="7.5" r="4.5" fill="url(#halo-2)"/>
+          <circle cx="28.5" cy="7.5" r="2" fill="#10b981" filter="url(#glow-2)"/>
+          <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#f8fafc">SKAR</text>
+        </svg>
+      </div>
+      <div class="label-title">Concept 2: Server Diode</div>
+      <div class="label-desc">Luminous emerald status beacon in the corner, echoing the live infrastructure pulse.</div>
+    </div>
+
+    <!-- Concept 3: Dual-Tone Neon Typographic -->
+    <div class="card">
+      <div class="preview-box">
+        <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="neon-text-3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#00f5ff"/>
+            </linearGradient>
+            <filter id="glow-3" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="1.2" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="36" height="36" rx="9" fill="#0f172a" stroke="#1e293b" stroke-width="1.2"/>
+          <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.02em">
+            <tspan fill="#f8fafc">SK</tspan><tspan fill="url(#neon-text-3)" filter="url(#glow-3)">AR</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="label-title">Concept 3: Dual-Tone Typo</div>
+      <div class="label-desc">SK in white + AR in glowing neon cyan-emerald. Highlights the monogram evolution.</div>
+    </div>
+
+    <!-- Concept 4: Glowing Neon Border Ring -->
+    <div class="card">
+      <div class="preview-box">
+        <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="neon-ring-4" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="50%" stop-color="#06b6d4"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+            <filter id="ring-glow-4" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="1.6" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="36" height="36" rx="9" fill="#0a0e17" stroke="url(#neon-ring-4)" stroke-width="1.5" filter="url(#ring-glow-4)"/>
+          <rect width="36" height="36" rx="9" fill="#0a0e17" stroke="url(#neon-ring-4)" stroke-width="1.2"/>
+          <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#f8fafc">SKAR</text>
+        </svg>
+      </div>
+      <div class="label-title">Concept 4: Neon Aura Ring</div>
+      <div class="label-desc">Multi-spectrum neon gradient halo around the perimeter of the squircle.</div>
+    </div>
+
+  </div>
+
+  <div class="light-theme-section">
+    <div class="section-title" style="color: #059669; margin-top: 0;"><span>✦</span> Light Mode Compatibility</div>
+    <div class="grid">
+      <!-- Concept 1 in Light Mode -->
+      <div class="card">
+        <div class="preview-box">
+          <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="laser-light" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+            <text x="18" y="19.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="10.5" letter-spacing="-0.02em" fill="#0f172a">SKAR</text>
+            <line x1="8" y1="24.5" x2="28" y2="24.5" stroke="url(#laser-light)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="label-title">Concept 1: Cyber Laser</div>
+        <div class="label-desc">High-contrast emerald &rarr; azure laser on clean slate.</div>
+      </div>
+
+      <!-- Concept 2 in Light Mode -->
+      <div class="card">
+        <div class="preview-box">
+          <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="halo-light" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#059669" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#059669" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+            <circle cx="28.5" cy="7.5" r="4.5" fill="url(#halo-light)"/>
+            <circle cx="28.5" cy="7.5" r="2" fill="#059669"/>
+            <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#0f172a">SKAR</text>
+          </svg>
+        </div>
+        <div class="label-title">Concept 2: Server Diode</div>
+        <div class="label-desc">Vivid emerald active beacon on slate squircle.</div>
+      </div>
+
+      <!-- Concept 3 in Light Mode -->
+      <div class="card">
+        <div class="preview-box">
+          <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="neon-text-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+            <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.02em">
+              <tspan fill="#0f172a">SK</tspan><tspan fill="url(#neon-text-light)">AR</tspan>
+            </text>
+          </svg>
+        </div>
+        <div class="label-title">Concept 3: Dual-Tone Typo</div>
+        <div class="label-desc">Obsidian SK + rich emerald-blue AR.</div>
+      </div>
+
+      <!-- Concept 4 in Light Mode -->
+      <div class="card">
+        <div class="preview-box">
+          <svg viewBox="0 0 36 36" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ring-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#059669"/>
+                <stop offset="50%" stop-color="#0284c7"/>
+                <stop offset="100%" stop-color="#7c3aed"/>
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="9" fill="#f1f5f9" stroke="url(#ring-light)" stroke-width="1.4"/>
+            <text x="18" y="22.5" text-anchor="middle" font-family="'Geist', sans-serif" font-weight="800" font-size="11" letter-spacing="-0.03em" fill="#0f172a">SKAR</text>
+          </svg>
+        </div>
+        <div class="label-title">Concept 4: Neon Aura Ring</div>
+        <div class="label-desc">Crisp multi-tone border with deep jewel accents.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
