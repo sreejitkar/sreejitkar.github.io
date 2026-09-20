@@ -7,7 +7,7 @@ Inspired by [Mitchell Hashimoto's personal website](https://mitchellh.com/) and 
 ## Features
 
 - **Zero Runtime Overhead / Dependencies:** Pure HTML5, modern CSS3, and ~1KB of vanilla JavaScript. Zero `node_modules`, zero build steps, 100/100 Lighthouse performance.
-- **Typographic Craft:** Timeless serif prose paired with crisp sans-serif headings and monospace accents.
+- **Typographic Craft:** Engineered with [Geist](https://vercel.com/font) for prose and headings, paired with [Geist Mono](https://vercel.com/font) for code blocks, timestamps, project metadata, and footer accents.
 - **Adaptive Dark Mode:** Automatic system preference detection + manual toggle button with local persistence (`localStorage`) and zero flash of unstyled content (anti-FOUC).
 - **Mitchell Hashimoto-style Navigation:** Sticky sidebar with active dot indicator that scales dynamically based on current page.
 - **Responsive Architecture:** Seamless transition between desktop two-column sidebar layout and mobile-friendly view.
