@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
 /* ==========================================================================
    Minimalist Personal Website Stylesheet
    Inspired by mitchellh.com and modern typographic minimalism
@@ -22,9 +24,9 @@
   --tag-bg: #f4f4f5;
   --tag-text: #52525b;
 
-  /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Charter", "Bitstream Charter", "PT Serif", "Sitka Text", Cambria, Georgia, serif;
+  /* Typography - Raleway */
+  --font-sans: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Monaco, Menlo, Consolas, monospace;
 
   /* Layout */
@@ -393,9 +395,11 @@ a {
    ========================================================================== */
 
 .prose {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.0625rem;
+  font-weight: 400;
   line-height: 1.8;
+  letter-spacing: 0.01em;
   color: var(--text);
 }
 
@@ -551,8 +555,9 @@ a {
 }
 
 .project-description {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.95rem;
+  font-weight: 400;
   line-height: 1.65;
   color: var(--text-muted);
 }
@@ -611,8 +616,9 @@ a {
 }
 
 .writing-excerpt {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.95rem;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--text-muted);
   margin-top: 0.2rem;
