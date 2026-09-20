@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookshelf &mdash; Sreejit Kar</title>
+  <meta name="description" content="Bookshelf and reading log of Sreejit Kar. Tracked in real-time via Goodreads: science fiction, systems engineering, history, and non-fiction.">
+  <meta name="author" content="Sreejit Kar">
+  
+  <meta property="og:title" content="Bookshelf &mdash; Sreejit Kar">
+  <meta property="og:description" content="Bookshelf and reading log of Sreejit Kar. Tracked in real-time via Goodreads.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <div class="site-wrapper">
+    <!-- Sidebar / Nav Column -->
+    <aside class="sidebar">
+      <div class="sidebar-sticky">
+        <header class="sidebar-header">
+          <a href="index.html" class="brand-mark" aria-label="Sreejit Kar — Home">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#10b981"/>
+                  <stop offset="100%" stop-color="#00f0ff"/>
+                </linearGradient>
+                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <rect width="36" height="36" rx="9" fill="currentColor" fill-opacity="0.08" stroke="url(#orbit-grad)" stroke-width="1.2" stroke-opacity="0.45" class="mark-squircle"/>
+              <path d="M 18 7 A 11 11 0 0 1 29 18" stroke="url(#orbit-grad)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M 27 23 A 11 11 0 0 1 9 23" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2.5"/>
+              <path d="M 7 18 A 11 11 0 0 1 15 7.5" stroke="url(#orbit-grad)" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="18" cy="7" r="2.2" fill="#10b981" filter="url(#neon-glow)"/>
+              <circle cx="27.5" cy="23.5" r="1.8" fill="#00f0ff" filter="url(#neon-glow)"/>
+              <circle cx="8.5" cy="23.5" r="1.8" fill="currentColor" fill-opacity="0.6"/>
+              <circle cx="18" cy="18" r="3.2" fill="url(#orbit-grad)" filter="url(#neon-glow)"/>
+              <circle cx="18" cy="18" r="1.4" fill="#ffffff"/>
+            </svg>
+          </a>
+
+          <h1 class="author-name mobile-only">
+            <a href="index.html">Sreejit Kar</a>
+          </h1>
+
+          <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+            <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </header>
+
+        <nav class="nav-menu" aria-label="Main Navigation">
+          <a href="index.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>About</span>
+          </a>
+          <a href="projects.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Projects</span>
+          </a>
+          <a href="writing.html" class="nav-item">
+            <span class="nav-dot"></span>
+            <span>Writing</span>
+          </a>
+          <a href="bookshelf.html" class="nav-item active" aria-current="page">
+            <span class="nav-dot"></span>
+            <span>Bookshelf</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Column -->
+    <main id="content" class="main-content">
+      <header class="hero-header">
+        <div class="hero-watermark" aria-hidden="true">BOOKSHELF</div>
+        <div class="hero-content">
+          <h1 class="hero-title">Bookshelf</h1>
+          <div class="hero-subtitle">
+            <span class="hero-pulse" aria-hidden="true"></span>
+            <span>48 books tracked &middot; Synced via <a href="https://www.goodreads.com/review/list/179933801" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">Goodreads</a></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-inner">
+        <!-- Filter Bar -->
+        <div class="books-filter" role="tablist" aria-label="Book Shelves">
+          <button class="filter-btn active" data-filter="all" type="button">
+            All <span class="filter-count">48</span>
+          </button>
+          <button class="filter-btn" data-filter="currently-reading" type="button">
+            Reading <span class="filter-count">15</span>
+          </button>
+          <button class="filter-btn" data-filter="read" type="button">
+            Read <span class="filter-count">9</span>
+          </button>
+          <button class="filter-btn" data-filter="to-read" type="button">
+            Want to Read <span class="filter-count">22</span>
+          </button>
+          <button class="filter-btn" data-filter="did-not-finish" type="button">
+            DNF <span class="filter-count">2</span>
+          </button>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="books-grid" id="books-grid">
+          <!-- Book: The Origins of Efficiency -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1753110309l/239137578._SX318_.jpg" alt="The Origins of Efficiency cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/239137578" target="_blank" rel="noopener noreferrer">The Origins of Efficiency</a>
+              </h3>
+              <div class="book-author">Brian Potter</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.29 avg</span>
+                <span class="book-date">Added Aug 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: There Is No Antimemetics Division -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1597056415l/54870256._SY475_.jpg" alt="There Is No Antimemetics Division cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/54870256" target="_blank" rel="noopener noreferrer">There Is No Antimemetics Division</a>
+              </h3>
+              <div class="book-author">qntm</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.99 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Cosmos -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1388620656l/55030.jpg" alt="Cosmos cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/55030" target="_blank" rel="noopener noreferrer">Cosmos</a>
+              </h3>
+              <div class="book-author">Carl Sagan</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.39 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Prompt Engineering Handbook: Mastering AI for Professional Productivity and Automation -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1779047097l/252341880._SY475_.jpg" alt="The Prompt Engineering Handbook: Mastering AI for Professional Productivity and Automation cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/252341880" target="_blank" rel="noopener noreferrer">The Prompt Engineering Handbook: Mastering AI for Professional Productivity and Automation</a>
+              </h3>
+              <div class="book-author">Benchmark Originals</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 5.00 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Gut: The Inside Story of Our Body&#x27;s Most Underrated Organ -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1435168687l/23013953._SY475_.jpg" alt="Gut: The Inside Story of Our Body&#x27;s Most Underrated Organ cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/23013953" target="_blank" rel="noopener noreferrer">Gut: The Inside Story of Our Body&#x27;s Most Underrated Organ</a>
+              </h3>
+              <div class="book-author">Giulia Enders</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.04 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Body: A Guide for Occupants -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1565810646l/43582376.jpg" alt="The Body: A Guide for Occupants cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/43582376" target="_blank" rel="noopener noreferrer">The Body: A Guide for Occupants</a>
+              </h3>
+              <div class="book-author">Bill Bryson</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.29 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Blindsight (Firefall, #1) -->
+          <article class="book-card" data-shelf="did-not-finish">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1386924412l/48484.jpg" alt="Blindsight (Firefall, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge dnf">DNF</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/48484" target="_blank" rel="noopener noreferrer">Blindsight (Firefall, #1)</a>
+              </h3>
+              <div class="book-author">Peter Watts</div>
+              <div class="book-footer">
+                <span class="book-stars" title="Sreejit's rating: 5/5">★★★★★</span>
+                <span class="book-date">Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Wool Omnibus (Silo, #1) -->
+          <article class="book-card" data-shelf="did-not-finish">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1349614200l/13453029.jpg" alt="Wool Omnibus (Silo, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge dnf">DNF</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/13453029" target="_blank" rel="noopener noreferrer">Wool Omnibus (Silo, #1)</a>
+              </h3>
+              <div class="book-author">Hugh Howey</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.22 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Dark Forest (Remembrance of Earth’s Past, #2) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1412064931l/23168817.jpg" alt="The Dark Forest (Remembrance of Earth’s Past, #2) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/23168817" target="_blank" rel="noopener noreferrer">The Dark Forest (Remembrance of Earth’s Past, #2)</a>
+              </h3>
+              <div class="book-author">Liu Cixin</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.39 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Three-Body Problem (Remembrance of Earth’s Past, #1) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1415428227l/20518872.jpg" alt="The Three-Body Problem (Remembrance of Earth’s Past, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/20518872" target="_blank" rel="noopener noreferrer">The Three-Body Problem (Remembrance of Earth’s Past, #1)</a>
+              </h3>
+              <div class="book-author">Liu Cixin</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.07 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Recursion -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1750526564l/42046112._SX318_.jpg" alt="Recursion cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/42046112" target="_blank" rel="noopener noreferrer">Recursion</a>
+              </h3>
+              <div class="book-author">Blake Crouch</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.14 avg</span>
+                <span class="book-date">Added May 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Annihilation (Southern Reach, #1) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1403941587l/17934530.jpg" alt="Annihilation (Southern Reach, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/17934530" target="_blank" rel="noopener noreferrer">Annihilation (Southern Reach, #1)</a>
+              </h3>
+              <div class="book-author">Jeff Vandermeer</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.81 avg</span>
+                <span class="book-date">Added Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Martian -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1413706054l/18007564.jpg" alt="The Martian cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/18007564" target="_blank" rel="noopener noreferrer">The Martian</a>
+              </h3>
+              <div class="book-author">Andy Weir</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.41 avg</span>
+                <span class="book-date">Added Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Prey -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1607268251l/83763.jpg" alt="Prey cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/83763" target="_blank" rel="noopener noreferrer">Prey</a>
+              </h3>
+              <div class="book-author">Michael Crichton</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.79 avg</span>
+                <span class="book-date">Added Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Stand -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1674820514l/87591651._SX318_.jpg" alt="The Stand cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/87591651" target="_blank" rel="noopener noreferrer">The Stand</a>
+              </h3>
+              <div class="book-author">Stephen King</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.41 avg</span>
+                <span class="book-date">Added Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Andromeda Strain (Andromeda, #1) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1587497243l/7670.jpg" alt="The Andromeda Strain (Andromeda, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/7670" target="_blank" rel="noopener noreferrer">The Andromeda Strain (Andromeda, #1)</a>
+              </h3>
+              <div class="book-author">Michael Crichton</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.92 avg</span>
+                <span class="book-date">Added Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Project Hail Mary -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1764703833l/54493401._SY475_.jpg" alt="Project Hail Mary cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/54493401" target="_blank" rel="noopener noreferrer">Project Hail Mary</a>
+              </h3>
+              <div class="book-author">Andy Weir</div>
+              <div class="book-footer">
+                <span class="book-stars" title="Sreejit's rating: 5/5">★★★★★</span>
+                <span class="book-date">Added Apr 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Myth = Mithya: Decoding Hindu Mythology -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1492433121l/34871399._SX318_.jpg" alt="Myth = Mithya: Decoding Hindu Mythology cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/34871399" target="_blank" rel="noopener noreferrer">Myth = Mithya: Decoding Hindu Mythology</a>
+              </h3>
+              <div class="book-author">Devdutt Pattanaik</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.04 avg</span>
+                <span class="book-date">Added Feb 2026</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Let Me Say it Now -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1581925339l/51352317._SY475_.jpg" alt="Let Me Say it Now cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/51352317" target="_blank" rel="noopener noreferrer">Let Me Say it Now</a>
+              </h3>
+              <div class="book-author">Rakesh Maria</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.36 avg</span>
+                <span class="book-date">Added Dec 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Simulation Theory #1 -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1690573312l/179491871._SY475_.jpg" alt="Simulation Theory #1 cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/179491871" target="_blank" rel="noopener noreferrer">Simulation Theory #1</a>
+              </h3>
+              <div class="book-author">Curt Pires</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.60 avg</span>
+                <span class="book-date">Added Dec 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Sphere -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1660273071l/455373._SY475_.jpg" alt="Sphere cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/455373" target="_blank" rel="noopener noreferrer">Sphere</a>
+              </h3>
+              <div class="book-author">Michael Crichton</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.83 avg</span>
+                <span class="book-date">Added Dec 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: State of Fear -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1554227284l/15860._SY475_.jpg" alt="State of Fear cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/15860" target="_blank" rel="noopener noreferrer">State of Fear</a>
+              </h3>
+              <div class="book-author">Michael Crichton</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.70 avg</span>
+                <span class="book-date">Added Dec 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Jurassic Park (Jurassic Park, #1) -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1529604411l/40604658._SY475_.jpg" alt="Jurassic Park (Jurassic Park, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/40604658" target="_blank" rel="noopener noreferrer">Jurassic Park (Jurassic Park, #1)</a>
+              </h3>
+              <div class="book-author">Michael Crichton</div>
+              <div class="book-footer">
+                <span class="book-stars" title="Sreejit's rating: 5/5">★★★★★</span>
+                <span class="book-date">Added Dec 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Hunted (The Boy in the Iron Box, #3) -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1714635576l/212509452._SY475_.jpg" alt="The Hunted (The Boy in the Iron Box, #3) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/212509452" target="_blank" rel="noopener noreferrer">The Hunted (The Boy in the Iron Box, #3)</a>
+              </h3>
+              <div class="book-author">Guillermo del Toro</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.04 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Pit and the Box (The Boy in the Iron Box, #2) -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1714635495l/212509186._SY475_.jpg" alt="The Pit and the Box (The Boy in the Iron Box, #2) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/212509186" target="_blank" rel="noopener noreferrer">The Pit and the Box (The Boy in the Iron Box, #2)</a>
+              </h3>
+              <div class="book-author">Guillermo del Toro</div>
+              <div class="book-footer">
+                <span class="book-stars" title="Sreejit's rating: 4/5">★★★★☆</span>
+                <span class="book-date">Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Falling Down (The Boy in the Iron Box, #1) -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1714635852l/212510254._SY475_.jpg" alt="Falling Down (The Boy in the Iron Box, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/212510254" target="_blank" rel="noopener noreferrer">Falling Down (The Boy in the Iron Box, #1)</a>
+              </h3>
+              <div class="book-author">Guillermo del Toro</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.58 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: 50 GREATEST DETECTIVE STORIES -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1670616454l/64993364._SY475_.jpg" alt="50 GREATEST DETECTIVE STORIES cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/64993364" target="_blank" rel="noopener noreferrer">50 GREATEST DETECTIVE STORIES</a>
+              </h3>
+              <div class="book-author">Terry O’Brien</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.29 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Hindu Way: An Introduction to Hinduism -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1568047531l/52955990._SX318_SY475_.jpg" alt="The Hindu Way: An Introduction to Hinduism cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/52955990" target="_blank" rel="noopener noreferrer">The Hindu Way: An Introduction to Hinduism</a>
+              </h3>
+              <div class="book-author">Shashi Tharoor</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.93 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Plassey: The Battle that Changed the Course of Indian History -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1578881061l/50416004._SX318_.jpg" alt="Plassey: The Battle that Changed the Course of Indian History cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/50416004" target="_blank" rel="noopener noreferrer">Plassey: The Battle that Changed the Course of Indian History</a>
+              </h3>
+              <div class="book-author">Sudeep Chakravarti</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.74 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Eleven Numbers -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1733172408l/222163948._SY475_.jpg" alt="Eleven Numbers cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/222163948" target="_blank" rel="noopener noreferrer">Eleven Numbers</a>
+              </h3>
+              <div class="book-author">Lee Child</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.07 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: So You Want to Know About Economics -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1495190964l/35171183._SY475_.jpg" alt="So You Want to Know About Economics cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/35171183" target="_blank" rel="noopener noreferrer">So You Want to Know About Economics</a>
+              </h3>
+              <div class="book-author">Roopa Pai</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.36 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: My India -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1544552730l/43198042._SY475_.jpg" alt="My India cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/43198042" target="_blank" rel="noopener noreferrer">My India</a>
+              </h3>
+              <div class="book-author">Jim Corbett</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.51 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Akbar: The Great Mughal -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1590611387l/53504637._SY475_.jpg" alt="Akbar: The Great Mughal cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/53504637" target="_blank" rel="noopener noreferrer">Akbar: The Great Mughal</a>
+              </h3>
+              <div class="book-author">Ira Mukhoty</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.32 avg</span>
+                <span class="book-date">Added Nov 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Everyone in My Family Has Killed Someone (Ernest Cunningham, #1) -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1663127884l/60879779.jpg" alt="Everyone in My Family Has Killed Someone (Ernest Cunningham, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/60879779" target="_blank" rel="noopener noreferrer">Everyone in My Family Has Killed Someone (Ernest Cunningham, #1)</a>
+              </h3>
+              <div class="book-author">Benjamin Stevenson</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.72 avg</span>
+                <span class="book-date">Added May 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Make Me (Jack Reacher, #20) -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1467905395l/23664710.jpg" alt="Make Me (Jack Reacher, #20) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/23664710" target="_blank" rel="noopener noreferrer">Make Me (Jack Reacher, #20)</a>
+              </h3>
+              <div class="book-author">Lee Child</div>
+              <div class="book-footer">
+                <span class="book-stars" title="Sreejit's rating: 4/5">★★★★☆</span>
+                <span class="book-date">Jan 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Manhunters: How We Took Down Pablo Escobar -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566280070l/43263424.jpg" alt="Manhunters: How We Took Down Pablo Escobar cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/43263424" target="_blank" rel="noopener noreferrer">Manhunters: How We Took Down Pablo Escobar</a>
+              </h3>
+              <div class="book-author">Steve Murphy</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.82 avg</span>
+                <span class="book-date">Added Jan 2025</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Sea of Poppies (Ibis Trilogy, #1) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1764624662l/1330324._SY475_.jpg" alt="Sea of Poppies (Ibis Trilogy, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/1330324" target="_blank" rel="noopener noreferrer">Sea of Poppies (Ibis Trilogy, #1)</a>
+              </h3>
+              <div class="book-author">Amitav Ghosh</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.97 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: English, August: An Indian Story -->
+          <article class="book-card" data-shelf="currently-reading">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1644690160l/75703._SY475_.jpg" alt="English, August: An Indian Story cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge reading"><span class="badge-dot"></span>Reading</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/75703" target="_blank" rel="noopener noreferrer">English, August: An Indian Story</a>
+              </h3>
+              <div class="book-author">Upamanyu Chatterjee</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.78 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The Midnight Library (The Midnight World, #1) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1602190253l/52578297.jpg" alt="The Midnight Library (The Midnight World, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/52578297" target="_blank" rel="noopener noreferrer">The Midnight Library (The Midnight World, #1)</a>
+              </h3>
+              <div class="book-author">Matt Haig</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.95 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Thinking, Fast and Slow -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1317793965l/11468377.jpg" alt="Thinking, Fast and Slow cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/11468377" target="_blank" rel="noopener noreferrer">Thinking, Fast and Slow</a>
+              </h3>
+              <div class="book-author">Daniel Kahneman</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.16 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: India After Gandhi: The History of the World&#x27;s Largest Democracy -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1500471959l/356824._SY475_.jpg" alt="India After Gandhi: The History of the World&#x27;s Largest Democracy cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/356824" target="_blank" rel="noopener noreferrer">India After Gandhi: The History of the World&#x27;s Largest Democracy</a>
+              </h3>
+              <div class="book-author">Ramachandra Guha</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.39 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Tuesdays with Morrie: An Old Man, a Young Man, and Life&#x27;s Greatest Lesson -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1423763749l/6900.jpg" alt="Tuesdays with Morrie: An Old Man, a Young Man, and Life&#x27;s Greatest Lesson cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/6900" target="_blank" rel="noopener noreferrer">Tuesdays with Morrie: An Old Man, a Young Man, and Life&#x27;s Greatest Lesson</a>
+              </h3>
+              <div class="book-author">Mitch Albom</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.21 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: The 6:20 Man (The 6:20 Man, #1) -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1646415673l/59586621._SY475_.jpg" alt="The 6:20 Man (The 6:20 Man, #1) cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/59586621" target="_blank" rel="noopener noreferrer">The 6:20 Man (The 6:20 Man, #1)</a>
+              </h3>
+              <div class="book-author">David Baldacci</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.15 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Sapiens: A Brief History of Humankind -->
+          <article class="book-card" data-shelf="read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1703329310l/23692271._SY475_.jpg" alt="Sapiens: A Brief History of Humankind cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge read">&#10003; Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/23692271" target="_blank" rel="noopener noreferrer">Sapiens: A Brief History of Humankind</a>
+              </h3>
+              <div class="book-author">Yuval Noah Harari</div>
+              <div class="book-footer">
+                <span class="book-stars" title="Sreejit's rating: 5/5">★★★★★</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Zero to One: Notes on Startups, or How to Build the Future -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1630663027l/18050143.jpg" alt="Zero to One: Notes on Startups, or How to Build the Future cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/18050143" target="_blank" rel="noopener noreferrer">Zero to One: Notes on Startups, or How to Build the Future</a>
+              </h3>
+              <div class="book-author">Peter Thiel</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.13 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: A Story of Yesterday -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1630609122l/58913358._SY475_.jpg" alt="A Story of Yesterday cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/58913358" target="_blank" rel="noopener noreferrer">A Story of Yesterday</a>
+              </h3>
+              <div class="book-author">Sergio Cobo</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.26 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Fahrenheit 451 -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1383718290l/13079982.jpg" alt="Fahrenheit 451 cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/13079982" target="_blank" rel="noopener noreferrer">Fahrenheit 451</a>
+              </h3>
+              <div class="book-author">Ray Bradbury</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 3.97 avg</span>
+                <span class="book-date">Added Dec 2024</span>
+              </div>
+            </div>
+          </article>
+          <!-- Book: Crime and Punishment -->
+          <article class="book-card" data-shelf="to-read">
+            <div class="book-cover-wrap">
+              <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1382846449l/7144.jpg" alt="Crime and Punishment cover" class="book-cover" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('no-cover');">
+              <div class="book-cover-fallback" aria-hidden="true">📖</div>
+            </div>
+            <div class="book-info">
+              <div class="book-header-row">
+                <span class="book-badge to-read">Want to Read</span>
+              </div>
+              <h3 class="book-title">
+                <a href="https://www.goodreads.com/book/show/7144" target="_blank" rel="noopener noreferrer">Crime and Punishment</a>
+              </h3>
+              <div class="book-author">Fyodor Dostoevsky</div>
+              <div class="book-footer">
+                <span class="book-avg-rating"><span class="star-glyph">★</span> 4.27 avg</span>
+                <span class="book-date">Added Aug 2024</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div id="books-empty-state" class="book-empty-state">
+          No books found in this category.
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div>&copy; 2026 Sreejit Kar</div>
+        <div class="footer-social-links">
+          <a href="mailto:sreejitkar999@gmail.com" class="social-icon-link" title="Email" aria-label="Email">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/sreejitkar" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="GitHub" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sreejitkar/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="LinkedIn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/quid_pro_kyu" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="X (Twitter)" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/sreejittt/" target="_blank" rel="noopener noreferrer" class="social-icon-link" title="Instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

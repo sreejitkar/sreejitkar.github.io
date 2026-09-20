@@ -62,10 +62,50 @@
     });
   }
 
+  // 3. Bookshelf Category Filter
+  function initBookshelfFilter() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const bookCards = document.querySelectorAll('.book-card');
+    const emptyState = document.getElementById('books-empty-state');
+
+    if (!filterBtns.length || !bookCards.length) return;
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-filter');
+
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter cards
+        let visibleCount = 0;
+        bookCards.forEach(card => {
+          const cardCat = card.getAttribute('data-shelf');
+          if (category === 'all' || cardCat === category) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (emptyState) {
+          emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      });
+    });
+  }
+
   // Run on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setActiveNav);
-  } else {
+  function init() {
     setActiveNav();
+    initBookshelfFilter();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
