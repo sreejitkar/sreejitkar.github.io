@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>QALI.labs &mdash; Curated Software for High-Functioning Companies</title>
+  <meta name="description" content="QALI.labs is a modern software engineering studio creating curated software for high-functioning companies. Build less. Build better.">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="QALI.labs &mdash; Modern Engineering Studio">
+  <meta property="og:description" content="Curated software for high-functioning companies. Build less. Build better.">
+  <meta property="og:type" content="website">
+  
+  <link rel="icon" type="image/svg+xml" href="assets/qali-favicon.svg">
+
+  <!-- Typography: Geist & Geist Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/qali.css">
+
+  <!-- Anti-FOUC Theme Pre-render Script -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('qali-theme') || localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">SKIP_TO_INSTRUMENT</a>
+
+  <!-- Interactive Telemetry Cursor (Desktop Fine Pointer Only) -->
+  <div id="telemetry-cursor" class="telemetry-cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div id="cursor-hud" class="cursor-hud">LOC: [0000, 0000]</div>
+  </div>
+
+  <!-- Top Telemetry Status Bar -->
+  <header class="status-bar">
+    <div class="status-bar-inner">
+      <a href="qali.html" class="brand-anchor" aria-label="QALI.labs Homepage">
+        <svg class="brand-glyph" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="15" cy="15" r="9" stroke="var(--qali-text)" stroke-width="2.5"/>
+          <line x1="20" y1="20" x2="28" y2="28" stroke="var(--qali-signal)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="15" cy="15" r="2.5" fill="var(--qali-signal)"/>
+        </svg>
+        <span>QALI.labs</span>
+      </a>
+
+      <!-- Link to main personal homepage & live telemetry -->
+      <div class="status-telemetry" aria-label="System status telemetry">
+        <a href="index.html" class="status-home-link">&larr; SREEJIT KAR PORTFOLIO</a>
+        <span style="color: var(--qali-border-light)">//</span>
+        <span class="pulse-indicator">
+          <span class="pulse-dot"></span>
+          <span>SYS_CORE: ONLINE</span>
+        </span>
+        <span>LATENCY: 0.12ms</span>
+      </div>
+
+      <div class="header-right">
+        <nav class="nav-links" aria-label="Navigation">
+          <a href="#capabilities">CAPABILITIES</a>
+          <a href="#philosophy">PHILOSOPHY</a>
+          <a href="#process">PROCESS</a>
+          <a href="#contact">CONTACT</a>
+        </nav>
+
+        <!-- Theme Toggle (Light / Dark Mode) -->
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="site-container">
+    
+    <!-- =======================================================================
+         Hero Section
+         ======================================================================= -->
+    <section class="section hero-section" id="hero">
+      <div class="hero-eyebrow">
+        <span>ENGINEERING ATELIER</span>
+        <span style="opacity: 0.5">//</span>
+        <span>SYS.BUILD.2026</span>
+      </div>
+
+      <h1 class="hero-title">QALI<span class="dot">.</span>labs</h1>
+      <p class="hero-tagline">Curated software for high-functioning companies.</p>
+
+      <!-- Technical Visual System: INPUT → THINK → BUILD → REFINE -->
+      <div class="pipeline-system" aria-label="Engineering pipeline schematic">
+        <div class="pipeline-header">
+          <span>DATA_FLOW_ARCHITECTURE // PIPELINE_01</span>
+          <span class="live-tag">
+            <span class="pulse-dot"></span>
+            ACTIVE SIGNAL STREAM
+          </span>
+        </div>
+
+        <div class="pipeline-canvas-wrap">
+          <!-- Desktop Horizontal Schematic (>= 681px) -->
+          <svg class="pipeline-diagram pipeline-desktop-diagram" viewBox="0 0 960 140" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline: Input to Think to Build to Refine">
+            <!-- Background bus hairlines -->
+            <line x1="40" y1="70" x2="920" y2="70" stroke="var(--svg-stroke-subtle)" stroke-width="1.5"/>
+            <line x1="40" y1="70" x2="920" y2="70" stroke="var(--svg-signal-flow)" stroke-width="1.5" class="circuit-pulse"/>
+
+            <!-- Node 1: INPUT -->
+            <g class="diagram-node" transform="translate(105, 70)">
+              <rect x="-68" y="-35" width="136" height="70" rx="3" fill="var(--svg-node-fill)" stroke="var(--svg-stroke-muted)" stroke-width="1.2"/>
+              <circle cx="-48" cy="-15" r="3" fill="var(--qali-signal)"/>
+              <text x="-50" y="7" fill="var(--svg-text-primary)" font-family="var(--font-mono)" font-size="13" font-weight="700" letter-spacing="0.08em">01.INPUT</text>
+              <text x="-50" y="24" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="500" letter-spacing="0.04em">SIGNALS &amp; SPECS</text>
+            </g>
+
+            <!-- Connector 1 -> 2 Arrow -->
+            <path d="M 185 70 L 285 70 M 277 65 L 285 70 L 277 75" stroke="var(--svg-signal-flow)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Node 2: THINK -->
+            <g class="diagram-node" transform="translate(365, 70)">
+              <rect x="-72" y="-35" width="144" height="70" rx="3" fill="var(--svg-node-fill)" stroke="var(--svg-stroke-muted)" stroke-width="1.2"/>
+              <circle cx="-52" cy="-15" r="3" fill="var(--qali-signal)"/>
+              <text x="-54" y="7" fill="var(--svg-text-primary)" font-family="var(--font-mono)" font-size="13" font-weight="700" letter-spacing="0.08em">02.THINK</text>
+              <text x="-54" y="24" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="500" letter-spacing="0.04em">SYNTHESIS &amp; STATE</text>
+            </g>
+
+            <!-- Connector 2 -> 3 Arrow -->
+            <path d="M 445 70 L 545 70 M 537 65 L 545 70 L 537 75" stroke="var(--svg-signal-flow)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Node 3: BUILD -->
+            <g class="diagram-node" transform="translate(625, 70)">
+              <rect x="-68" y="-35" width="136" height="70" rx="3" fill="var(--svg-node-fill)" stroke="var(--svg-stroke-muted)" stroke-width="1.2"/>
+              <circle cx="-48" cy="-15" r="3" fill="var(--qali-signal)"/>
+              <text x="-50" y="7" fill="var(--svg-text-primary)" font-family="var(--font-mono)" font-size="13" font-weight="700" letter-spacing="0.08em">03.BUILD</text>
+              <text x="-50" y="24" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="500" letter-spacing="0.04em">DETERMINISTIC</text>
+            </g>
+
+            <!-- Connector 3 -> 4 Arrow -->
+            <path d="M 705 70 L 805 70 M 797 65 L 805 70 L 797 75" stroke="var(--svg-signal-flow)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Node 4: REFINE -->
+            <g class="diagram-node" transform="translate(880, 70)">
+              <rect x="-65" y="-35" width="130" height="70" rx="3" fill="var(--svg-node-fill)" stroke="var(--svg-signal)" stroke-width="1.2"/>
+              <circle cx="-45" cy="-15" r="3" fill="var(--qali-signal)"/>
+              <text x="-47" y="7" fill="var(--svg-text-primary)" font-family="var(--font-mono)" font-size="13" font-weight="700" letter-spacing="0.08em">04.REFINE</text>
+              <text x="-47" y="24" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="600" letter-spacing="0.04em">ZERO DEFECT</text>
+            </g>
+          </svg>
+
+          <!-- Mobile Vertical Flow Architecture (< 680px) -->
+          <div class="pipeline-mobile-flow" aria-label="Mobile Pipeline Sequence">
+            <!-- Node 1: INPUT -->
+            <div class="mobile-pipe-node">
+              <div class="mobile-pipe-badge">
+                <span class="mobile-pipe-id">01.INPUT</span>
+                <span class="mobile-pipe-tag">INGEST</span>
+              </div>
+              <div class="mobile-pipe-body">
+                <div class="mobile-pipe-title">SIGNALS &amp; SPECS</div>
+                <div class="mobile-pipe-sub">Constraint extraction &amp; telemetry ingestion</div>
+              </div>
+            </div>
+
+            <div class="mobile-pipe-wire" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <line x1="12" y1="0" x2="12" y2="24" stroke="var(--svg-signal-flow)" stroke-width="2" class="circuit-pulse"/>
+                <polyline points="8,17 12,22 16,17" stroke="var(--svg-signal-flow)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <!-- Node 2: THINK -->
+            <div class="mobile-pipe-node">
+              <div class="mobile-pipe-badge">
+                <span class="mobile-pipe-id">02.THINK</span>
+                <span class="mobile-pipe-tag">STATE</span>
+              </div>
+              <div class="mobile-pipe-body">
+                <div class="mobile-pipe-title">SYNTHESIS &amp; STATE</div>
+                <div class="mobile-pipe-sub">Distributed topology &amp; architectural modeling</div>
+              </div>
+            </div>
+
+            <div class="mobile-pipe-wire" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <line x1="12" y1="0" x2="12" y2="24" stroke="var(--svg-signal-flow)" stroke-width="2" class="circuit-pulse"/>
+                <polyline points="8,17 12,22 16,17" stroke="var(--svg-signal-flow)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <!-- Node 3: BUILD -->
+            <div class="mobile-pipe-node">
+              <div class="mobile-pipe-badge">
+                <span class="mobile-pipe-id">03.BUILD</span>
+                <span class="mobile-pipe-tag">EXEC</span>
+              </div>
+              <div class="mobile-pipe-body">
+                <div class="mobile-pipe-title">DETERMINISTIC</div>
+                <div class="mobile-pipe-sub">Substrate synthesis &amp; zero-bloat codecraft</div>
+              </div>
+            </div>
+
+            <div class="mobile-pipe-wire" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <line x1="12" y1="0" x2="12" y2="24" stroke="var(--svg-signal-flow)" stroke-width="2" class="circuit-pulse"/>
+                <polyline points="8,17 12,22 16,17" stroke="var(--svg-signal-flow)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <!-- Node 4: REFINE -->
+            <div class="mobile-pipe-node is-highlight">
+              <div class="mobile-pipe-badge">
+                <span class="mobile-pipe-id">04.REFINE</span>
+                <span class="mobile-pipe-tag">ZERO_DEFECT</span>
+              </div>
+              <div class="mobile-pipe-body">
+                <div class="mobile-pipe-title">LATENCY COMPRESSION</div>
+                <div class="mobile-pipe-sub">Zero defect threshold &amp; runtime verification</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage summary metadata cards -->
+          <div class="pipeline-stages-grid">
+            <div class="stage-card">
+              <div class="stage-node-num">[STAGE_01]</div>
+              <div class="stage-node-name">INPUT</div>
+              <div class="stage-node-desc">Constraint extraction &amp; telemetry ingestion</div>
+            </div>
+            <div class="stage-card">
+              <div class="stage-node-num">[STAGE_02]</div>
+              <div class="stage-node-name">THINK</div>
+              <div class="stage-node-desc">Distributed topology &amp; architectural modeling</div>
+            </div>
+            <div class="stage-card">
+              <div class="stage-node-num">[STAGE_03]</div>
+              <div class="stage-node-name">BUILD</div>
+              <div class="stage-node-desc">Substrate synthesis &amp; zero-bloat codecraft</div>
+            </div>
+            <div class="stage-card">
+              <div class="stage-node-num">[STAGE_04]</div>
+              <div class="stage-node-name">REFINE</div>
+              <div class="stage-node-desc">Latency compression &amp; fault verification</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =======================================================================
+         Capabilities Section
+         ======================================================================= -->
+    <section class="section capabilities-section" id="capabilities">
+      <div class="section-label">CAPABILITIES // EXECUTION DOMAINS</div>
+
+      <div class="capabilities-layout">
+        <!-- Interactive List -->
+        <div>
+          <div class="mobile-tap-hint"><span>&bull;</span> TAP DOMAIN TO RE-CALIBRATE SCHEMATIC &darr;</div>
+          <div class="capabilities-list" role="tablist" aria-label="Capabilities Domains">
+          
+          <!-- 01 — Software Engineering -->
+          <div class="capability-row is-active" data-cap="01" role="tab" tabindex="0" aria-selected="true" aria-controls="schematic-01">
+            <div class="capability-main">
+              <div class="capability-ident">
+                <span class="capability-num">[01]</span>
+                <span class="capability-name">Software Engineering</span>
+              </div>
+              <span class="capability-symbol">SYS_EXEC &rarr;</span>
+            </div>
+          </div>
+
+          <!-- 02 — AI Consulting -->
+          <div class="capability-row" data-cap="02" role="tab" tabindex="0" aria-selected="false" aria-controls="schematic-02">
+            <div class="capability-main">
+              <div class="capability-ident">
+                <span class="capability-num">[02]</span>
+                <span class="capability-name">AI Consulting</span>
+              </div>
+              <span class="capability-symbol">TENSOR &rarr;</span>
+            </div>
+          </div>
+
+          <!-- 03 — Web Presence -->
+          <div class="capability-row" data-cap="03" role="tab" tabindex="0" aria-selected="false" aria-controls="schematic-03">
+            <div class="capability-main">
+              <div class="capability-ident">
+                <span class="capability-num">[03]</span>
+                <span class="capability-name">Web Presence</span>
+              </div>
+              <span class="capability-symbol">RENDER &rarr;</span>
+            </div>
+          </div>
+
+          <!-- 04 — Tech Audits -->
+          <div class="capability-row" data-cap="04" role="tab" tabindex="0" aria-selected="false" aria-controls="schematic-04">
+            <div class="capability-main">
+              <div class="capability-ident">
+                <span class="capability-num">[04]</span>
+                <span class="capability-name">Tech Audits</span>
+              </div>
+              <span class="capability-symbol">INSPECT &rarr;</span>
+            </div>
+          </div>
+
+          <!-- 05 — Technical Counselling -->
+          <div class="capability-row" data-cap="05" role="tab" tabindex="0" aria-selected="false" aria-controls="schematic-05">
+            <div class="capability-main">
+              <div class="capability-ident">
+                <span class="capability-num">[05]</span>
+                <span class="capability-name">Technical Counselling</span>
+              </div>
+              <span class="capability-symbol">VECTOR &rarr;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Real-Time Schematic Viewport Display -->
+        <div class="capability-viewport" aria-live="polite">
+          <div class="viewport-chrome">
+            <span id="viewport-title">SYS_01 // DISTRIBUTED KERNEL &amp; DATA BUS</span>
+            <span class="viewport-badge">
+              <span class="pulse-dot"></span>
+              LIVE TELEMETRY
+            </span>
+          </div>
+
+          <div class="viewport-content-area">
+            
+            <!-- Schematic 01: Software Engineering -->
+            <div class="schematic-pane active" id="schematic-01" role="tabpanel">
+              <svg viewBox="0 0 380 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Bus Lines -->
+                <line x1="20" y1="120" x2="360" y2="120" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+                <line x1="20" y1="120" x2="360" y2="120" stroke="var(--svg-signal-flow)" stroke-width="1.5" class="circuit-pulse"/>
+                <line x1="80" y1="40" x2="80" y2="200" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+                <line x1="190" y1="40" x2="190" y2="200" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+                <line x1="300" y1="40" x2="300" y2="200" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+
+                <!-- Cluster Node Alpha -->
+                <rect x="50" y="30" width="60" height="40" fill="var(--svg-node-fill)" stroke="var(--svg-signal)" stroke-width="1"/>
+                <circle cx="80" cy="50" r="3" fill="var(--qali-signal)"/>
+                <text x="80" y="85" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">NODE_A // 0x01</text>
+
+                <!-- Cluster Node Beta -->
+                <rect x="160" y="150" width="60" height="40" fill="var(--svg-node-fill)" stroke="var(--svg-stroke-primary)" stroke-width="1"/>
+                <circle cx="190" cy="170" r="3" fill="var(--svg-stroke-primary)"/>
+                <text x="190" y="205" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">NODE_B // 0x02</text>
+
+                <!-- Cluster Node Gamma -->
+                <rect x="270" y="30" width="60" height="40" fill="var(--svg-node-fill)" stroke="var(--svg-signal)" stroke-width="1"/>
+                <circle cx="300" cy="50" r="3" fill="var(--qali-signal)"/>
+                <text x="300" y="85" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">NODE_C // 0x03</text>
+
+                <!-- Signal Crosshairs -->
+                <circle cx="190" cy="120" r="16" stroke="var(--svg-signal)" stroke-width="1" stroke-dasharray="2 2"/>
+                <circle cx="190" cy="120" r="3" fill="var(--qali-signal)"/>
+                <text x="190" y="105" text-anchor="middle" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="700">CONSENSUS_LOCK</text>
+              </svg>
+            </div>
+
+            <!-- Schematic 02: AI Consulting -->
+            <div class="schematic-pane" id="schematic-02" role="tabpanel">
+              <svg viewBox="0 0 380 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Latent Vector Mesh -->
+                <g stroke="var(--svg-stroke-muted)" stroke-width="1">
+                  <line x1="60" y1="180" x2="140" y2="60"/>
+                  <line x1="140" y1="60" x2="240" y2="90"/>
+                  <line x1="240" y1="90" x2="320" y2="170"/>
+                  <line x1="140" y1="60" x2="200" y2="190"/>
+                  <line x1="200" y1="190" x2="320" y2="170"/>
+                  <line x1="60" y1="180" x2="200" y2="190"/>
+                </g>
+
+                <!-- Attention Weights Flow (Signal) -->
+                <line x1="140" y1="60" x2="240" y2="90" stroke="var(--svg-signal)" stroke-width="2"/>
+                <line x1="240" y1="90" x2="200" y2="190" stroke="var(--svg-signal)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+                <!-- Nodes -->
+                <circle cx="60" cy="180" r="4" fill="var(--svg-stroke-primary)"/>
+                <circle cx="140" cy="60" r="6" fill="var(--svg-node-fill)" stroke="var(--svg-signal)" stroke-width="2"/>
+                <circle cx="140" cy="60" r="2" fill="var(--qali-signal)"/>
+                <circle cx="240" cy="90" r="8" fill="var(--svg-node-fill)" stroke="var(--svg-signal)" stroke-width="2"/>
+                <circle cx="240" cy="90" r="3" fill="var(--qali-signal)"/>
+                <circle cx="320" cy="170" r="4" fill="var(--svg-stroke-primary)"/>
+                <circle cx="200" cy="190" r="5" fill="var(--svg-stroke-primary)"/>
+
+                <text x="240" y="70" text-anchor="middle" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">ATTENTION_WEIGHT [0.984]</text>
+                <text x="60" y="200" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10" font-weight="600">TENSOR_IN</text>
+                <text x="320" y="190" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10" font-weight="600">LATENT_CONVERGENCE</text>
+              </svg>
+            </div>
+
+            <!-- Schematic 03: Web Presence -->
+            <div class="schematic-pane" id="schematic-03" role="tabpanel">
+              <svg viewBox="0 0 380 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- CAD Viewport Geometry -->
+                <rect x="50" y="40" width="280" height="160" stroke="var(--svg-stroke-primary)" stroke-width="1" stroke-opacity="0.3"/>
+                <rect x="70" y="60" width="160" height="90" stroke="var(--svg-signal)" stroke-width="1.5"/>
+                <rect x="250" y="60" width="60" height="90" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+                <rect x="70" y="165" width="240" height="20" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+
+                <!-- Coordinate Guides -->
+                <line x1="50" y1="25" x2="330" y2="25" stroke="var(--svg-signal)" stroke-width="0.8"/>
+                <line x1="50" y1="22" x2="50" y2="28" stroke="var(--svg-signal)" stroke-width="1"/>
+                <line x1="330" y1="22" x2="330" y2="28" stroke="var(--svg-signal)" stroke-width="1"/>
+                <text x="190" y="20" text-anchor="middle" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">W: 1440PX // SUB-PIXEL LOCK</text>
+
+                <!-- FPS indicator -->
+                <text x="70" y="52" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="500">FRAME_TIME: 16.6ms [60 FPS]</text>
+                <text x="250" y="52" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="700">LCP: 0.04s</text>
+              </svg>
+            </div>
+
+            <!-- Schematic 04: Tech Audits -->
+            <div class="schematic-pane" id="schematic-04" role="tabpanel">
+              <svg viewBox="0 0 380 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Profiler Flame Waterfall Graph -->
+                <rect x="40" y="50" width="300" height="18" fill="var(--svg-stroke-subtle)" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+                <text x="50" y="63" fill="var(--svg-text-primary)" font-family="var(--font-mono)" font-size="10" font-weight="600">KERNEL_DISPATCH [300ms]</text>
+
+                <rect x="40" y="74" width="180" height="18" fill="var(--svg-stroke-subtle)" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+                <text x="50" y="87" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10">QUERY_RESOLVE [180ms]</text>
+
+                <rect x="230" y="74" width="110" height="18" fill="var(--qali-signal-subtle)" stroke="var(--svg-signal)" stroke-width="1.2"/>
+                <text x="240" y="87" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="700">OPTIMIZED [0.08ms]</text>
+
+                <rect x="40" y="98" width="120" height="18" fill="var(--svg-stroke-subtle)" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+                <text x="50" y="111" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10">MEMORY_ALLOC [HEAP 0B]</text>
+
+                <!-- Latency Gauge Hairline -->
+                <line x1="40" y1="150" x2="340" y2="150" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+                <path d="M 40 180 Q 120 178 180 160 T 300 130 T 340 120" stroke="var(--svg-signal)" stroke-width="1.5" fill="none"/>
+                <text x="40" y="200" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10" font-weight="600">p50: 0.12ms</text>
+                <text x="180" y="200" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10" font-weight="600">p99: 0.44ms</text>
+                <text x="290" y="200" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="700">ZERO_LEAK: PASS</text>
+              </svg>
+            </div>
+
+            <!-- Schematic 05: Technical Counselling -->
+            <div class="schematic-pane" id="schematic-05" role="tabpanel">
+              <svg viewBox="0 0 380 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Strategic Decision Tree & Trade-Off Vectors -->
+                <circle cx="70" cy="120" r="18" fill="var(--svg-node-fill)" stroke="var(--svg-stroke-primary)" stroke-width="1.5"/>
+                <circle cx="70" cy="120" r="3" fill="var(--svg-stroke-primary)"/>
+                <text x="70" y="152" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">STATUS_QUO</text>
+
+                <!-- Fork Branches -->
+                <path d="M 88 120 C 130 120 150 65 200 65" stroke="var(--svg-stroke-muted)" stroke-width="1" stroke-dasharray="3 3"/>
+                <circle cx="200" cy="65" r="5" fill="var(--svg-stroke-muted)"/>
+                <text x="200" y="52" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10" font-weight="500">OVER-ENGINEERED (REJECT)</text>
+
+                <path d="M 88 120 C 130 120 150 175 200 175" stroke="var(--svg-stroke-muted)" stroke-width="1" stroke-dasharray="3 3"/>
+                <circle cx="200" cy="175" r="5" fill="var(--svg-stroke-muted)"/>
+                <text x="200" y="198" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10" font-weight="500">PREMATURE_DEBT (REJECT)</text>
+
+                <!-- Optimal Converged Path (Signal) -->
+                <path d="M 88 120 L 270 120" stroke="var(--svg-signal)" stroke-width="2"/>
+                <circle cx="270" cy="120" r="12" fill="var(--svg-node-fill)" stroke="var(--svg-signal)" stroke-width="2"/>
+                <circle cx="270" cy="120" r="3" fill="var(--qali-signal)"/>
+                <text x="270" y="100" text-anchor="middle" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="10.5" font-weight="700">CURATED PATH // OPTIMAL</text>
+                <text x="270" y="148" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="10.5" font-weight="600">MAX_LEVERAGE</text>
+              </svg>
+            </div>
+
+          </div>
+
+          <div class="viewport-footer">
+            <span id="viewport-latency">TRACE: 0.12ms</span>
+            <span>ATELIER_ENGINE_VERIFIED</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =======================================================================
+         Philosophy Section
+         ======================================================================= -->
+    <section class="section philosophy-section" id="philosophy">
+      <div class="section-label">PHILOSOPHY // CORE AXIOM</div>
+
+      <div class="philosophy-statement">
+        <h2 class="statement-headline">
+          <span class="statement-line-1">BUILD LESS.</span>
+          <span class="statement-line-2">BUILD BETTER</span>
+        </h2>
+      </div>
+
+      <!-- Minimal Technical Abstraction: PROBLEM → ◉ → SYSTEM -->
+      <div class="abstraction-stage" aria-label="Technical Abstraction: Problem transformed through aperture into System">
+        <div class="abstraction-svg-wrap">
+          <svg class="abstraction-svg" viewBox="0 0 900 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background Axis Grid -->
+            <line x1="50" y1="120" x2="850" y2="120" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+            
+            <!-- LEFT: PROBLEM (Entropy, chaotic uncoordinated vectors) -->
+            <g class="chaos-field" opacity="0.6">
+              <path d="M 60 70 L 140 140 L 90 180 L 180 110 L 220 160 L 260 80 L 320 130" stroke="var(--svg-stroke-muted)" stroke-width="1.2" fill="none"/>
+              <path d="M 90 90 L 160 50 L 210 130 L 280 60 L 340 115" stroke="var(--svg-stroke-muted)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+              <circle cx="90" cy="180" r="2.5" fill="var(--svg-text-muted)"/>
+              <circle cx="140" cy="140" r="2" fill="var(--svg-text-muted)"/>
+              <circle cx="180" cy="110" r="2.5" fill="var(--svg-text-muted)"/>
+              <circle cx="260" cy="80" r="2" fill="var(--svg-text-muted)"/>
+              <circle cx="220" cy="160" r="2" fill="var(--svg-text-muted)"/>
+            </g>
+            <text x="170" y="215" text-anchor="middle" fill="var(--svg-text-muted)" font-family="var(--font-mono)" font-size="11.5" font-weight="600" letter-spacing="0.16em">PROBLEM // HIGH ENTROPY</text>
+
+            <!-- Flow vectors pointing into center focal point -->
+            <line x1="320" y1="130" x2="420" y2="120" stroke="var(--svg-stroke-muted)" stroke-width="1.2"/>
+            <line x1="340" y1="115" x2="420" y2="120" stroke="var(--svg-stroke-muted)" stroke-width="1.2"/>
+            <line x1="300" y1="70" x2="420" y2="120" stroke="var(--svg-signal)" stroke-width="1" stroke-opacity="0.5"/>
+
+            <!-- CENTER: ◉ (The Aperture / Focal Reduction Lens) -->
+            <g class="focal-lens" transform="translate(450, 120)">
+              <circle cx="0" cy="0" r="38" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <circle cx="0" cy="0" r="26" stroke="var(--svg-signal)" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <circle cx="0" cy="0" r="14" stroke="var(--svg-stroke-primary)" stroke-width="2"/>
+              <circle cx="0" cy="0" r="4.5" fill="var(--qali-signal)"/>
+
+              <!-- Precision Reticle Ticks -->
+              <line x1="0" y1="-44" x2="0" y2="-34" stroke="var(--svg-signal)" stroke-width="1.5"/>
+              <line x1="0" y1="34" x2="0" y2="44" stroke="var(--svg-signal)" stroke-width="1.5"/>
+              <line x1="-44" y1="0" x2="-34" y2="0" stroke="var(--svg-signal)" stroke-width="1.5"/>
+              <line x1="34" y1="0" x2="44" y2="0" stroke="var(--svg-signal)" stroke-width="1.5"/>
+            </g>
+            <text x="450" y="215" text-anchor="middle" fill="var(--svg-signal)" font-family="var(--font-mono)" font-size="11.5" font-weight="700" letter-spacing="0.16em">&#9673; CURATION LENS</text>
+
+            <!-- Flow vectors exiting center focal point into system -->
+            <line x1="480" y1="120" x2="560" y2="120" stroke="var(--svg-signal-flow)" stroke-width="2"/>
+            <line x1="480" y1="120" x2="560" y2="80" stroke="var(--svg-signal-flow)" stroke-width="1.5"/>
+            <line x1="480" y1="120" x2="560" y2="160" stroke="var(--svg-signal-flow)" stroke-width="1.5"/>
+
+            <!-- RIGHT: SYSTEM (Pure harmonic, ordered, parallel orthogonal grid) -->
+            <g class="order-field">
+              <line x1="560" y1="80" x2="840" y2="80" stroke="var(--svg-stroke-primary)" stroke-width="1.5"/>
+              <line x1="560" y1="120" x2="840" y2="120" stroke="var(--svg-signal-flow)" stroke-width="2" class="circuit-pulse"/>
+              <line x1="560" y1="160" x2="840" y2="160" stroke="var(--svg-stroke-primary)" stroke-width="1.5"/>
+
+              <!-- Orthogonal Sync Nodes -->
+              <circle cx="630" cy="80" r="3" fill="var(--svg-stroke-primary)"/>
+              <circle cx="630" cy="120" r="4" fill="var(--qali-signal)"/>
+              <circle cx="630" cy="160" r="3" fill="var(--svg-stroke-primary)"/>
+              <line x1="630" y1="70" x2="630" y2="170" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+
+              <circle cx="740" cy="80" r="3" fill="var(--svg-stroke-primary)"/>
+              <circle cx="740" cy="120" r="4" fill="var(--qali-signal)"/>
+              <circle cx="740" cy="160" r="3" fill="var(--svg-stroke-primary)"/>
+              <line x1="740" y1="70" x2="740" y2="170" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+
+              <circle cx="830" cy="80" r="3" fill="var(--svg-stroke-primary)"/>
+              <circle cx="830" cy="120" r="4" fill="var(--qali-signal)"/>
+              <circle cx="830" cy="160" r="3" fill="var(--svg-stroke-primary)"/>
+            </g>
+            <text x="700" y="215" text-anchor="middle" fill="var(--svg-text-primary)" font-family="var(--font-mono)" font-size="11.5" font-weight="700" letter-spacing="0.16em">SYSTEM // DETERMINISTIC</text>
+          </svg>
+        </div>
+        <div class="abstraction-scroll-hint">&larr; SWIPE SCHEMATIC &rarr;</div>
+
+        <div class="abstraction-telemetry">
+          <span>ENTROPY_IN: <span class="signal-highlight">UNBOUNDED</span></span>
+          <span>COMPRESSION_RATIO: <span class="signal-highlight">98.4%</span></span>
+          <span>COHERENCE: <span class="signal-highlight">MAXIMAL</span></span>
+          <span>STATE: DETERMINISTIC</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =======================================================================
+         Work / Process Section
+         DISCOVER ↓ DESIGN ↓ ENGINEER ↓ REFINE
+         ======================================================================= -->
+    <section class="section process-section" id="process">
+      <div class="section-label">PROCESS // EXECUTION HARNESS</div>
+
+      <div class="process-grid">
+        
+        <!-- Step 1: DISCOVER -->
+        <div class="process-node">
+          <div class="node-header">
+            <span class="node-index">PHASE_01</span>
+            <span class="node-indicator"></span>
+          </div>
+          <h3 class="node-title">DISCOVER</h3>
+          <div class="node-visual-box" aria-hidden="true">
+            <svg viewBox="0 0 160 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Radar / Scanner Glyph -->
+              <circle cx="80" cy="40" r="32" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <circle cx="80" cy="40" r="18" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <line x1="80" y1="40" x2="108" y2="24" stroke="var(--svg-signal)" stroke-width="1.5"/>
+              <circle cx="108" cy="24" r="3" fill="var(--qali-signal)"/>
+              <line x1="44" y1="40" x2="116" y2="40" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+              <line x1="80" y1="4" x2="80" y2="76" stroke="var(--svg-stroke-subtle)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="node-meta">
+            <span>SCOPE_BOUNDS</span>
+            <span style="color: var(--qali-signal-border)">&darr;</span>
+          </div>
+        </div>
+
+        <!-- Step 2: DESIGN -->
+        <div class="process-node">
+          <div class="node-header">
+            <span class="node-index">PHASE_02</span>
+            <span class="node-indicator"></span>
+          </div>
+          <h3 class="node-title">DESIGN</h3>
+          <div class="node-visual-box" aria-hidden="true">
+            <svg viewBox="0 0 160 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Blueprint Vector Schema -->
+              <rect x="35" y="15" width="90" height="50" stroke="var(--svg-stroke-primary)" stroke-width="1" stroke-opacity="0.3"/>
+              <line x1="35" y1="40" x2="125" y2="40" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <line x1="80" y1="15" x2="80" y2="65" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <circle cx="80" cy="40" r="5" stroke="var(--svg-signal)" stroke-width="1.5"/>
+              <circle cx="80" cy="40" r="1.5" fill="var(--qali-signal)"/>
+              <rect x="52" y="24" width="16" height="10" stroke="var(--svg-signal)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="node-meta">
+            <span>TOPOLOGY_SPEC</span>
+            <span style="color: var(--qali-signal-border)">&darr;</span>
+          </div>
+        </div>
+
+        <!-- Step 3: ENGINEER -->
+        <div class="process-node">
+          <div class="node-header">
+            <span class="node-index">PHASE_03</span>
+            <span class="node-indicator"></span>
+          </div>
+          <h3 class="node-title">ENGINEER</h3>
+          <div class="node-visual-box" aria-hidden="true">
+            <svg viewBox="0 0 160 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Deterministic Circuit / Substrate -->
+              <path d="M 25 40 L 55 40 L 70 20 L 90 20 L 105 40 L 135 40" stroke="var(--svg-signal)" stroke-width="1.5"/>
+              <path d="M 55 40 L 70 60 L 90 60 L 105 40" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <circle cx="25" cy="40" r="3" fill="var(--svg-stroke-primary)"/>
+              <circle cx="80" cy="20" r="3" fill="var(--qali-signal)"/>
+              <circle cx="80" cy="60" r="3" fill="var(--svg-stroke-primary)"/>
+              <circle cx="135" cy="40" r="3" fill="var(--qali-signal)"/>
+            </svg>
+          </div>
+          <div class="node-meta">
+            <span>SUBSTRATE_BUILD</span>
+            <span style="color: var(--qali-signal-border)">&darr;</span>
+          </div>
+        </div>
+
+        <!-- Step 4: REFINE -->
+        <div class="process-node">
+          <div class="node-header">
+            <span class="node-index">PHASE_04</span>
+            <span class="node-indicator"></span>
+          </div>
+          <h3 class="node-title">REFINE</h3>
+          <div class="node-visual-box" aria-hidden="true">
+            <svg viewBox="0 0 160 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Caliper Precision Gauge -->
+              <line x1="20" y1="40" x2="140" y2="40" stroke="var(--svg-stroke-muted)" stroke-width="1"/>
+              <!-- Vernier ticks -->
+              <line x1="40" y1="32" x2="40" y2="48" stroke="var(--svg-text-muted)" stroke-width="1"/>
+              <line x1="60" y1="35" x2="60" y2="45" stroke="var(--svg-text-muted)" stroke-width="1"/>
+              <line x1="80" y1="30" x2="80" y2="50" stroke="var(--svg-signal)" stroke-width="2"/>
+              <line x1="100" y1="35" x2="100" y2="45" stroke="var(--svg-text-muted)" stroke-width="1"/>
+              <line x1="120" y1="32" x2="120" y2="48" stroke="var(--svg-text-muted)" stroke-width="1"/>
+              <circle cx="80" cy="40" r="4" fill="var(--qali-signal)"/>
+            </svg>
+          </div>
+          <div class="node-meta">
+            <span>ZERO_ENTROPY</span>
+            <span style="color: var(--qali-signal-border)">&check;</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =======================================================================
+         Closing Section
+         ======================================================================= -->
+    <section class="section closing-section" id="contact">
+      <div class="section-label">COMMENCE // DISPATCH</div>
+
+      <h2 class="closing-headline">Something worth building?</h2>
+
+      <div class="closing-action-group">
+        <a href="mailto:labs.sreejitkar@gmail.com?subject=Project%20Inquiry%20%E2%80%94%20QALI.labs" class="cta-button">
+          <span>START A CONVERSATION</span>
+          <span class="cta-arrow">&rarr;</span>
+        </a>
+
+        <button type="button" class="email-copy-trigger" id="email-copy-btn" data-email="labs.sreejitkar@gmail.com" aria-label="Copy studio email address to clipboard">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span>COPY: labs.sreejitkar@gmail.com</span>
+        </button>
+
+        <span class="copy-feedback" id="copy-feedback" aria-live="polite"></span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer & Instrument Telemetry -->
+  <footer class="site-footer">
+    <div class="site-container">
+      <div class="footer-inner">
+        <div class="footer-identity">
+          <span>QALI.labs</span>
+          <span style="color: var(--qali-text-faint)">//</span>
+          <span class="footer-quote">software, carefully engineered.</span>
+        </div>
+
+        <div class="footer-telemetry">
+          <span>ALL_NODES_NOMINAL</span>
+          <span style="color: var(--qali-text-faint)">//</span>
+          <a href="index.html" class="back-to-portfolio">&larr; SREEJIT KAR PORTFOLIO</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/qali.js"></script>
+</body>
+</html>
